@@ -144,7 +144,7 @@ const Dispatch = () => {
 
     validate: {
       unitName: (value) => (value.length === 0 ? 'Unit name is required' : units.some(el => el.unitName === value.toLocaleLowerCase()) ? 'Unit name already exist!' : null),
-      unitVehicle: (value) => (value === '' ? 'You must pick a vehicle type' : null)
+      unitVehicle: (value) => (value === '' ? 'You must pick a vehicle type' : null),
     },
   });
 
@@ -214,8 +214,8 @@ const Dispatch = () => {
             <ScrollArea h={830} scrollbarSize={4} scrollHideDelay={500}>
               {alerts.length > 0 ? (
                 <>
-                  {alerts.map((alert) => (
-                    <ActiveCalls alert={alert} parentFunction={flyToPosFunction} />
+                  {alerts.map((alert, index) => (
+                    <ActiveCalls key={index} alert={alert} parentFunction={flyToPosFunction} />
                   ))} 
                 </>
               ) : (
@@ -238,13 +238,21 @@ const Dispatch = () => {
               Units
             </Title>
             <Popover width={320} position="bottom" withArrow shadow="md" opened={popoverOpened} onChange={setPopoverOpened} transitionProps={{ transition: 'pop' }}>
-              <Popover.Target>
-                <Tooltip label="Create new unit" color="dark" position="bottom" withArrow>
-                  <UnstyledButton sx={(theme) => ({borderRadius: theme.radius.sm, cursor: "pointer", "&:hover": {backgroundColor: theme.colors.dark[5]}})} onClick={() => setPopoverOpened((o) => !o)}>
-                    <IconPlus size="1.4rem" stroke={1.5} />
-                  </UnstyledButton>
-                 </Tooltip>
-              </Popover.Target>
+                <Popover.Target>
+                  {isOfficerAlreadyInAUnit(citizenid) ? (
+                    <Tooltip label="You are already a part of a unit" color="dark" position="bottom" withArrow>
+                    <UnstyledButton sx={(theme) => ({borderRadius: theme.radius.sm, cursor: "pointer", "&:hover": {backgroundColor: theme.colors.dark[5]}})}>
+                      <IconPlus size="1.4rem" stroke={1.5} />
+                    </UnstyledButton>
+                  </Tooltip>
+                  ) : (
+                    <Tooltip label="Create new unit" color="dark" position="bottom" withArrow>
+                      <UnstyledButton sx={(theme) => ({borderRadius: theme.radius.sm, cursor: "pointer", "&:hover": {backgroundColor: theme.colors.dark[5]}})} onClick={() => setPopoverOpened((o) => !o)}>
+                        <IconPlus size="1.4rem" stroke={1.5} />
+                      </UnstyledButton>
+                    </Tooltip>
+                  )}
+                </Popover.Target>
 
               <Popover.Dropdown sx={(theme) => ({ background: theme.colors.dark[7] })}>
                 <form onSubmit={form.onSubmit((values) => handleSubmit({id: getHighestId(), unitName: values.unitName.toLocaleLowerCase(), carModel: values.unitVehicle , unitMembers: findUnitMembers(values.unitOfficers), isOwner: citizenid}))}>
@@ -284,7 +292,9 @@ const Dispatch = () => {
             </Popover>
           </Group>
           {units.map((unit) => (
-            <ActiveUnits key={unit.id} unitName={unit.unitName} unitMembers={unit.unitMembers} carModel={unit.carModel} id={unit.id} isOwner={unit.isOwner}/>
+            <div key={unit.id}>
+              <ActiveUnits unitName={unit.unitName} unitMembers={unit.unitMembers} carModel={unit.carModel} id={unit.id} isOwner={unit.isOwner}/>
+            </div>
           ))}
 
           <DragOverlay dropAnimation={null} modifiers={[restrictToWindowEdges]}>

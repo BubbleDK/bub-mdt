@@ -18,6 +18,7 @@ import {
 import { UnitData } from "../../../typings";
 import { useDraggable } from '@dnd-kit/core';
 import { useStorePersonal } from "../../../store/personalInfoStore";
+import { useStoreUnit } from "../../../store/unitStore";
 
 const useStyles = createStyles((theme) => ({
 	styling: {
@@ -37,6 +38,7 @@ const useStyles = createStyles((theme) => ({
 const ActiveUnits = (props: UnitData) => {
 	const { classes } = useStyles();
   const { citizenid } = useStorePersonal();
+  const { removeUnitMember, units } = useStoreUnit();
   const [isMember, setIsMember] = useState(false);
   const {attributes, listeners, setNodeRef} = useDraggable({
     id: props.id,
@@ -44,13 +46,21 @@ const ActiveUnits = (props: UnitData) => {
   });
 
   useEffect(() => {
+    let isFound = false;
     for (let i = 0; i < props.unitMembers.length; i++) {
       const element = props.unitMembers[i];
       if (element.citizenid === citizenid) {
         setIsMember(true);
+        isFound = true;
       }
     }
+
+    if (!isFound) setIsMember(false);
   }, [props.unitMembers]);
+
+  const leaveUnit = () => {
+    removeUnitMember(props.id, citizenid)
+  }
 
 	return (
 		<div className={classes.styling} ref={setNodeRef} {...listeners} {...attributes}>
@@ -73,7 +83,7 @@ const ActiveUnits = (props: UnitData) => {
 
               <Menu.Dropdown>
                 <Menu.Item icon={<IconEdit size="0.9rem" stroke={1.5} />} disabled={props.isOwner !== citizenid}>Edit unit</Menu.Item>
-                <Menu.Item icon={<IconLogout size="0.9rem" stroke={1.5} />}>Leave Unit</Menu.Item>
+                <Menu.Item icon={<IconLogout size="0.9rem" stroke={1.5} />} onClick={() => leaveUnit()}>Leave Unit</Menu.Item>
               </Menu.Dropdown>
             </Menu>
           }

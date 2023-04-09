@@ -11,6 +11,7 @@ export type UnitData = {
 export type Units = {
   units: UnitData[],
   addUnit: ({}: UnitData) => void;
+  removeUnitMember: (unitId: number, citizenid: number) => void;
   deleteUnit: (id: number) => void;
   setUnits: (units: UnitData[]) => void;
 }

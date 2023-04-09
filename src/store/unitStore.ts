@@ -1,7 +1,8 @@
 import { create } from 'zustand'
-import { Units, UnitData } from '../typings'
+import { Units, UnitData, OfficerData } from '../typings'
+import produce from "immer";
 
-export const useStoreUnit = create<Units>((set) => ({
+export const useStoreUnit = create<Units>((set, get) => ({
   // Initial State
   units: [],
   // Methods for manipulating state
@@ -21,7 +22,7 @@ export const useStoreUnit = create<Units>((set) => ({
   },
   deleteUnit: (id: number) => {
     set((state) => ({
-      units: state.units.filter((unit) => unit.id !== id),
+      units: [...state.units.filter((unit) => unit.id !== id)],
     }));
   },
   setUnits: (units: UnitData[]) => {
@@ -31,4 +32,22 @@ export const useStoreUnit = create<Units>((set) => ({
       ],
     }));
   },
+  removeUnitMember: (unitId: number, citizenid: number) => 
+    set(
+      produce((state) => {
+        const unit = state.units.find((el: UnitData) => el.id === unitId);
+        const removeIndex = unit.unitMembers.findIndex((member: OfficerData) => member.citizenid === citizenid)
+        if (removeIndex === -1) {
+          console.log("There is no unit member by that citizenid");
+        } else {
+          unit.unitMembers.splice(removeIndex, 1);
+          console.log(unit.unitMembers.length);
+          if (unit.unitMembers.length === 0) {
+            console.log("removed unit")
+            const unitIndex = state.units.findIndex((el: UnitData) => el.id === unitId);
+            state.units.splice(unitIndex, 1);
+          }
+        }
+      })
+    ),
 }))
