@@ -14,4 +14,5 @@ export type Units = {
   removeUnitMember: (unitId: number, citizenid: number) => void;
   deleteUnit: (id: number) => void;
   setUnits: (units: UnitData[]) => void;
+  getUnitMemberCount: (unitId: number) => number;
 }

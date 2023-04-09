@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { Units, UnitData, OfficerData } from '../typings'
 import produce from "immer";
 
-export const useStoreUnit = create<Units>((set) => ({
+export const useStoreUnit = create<Units>((set, get) => ({
   // Initial State
   units: [],
   // Methods for manipulating state
@@ -31,6 +31,10 @@ export const useStoreUnit = create<Units>((set) => ({
         ...units,
       ],
     }));
+  },
+  getUnitMemberCount: (unitId: number) => {
+    const unit = get().units.find(u => u.id === unitId);
+    return unit?.unitMembers.length ?? 0;
   },
   removeUnitMember: (unitId: number, citizenid: number) => 
     set(

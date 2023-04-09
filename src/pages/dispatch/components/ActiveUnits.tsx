@@ -39,7 +39,7 @@ const useStyles = createStyles((theme) => ({
 const ActiveUnits = (props: UnitData) => {
 	const { classes } = useStyles();
   const { citizenid } = useStorePersonal();
-  const { removeUnitMember, units } = useStoreUnit();
+  const { removeUnitMember, units, getUnitMemberCount } = useStoreUnit();
   const { removeUnitFromAlert } = useStoreDispatch();
   const [isMember, setIsMember] = useState(false);
   const {attributes, listeners, setNodeRef} = useDraggable({
@@ -62,7 +62,9 @@ const ActiveUnits = (props: UnitData) => {
 
   const leaveUnit = () => {
     removeUnitMember(props.id, citizenid)
-    removeUnitFromAlert(props.id);
+    if (getUnitMemberCount(props.id) === 0) {
+      removeUnitFromAlert(props.id);
+    }
   }
 
 	return (
