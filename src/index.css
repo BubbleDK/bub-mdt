@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  height: 100vh;
+  user-select: none;
+  background: none !important;
+  overflow: hidden;
+}
+
+#root {
+  height: 100%;
+}
+
+.leaflet-container {
+  height: 880px;
+  width: 785px;
+  border-radius: 5px;
+}
+
+.leaflet-bar a {
+  background-color: #1A1B1E;
+  color: white;
+  border-bottom: 1px solid #3a3a3a;
+}
+
+.leaflet-bar a.leaflet-disabled {
+  background-color: #1A1B1E;
+  color: rgb(139, 139, 139);
+}
+
+.leaflet-bar a:hover, .leaflet-bar a:focus {
+  background-color: #2a2a2a;
+}
+
