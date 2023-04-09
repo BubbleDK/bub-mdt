@@ -127,7 +127,7 @@ const Dispatch = () => {
   
   function handleDragEnd(event: any) {
     const {active, over} = event;
-    if (over !== null) addUnitToAlert(over.id, units[active.id - 1])
+    if (over !== null) addUnitToAlert(over.id, units[units.findIndex((unit) => unit.id === activeId)])
     setActiveId(null);
   }
 
@@ -292,14 +292,12 @@ const Dispatch = () => {
             </Popover>
           </Group>
           {units.map((unit) => (
-            <div key={unit.id}>
-              <ActiveUnits unitName={unit.unitName} unitMembers={unit.unitMembers} carModel={unit.carModel} id={unit.id} isOwner={unit.isOwner}/>
-            </div>
+            <ActiveUnits key={unit.id} unitName={unit.unitName} unitMembers={unit.unitMembers} carModel={unit.carModel} id={unit.id} isOwner={unit.isOwner}/>
           ))}
 
           <DragOverlay dropAnimation={null} modifiers={[restrictToWindowEdges]}>
             {activeId ? (
-              <ActiveUnits unitName={units[activeId - 1].unitName} unitMembers={units[activeId - 1].unitMembers} carModel={units[activeId - 1].carModel} id={activeId - 1} isOwner={units[activeId - 1].isOwner} />
+              <ActiveUnits unitName={units[units.findIndex((unit) => unit.id === activeId)].unitName} unitMembers={units[units.findIndex((unit) => unit.id === activeId)].unitMembers} carModel={units[units.findIndex((unit) => unit.id === activeId)].carModel} id={units.findIndex((unit) => unit.id === activeId)} isOwner={units[units.findIndex((unit) => unit.id === activeId)].isOwner} />
             ) : null}
           </DragOverlay>
         </div>
