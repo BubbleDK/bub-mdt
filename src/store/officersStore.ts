@@ -5,12 +5,12 @@ export const useStoreOfficers = create<Officers>((set) => ({
   // Initial State
   officers: [],
   // Methods for manipulating state
-  addOfficer: ({id, firstname, lastname, role, callsign, phone}: OfficerData) => {
+  addOfficer: ({citizenid, firstname, lastname, role, callsign, phone}: OfficerData) => {
     set((state) => ({
       officers: [
         ...state.officers,
         {
-          id, 
+          citizenid, 
           firstname, 
           lastname, 
           role, 
@@ -20,9 +20,9 @@ export const useStoreOfficers = create<Officers>((set) => ({
       ],
     }));
   },
-  removeOfficer: (id: number) => {
+  removeOfficer: (citizenid: number) => {
     set((state) => ({
-      officers: state.officers.filter((officer) => officer.id !== id),
+      officers: state.officers.filter((officer) => officer.citizenid !== citizenid),
     }));
   },
   setOfficers: (officers: OfficerData[]) => {

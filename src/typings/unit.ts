@@ -5,11 +5,12 @@ export type UnitData = {
   unitName: string,
   unitMembers: OfficerData[],
   carModel: string,
+  isOwner: number,
 }
 
 export type Units = {
   units: UnitData[],
   addUnit: ({}: UnitData) => void;
-  removeUnit: (id: number) => void;
+  deleteUnit: (id: number) => void;
   setUnits: (units: UnitData[]) => void;
 }

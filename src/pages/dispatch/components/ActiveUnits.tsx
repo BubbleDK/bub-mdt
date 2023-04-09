@@ -17,6 +17,7 @@ import {
 } from "@tabler/icons-react";
 import { UnitData } from "../../../typings";
 import { useDraggable } from '@dnd-kit/core';
+import { useStorePersonal } from "../../../store/personalInfoStore";
 
 const useStyles = createStyles((theme) => ({
 	styling: {
@@ -35,6 +36,7 @@ const useStyles = createStyles((theme) => ({
 
 const ActiveUnits = (props: UnitData) => {
 	const { classes } = useStyles();
+  const { citizenid } = useStorePersonal();
   const {attributes, listeners, setNodeRef} = useDraggable({
     id: props.id,
   });
@@ -58,7 +60,7 @@ const ActiveUnits = (props: UnitData) => {
             </Menu.Target>
 
             <Menu.Dropdown>
-              <Menu.Item icon={<IconEdit size="0.9rem" stroke={1.5} />}>Edit unit</Menu.Item>
+              <Menu.Item icon={<IconEdit size="0.9rem" stroke={1.5} />} disabled={props.isOwner !== citizenid}>Edit unit</Menu.Item>
               <Menu.Item icon={<IconLogout size="0.9rem" stroke={1.5} />}>Leave Unit</Menu.Item>
             </Menu.Dropdown>
           </Menu>

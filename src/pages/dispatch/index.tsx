@@ -17,6 +17,7 @@ import { DndContext, DragOverlay, useSensors, MouseSensor, useSensor } from '@dn
 import { restrictToWindowEdges } from '@dnd-kit/modifiers';
 import { IconCar, IconMoodSad } from "@tabler/icons-react";
 import { useStoreOfficers } from "../../store/officersStore";
+import { useStorePersonal } from "../../store/personalInfoStore";
 
 const useStyles = createStyles((theme) => ({
 	dispatchContainer: {
@@ -84,15 +85,16 @@ type RefType = {
 const Dispatch = () => {
 	const { classes } = useStyles();
   const { addAlert, removeAlert, addUnitToAlert, alerts } = useStoreDispatch();
-  const { addUnit, removeUnit, units } = useStoreUnit();
+  const { addUnit, deleteUnit, units } = useStoreUnit();
   const { addOfficer, removeOfficer, officers } = useStoreOfficers();
   const mapRef = useRef<RefType>(null);
   const [activeId, setActiveId] = useState(null);
   const [popoverOpened, setPopoverOpened] = useState(false);
   const [officersSelector, setOfficersSelector] = useState<any>([]);
+  const { citizenid } = useStorePersonal();
 
   useEffect(() => {
-    const newArray = officers.map(el => ({value: el.id, label: '(' +  el.callsign + ') | ' + el.firstname + ' ' + el.lastname}));
+    const newArray = officers.map(el => ({value: el.citizenid, label: '(' +  el.callsign + ') | ' + el.firstname + ' ' + el.lastname}));
     setOfficersSelector(newArray)
   }, [officers])
 
@@ -161,6 +163,8 @@ const Dispatch = () => {
   }
 
   const handleSubmit = (props: UnitData) => {
+    console.log("Citizenid: " + citizenid)
+    console.log("Is owner: " + props.isOwner)
     addUnit(props);
     setPopoverOpened(false);
     form.reset();
@@ -170,7 +174,7 @@ const Dispatch = () => {
     const res = [];
     for (let i = 0; i < ids.length; i++) {
       for (let j = 0; j < officers.length; j++) {
-        if (ids[i] === officers[j].id) {
+        if (ids[i] === officers[j].citizenid) {
           res.push(officers[j])
         }
       }
@@ -239,7 +243,7 @@ const Dispatch = () => {
               </Popover.Target>
 
               <Popover.Dropdown sx={(theme) => ({ background: theme.colors.dark[7] })}>
-                <form onSubmit={form.onSubmit((values) => handleSubmit({unitName: values.unitName.toLocaleLowerCase(), carModel: values.unitVehicle , unitMembers: findUnitMember(values.unitOfficers), id: getHighestId() + 1}))}>
+                <form onSubmit={form.onSubmit((values) => handleSubmit({id: getHighestId(), unitName: values.unitName.toLocaleLowerCase(), carModel: values.unitVehicle , unitMembers: findUnitMember(values.unitOfficers), isOwner: citizenid}))}>
                   <TextInput placeholder="Eg. unit-1" label="Unit Name" data-autofocus withAsterisk {...form.getInputProps('unitName')} />
 
                   <Select
@@ -277,12 +281,12 @@ const Dispatch = () => {
             </Popover>
           </Group>
           {units.map((unit) => (
-            <ActiveUnits key={unit.id} unitName={unit.unitName} unitMembers={unit.unitMembers} carModel={unit.carModel} id={unit.id} />
+            <ActiveUnits key={unit.id} unitName={unit.unitName} unitMembers={unit.unitMembers} carModel={unit.carModel} id={unit.id} isOwner={unit.isOwner}/>
           ))}
 
           <DragOverlay dropAnimation={null} modifiers={[restrictToWindowEdges]}>
             {activeId ? (
-              <ActiveUnits unitName={units[activeId - 1].unitName} unitMembers={units[activeId - 1].unitMembers} carModel={units[activeId - 1].carModel} id={activeId - 1} />
+              <ActiveUnits unitName={units[activeId - 1].unitName} unitMembers={units[activeId - 1].unitMembers} carModel={units[activeId - 1].carModel} id={activeId - 1} isOwner={units[activeId - 1].isOwner} />
             ) : null}
           </DragOverlay>
         </div>

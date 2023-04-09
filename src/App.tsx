@@ -19,6 +19,7 @@ import { AlertData, OfficerData, UnitData } from './typings';
 import { useStoreOfficers } from './store/officersStore';
 import { useStoreDispatch } from './store/dispatchStore';
 import { useStoreUnit } from './store/unitStore';
+import { useStorePersonal } from './store/personalInfoStore';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -106,12 +107,14 @@ function App() {
   const [activeLink, setActiveLink] = useState('');
   const { setOfficers } = useStoreOfficers();
   const { setAlerts } = useStoreDispatch();
-  const { setUnits, removeUnit } = useStoreUnit();
+  const { setUnits } = useStoreUnit();
+  const { setPersonalData } = useStorePersonal();
 
   useNuiEvent<{alerts?: AlertData[]; officers: OfficerData[]; units?: UnitData[]; personalInformation: OfficerData;}>('setupMdt', (data) => {
     setOfficers(data.officers);
     if (data.alerts !== undefined) setAlerts(data.alerts);
     if (data.units !== undefined) setUnits(data.units);
+    setPersonalData(data.personalInformation);
   });
 
 

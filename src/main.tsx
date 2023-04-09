@@ -19,17 +19,17 @@ debugData([
       ],
 
       officers: [
-        { id: 1, firstname: 'Bubble', lastname: 'Test', role: 'Cheif', callsign: 'C-01', phone: '0000000'},
-        { id: 2, firstname: 'John', lastname: 'Doe', role: 'Not Cheif', callsign: 'C-02', phone: '1000000'},
+        { citizenid: 1, firstname: 'Bubble', lastname: 'Test', role: 'Cheif', callsign: 'C-01', phone: '0000000'},
+        { citizenid: 2, firstname: 'John', lastname: 'Doe', role: 'Not Cheif', callsign: 'C-02', phone: '1000000'},
       ],
 
       units: [
-        { id: 1, unitName: 'Unit-1', unitMembers: [{ id: 1, firstname: 'Bubble', lastname: 'Test', role: 'Cheif', callsign: 'C-01', phone: '0000000'}], carModel: 'Dodge Charger' },
-        { id: 2, unitName: 'Unit-2', unitMembers: [{ id: 1, firstname: 'Bubble', lastname: 'Test', role: 'Cheif', callsign: 'C-01', phone: '0000000'}], carModel: 'Dodge Charger' },
+        { id: 1, unitName: 'Unit-1', unitMembers: [{ citizenid: 1, firstname: 'Bubble', lastname: 'Test', role: 'Cheif', callsign: 'C-01', phone: '0000000'}], carModel: 'Dodge Charger', isOwner: 2 },
+        { id: 2, unitName: 'Unit-2', unitMembers: [{ citizenid: 1, firstname: 'Bubble', lastname: 'Test', role: 'Cheif', callsign: 'C-01', phone: '0000000'}], carModel: 'Dodge Charger', isOwner: 2 },
       ],
 
       personalInformation: {
-        id: 1, 
+        citizenid: 1, 
         firstname: 'Bubble', 
         lastname: 'Test', 
         role: 'Cheif', 
