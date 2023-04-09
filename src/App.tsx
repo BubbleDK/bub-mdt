@@ -1,4 +1,4 @@
-import { Box, Transition, createStyles, Navbar, Group, Code, getStylesRef, rem, Image, Center } from '@mantine/core';
+import { Box, Transition, createStyles, Navbar, Group, Code, getStylesRef, rem, Image, Center, Button } from '@mantine/core';
 import { useState } from 'react';
 import { Route, Routes, NavLink } from 'react-router-dom';
 import Dashboard from './pages/dashboard';
@@ -39,6 +39,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   header: {
+    marginTop: theme.spacing.md,
     paddingBottom: theme.spacing.md,
     marginBottom: `calc(${theme.spacing.md} * 1.5)`,
     borderBottom: `${rem(1)} solid ${
@@ -108,7 +109,7 @@ function App() {
   const { setOfficers } = useStoreOfficers();
   const { setAlerts } = useStoreDispatch();
   const { setUnits } = useStoreUnit();
-  const { setPersonalData } = useStorePersonal();
+  const { setPersonalData, firstname, lastname, callsign } = useStorePersonal();
 
   useNuiEvent<{alerts?: AlertData[]; officers: OfficerData[]; units?: UnitData[]; personalInformation: OfficerData;}>('setupMdt', (data) => {
     setOfficers(data.officers);
@@ -134,45 +135,50 @@ function App() {
 
   return (
     <Box className={classes.container}>
-      <Transition transition='slide-up' mounted={visible}>
-        {(style) => (
-          <Box className={classes.main} style={style}>
-            <Navbar height={"100%"} width={{ sm: 300 }} p='md'>
-              <Navbar.Section grow>
-                <Center>
-                  <Image
-                    radius={"md"}
-                    width={180}
-                    height={180}
-                    src={LSPDLogo}
-                    alt='LSPD Logo'
-                  />
-                </Center>
-                <Group className={classes.header} position='apart'>
-                  <Code sx={{ fontWeight: 700 }}>John Doe</Code>
-                </Group>
-                {links}
-              </Navbar.Section>
+      {visible ? (
+        <Transition transition='slide-up' mounted={visible}>
+          {(style) => (
+            <Box className={classes.main} style={style}>
+              <Navbar height={"100%"} width={{ sm: 300 }} p='sm'>
+                <Navbar.Section grow>
+                  <Center>
+                    <Image
+                      radius={"md"}
+                      width={200}
+                      height={200}
+                      src={LSPDLogo}
+                      alt='LSPD Logo'
+                    />
+                  </Center>
+                  <Group className={classes.header} position='apart'>
+                    <Code sx={{ fontWeight: 700 }}>{callsign} | {firstname} {lastname}</Code>
+                  </Group>
+                  {links}
+                </Navbar.Section>
 
-              <Navbar.Section className={classes.footer}>
-                <NavLink
-                  to='/'
-                  className={classes.link}
-                  onClick={(event) => { event.preventDefault(); setVisible(false) }}
-                >
-                  <IconLogout className={classes.linkIcon} stroke={1.5} />
-                  <span>Logout</span>
-                </NavLink>
-              </Navbar.Section>
-            </Navbar>
-            <Routes>
-              <Route path='/' element={<Dashboard />} />
-              <Route path="/profiles" element={<Profiles />} />
-              <Route path="/dispatch" element={<Dispatch />} />
-            </Routes>
-          </Box>
-        )}
-      </Transition>
+                <Navbar.Section className={classes.footer}>
+                  <NavLink
+                    to='/'
+                    className={classes.link}
+                    onClick={() => { setVisible(false); setActiveLink(''); }}
+                  >
+                    <IconLogout className={classes.linkIcon} stroke={1.5} />
+                    <span>Logout</span>
+                  </NavLink>
+                </Navbar.Section>
+              </Navbar>
+              <Routes>
+                <Route path='/' element={<Dashboard />} />
+                <Route path="/profiles" element={<Profiles />} />
+                <Route path="/dispatch" element={<Dispatch />} />
+              </Routes>
+            </Box>
+          )}
+        </Transition>
+        ) : (
+          <Button style={{color: 'black'}} variant="default" onClick={() => { setVisible(true) }}>Open</Button>
+        )
+      }
     </Box>
 	);
 }

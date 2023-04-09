@@ -58,10 +58,6 @@ const ActiveUnits = (props: UnitData) => {
     if (!isFound) setIsMember(false);
   }, [props.unitMembers]);
 
-  const leaveUnit = () => {
-    removeUnitMember(props.id, citizenid)
-  }
-
 	return (
 		<div className={classes.styling} ref={setNodeRef} {...listeners} {...attributes}>
 			<Paper withBorder sx={(theme) => ({ backgroundColor: theme.colors.dark[8], padding: theme.spacing.xs, borderRadius: theme.radius.sm })}>
@@ -83,7 +79,7 @@ const ActiveUnits = (props: UnitData) => {
 
               <Menu.Dropdown>
                 <Menu.Item icon={<IconEdit size="0.9rem" stroke={1.5} />} disabled={props.isOwner !== citizenid}>Edit unit</Menu.Item>
-                <Menu.Item icon={<IconLogout size="0.9rem" stroke={1.5} />} onClick={() => leaveUnit()}>Leave Unit</Menu.Item>
+                <Menu.Item icon={<IconLogout size="0.9rem" stroke={1.5} />} onClick={() => removeUnitMember(props.id, citizenid)}>Leave Unit</Menu.Item>
               </Menu.Dropdown>
             </Menu>
           }

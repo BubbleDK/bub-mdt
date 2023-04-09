@@ -41,9 +41,7 @@ export const useStoreUnit = create<Units>((set, get) => ({
           console.log("There is no unit member by that citizenid");
         } else {
           unit.unitMembers.splice(removeIndex, 1);
-          console.log(unit.unitMembers.length);
           if (unit.unitMembers.length === 0) {
-            console.log("removed unit")
             const unitIndex = state.units.findIndex((el: UnitData) => el.id === unitId);
             state.units.splice(unitIndex, 1);
           }
