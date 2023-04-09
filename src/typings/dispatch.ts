@@ -18,7 +18,7 @@ export type Alerts = {
   removeAlert: (id: number) => void;
   addUnitToAlert: (id: number, unit: UnitData) => void;
   setAlerts: ({}: AlertData[]) => void;
-  removeUnitFromAlert: (alertId: number, unitId: number) => void;
+  removeUnitFromAlert: (unitId: number) => void;
 }
 
 export type DispatchAlerts = {

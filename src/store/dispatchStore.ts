@@ -44,13 +44,12 @@ export const useStoreDispatch = create<Alerts>((set) => ({
       ],
     }));
   },
-  removeUnitFromAlert: (alertId: number, unitId: number) =>
-    set(
-      produce((state) => {
-        const alert = state.alerts.find((el: AlertData) => el.id === alertId);
-        if (alert) {
-          alert.attachedUnits = alert.attachedUnits.filter((x: UnitData) => x.id !== unitId);
-        }
-      })
-    ),
+  removeUnitFromAlert: (unitId: number) =>
+  set(
+    produce((state) => {
+      state.alerts.forEach((alert: AlertData) => {
+        alert.attachedUnits = alert.attachedUnits.filter((unit: UnitData) => unit.id !== unitId);
+      });
+    })
+  ),
 }))

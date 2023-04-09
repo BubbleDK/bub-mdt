@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { Units, UnitData, OfficerData } from '../typings'
 import produce from "immer";
 
-export const useStoreUnit = create<Units>((set, get) => ({
+export const useStoreUnit = create<Units>((set) => ({
   // Initial State
   units: [],
   // Methods for manipulating state
