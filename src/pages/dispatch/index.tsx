@@ -94,7 +94,7 @@ const Dispatch = () => {
   const { citizenid } = useStorePersonal();
 
   useEffect(() => {
-    const newArray = officers.map(el => ({value: el.citizenid, label: '(' +  el.callsign + ') | ' + el.firstname + ' ' + el.lastname}));
+    const newArray = officers.map(el => ({value: el.citizenid, label: '(' +  el.callsign + ') | ' + el.firstname + ' ' + el.lastname, disabled: isOfficerAlreadyInAUnit(el.citizenid)}));
     setOfficersSelector(newArray)
   }, [officers])
 
@@ -122,14 +122,12 @@ const Dispatch = () => {
   });
 
   function handleDragStart(event: any) {
-    console.log(units[event.active.id - 1])
     setActiveId(event.active.id);
   }
   
   function handleDragEnd(event: any) {
     const {active, over} = event;
-    console.log(units[active.id - 1], over.id)
-    addUnitToAlert(over.id, units[active.id - 1])
+    if (over !== null) addUnitToAlert(over.id, units[active.id - 1])
     setActiveId(null);
   }
 
@@ -141,7 +139,7 @@ const Dispatch = () => {
     initialValues: {
       unitName: '',
       unitVehicle: '',
-      unitOfficers: [],
+      unitOfficers: [citizenid],
     },
 
     validate: {
@@ -163,14 +161,12 @@ const Dispatch = () => {
   }
 
   const handleSubmit = (props: UnitData) => {
-    console.log("Citizenid: " + citizenid)
-    console.log("Is owner: " + props.isOwner)
     addUnit(props);
     setPopoverOpened(false);
     form.reset();
   }
   
-  const findUnitMember = (ids: number[]) => {
+  const findUnitMembers = (ids: number[]) => {
     const res = [];
     for (let i = 0; i < ids.length; i++) {
       for (let j = 0; j < officers.length; j++) {
@@ -181,6 +177,14 @@ const Dispatch = () => {
     }
 
     return res;
+  }
+
+  const isOfficerAlreadyInAUnit = (citizenid: number) => {
+    for (let i = 0; i < units.length; i++) {
+      if (units[i].unitMembers.findIndex(x => x.citizenid === citizenid) !== -1) return true
+    }
+
+    return false
   }
 
 	return (
@@ -243,7 +247,7 @@ const Dispatch = () => {
               </Popover.Target>
 
               <Popover.Dropdown sx={(theme) => ({ background: theme.colors.dark[7] })}>
-                <form onSubmit={form.onSubmit((values) => handleSubmit({id: getHighestId(), unitName: values.unitName.toLocaleLowerCase(), carModel: values.unitVehicle , unitMembers: findUnitMember(values.unitOfficers), isOwner: citizenid}))}>
+                <form onSubmit={form.onSubmit((values) => handleSubmit({id: getHighestId(), unitName: values.unitName.toLocaleLowerCase(), carModel: values.unitVehicle , unitMembers: findUnitMembers(values.unitOfficers), isOwner: citizenid}))}>
                   <TextInput placeholder="Eg. unit-1" label="Unit Name" data-autofocus withAsterisk {...form.getInputProps('unitName')} />
 
                   <Select
@@ -263,7 +267,6 @@ const Dispatch = () => {
                     mt={10}
                     transitionProps={{ transition: 'pop-top-left', duration: 80, timingFunction: 'ease' }}
                     data={officersSelector}
-                    // defaultValue={['US', 'FI']}
                     label="Officers"
                     placeholder="Pick officers to your unit"
                     searchable

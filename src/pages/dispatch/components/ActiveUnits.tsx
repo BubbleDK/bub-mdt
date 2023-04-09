@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
 	Paper,
 	createStyles,
@@ -37,33 +37,46 @@ const useStyles = createStyles((theme) => ({
 const ActiveUnits = (props: UnitData) => {
 	const { classes } = useStyles();
   const { citizenid } = useStorePersonal();
+  const [isMember, setIsMember] = useState(false);
   const {attributes, listeners, setNodeRef} = useDraggable({
     id: props.id,
+    disabled: !isMember
   });
+
+  useEffect(() => {
+    for (let i = 0; i < props.unitMembers.length; i++) {
+      const element = props.unitMembers[i];
+      if (element.citizenid === citizenid) {
+        setIsMember(true);
+      }
+    }
+  }, [props.unitMembers]);
 
 	return (
 		<div className={classes.styling} ref={setNodeRef} {...listeners} {...attributes}>
 			<Paper withBorder sx={(theme) => ({ backgroundColor: theme.colors.dark[8], padding: theme.spacing.xs, borderRadius: theme.radius.sm })}>
         <Group position="apart">
           <Badge color='orange'>{props.unitName}</Badge>
-          <Menu
-            withArrow
-            width={150}
-            position="bottom"
-            transitionProps={{ transition: 'pop' }}
-            withinPortal
-          >
-            <Menu.Target>
-              <ActionIcon>
-                <IconDots size="1rem" stroke={1.5} />
-              </ActionIcon>
-            </Menu.Target>
+          {isMember &&
+            <Menu
+              withArrow
+              width={150}
+              position="bottom"
+              transitionProps={{ transition: 'pop' }}
+              withinPortal
+            >
+              <Menu.Target>
+                <ActionIcon>
+                  <IconDots size="1rem" stroke={1.5} />
+                </ActionIcon>
+              </Menu.Target>
 
-            <Menu.Dropdown>
-              <Menu.Item icon={<IconEdit size="0.9rem" stroke={1.5} />} disabled={props.isOwner !== citizenid}>Edit unit</Menu.Item>
-              <Menu.Item icon={<IconLogout size="0.9rem" stroke={1.5} />}>Leave Unit</Menu.Item>
-            </Menu.Dropdown>
-          </Menu>
+              <Menu.Dropdown>
+                <Menu.Item icon={<IconEdit size="0.9rem" stroke={1.5} />} disabled={props.isOwner !== citizenid}>Edit unit</Menu.Item>
+                <Menu.Item icon={<IconLogout size="0.9rem" stroke={1.5} />}>Leave Unit</Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
+          }
         </Group>
 				<Group noWrap>
 					<div>
