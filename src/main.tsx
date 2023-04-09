@@ -13,9 +13,9 @@ debugData([
     action: 'setupMdt',
     data: {
       alerts: [
-        { id: 1, CoordsY: -3058.53, CoordsX: -1960.06, displayCode: '10-71', alertName: 'Shots Fired', location: 'Mirror Park Blvd, North Vinewoord', time: new Date().valueOf(), gender: 'Male', attachedUnits: []}, 
-        { id: 2, CoordsY: 164.024, CoordsX: 780.345, displayCode: '10-50', alertName: 'Vehicle Accident', location: 'Mirror Park Blvd, East Vinewoord', time: new Date().valueOf(), gender: 'Female', attachedUnits: []}, 
-        { id: 3, CoordsY: -339.024, CoordsX: 183.096, displayCode: '10-60', alertName: 'Carjacking', location: 'Mirror Park Blvd, West Vinewoord', time: new Date().valueOf(), gender: 'Male', attachedUnits: []}
+        { id: 1, CoordsY: -3058.53, CoordsX: -1960.06, displayCode: '10-71', alertName: 'Shots Fired', location: 'Mirror Park Blvd, North Vinewoord', time: new Date().valueOf(), gender: 'Male', attachedUnits: [], weapon: "CLASS 1: Pistol"}, 
+        { id: 2, CoordsY: 164.024, CoordsX: 780.345, displayCode: '10-50', alertName: 'Vehicle Accident', location: 'Mirror Park Blvd, East Vinewoord', time: new Date().valueOf(), gender: 'Female', attachedUnits: [], message: 'We have a situation here'}, 
+        { id: 3, CoordsY: -339.024, CoordsX: 183.096, displayCode: '10-60', alertName: 'Carjacking', location: 'Mirror Park Blvd, West Vinewoord', time: new Date().valueOf(), gender: 'Male', attachedUnits: [], vehicleModel: 'Vapid Peyote', vehiclePlate: '44KJ468'}
       ],
 
       officers: [

@@ -23,10 +23,15 @@ import {
 	IconCarOff,
 	IconArrowBackUp,
 	IconArrowRight,
+  IconBadgeSd
 } from "@tabler/icons-react";
 import { timeAgo } from "../../../utils/convertDateToTime";
-import { AlertData } from "../../../typings";
+import { AlertData, AlertTypes } from "../../../typings";
 import { useDroppable } from '@dnd-kit/core';
+import { GiPistolGun } from "react-icons/gi";
+import { MdCarRental } from 'react-icons/md';
+import { ImLocation } from 'react-icons/im';
+import { FaCarCrash } from 'react-icons/fa';
 
 const useStyles = createStyles((theme) => ({
 	styling: {
@@ -54,6 +59,12 @@ const ActiveCalls = (props: DispatchAlerts) => {
     id: props.alert.id,
   });
   let isOverContainer = isOver ? "#2C2E33" : "#141517";
+  const variantMapping: AlertTypes = {
+    default: <ImLocation color='black' size={25} />,
+    '10-71': <GiPistolGun color='black' size={25} />,
+    '10-60': <MdCarRental color='black' size={25} />,
+    '10-50': <FaCarCrash color='black' size={25} />
+  }
 
   const carButton = (
     <ActionIcon size="xs" color="blue" radius="xl" variant="transparent">
@@ -121,28 +132,51 @@ const ActiveCalls = (props: DispatchAlerts) => {
                 </Text>
               </Group>
 
-              <Group noWrap spacing={10} mt={2}>
-                <IconMessage2
-                  stroke={1.5}
-                  size='1rem'
-                  className={classes.icon}
-                />
-                <Text fz='xs' fw={500} className={classes.text}>
-                  {"A nice comment"}
-                </Text>
-              </Group>
+              {props.alert.displayCode === '10-71' && (
+                <Group noWrap spacing={10} mt={2}>
+                  <GiPistolGun className={classes.icon} size={17} />
+                  <Text fz='xs' fw={500} className={classes.text}>
+                    {props.alert.weapon}
+                  </Text>
+                </Group>
+              )}
+
+              {props.alert.displayCode === '10-60' && (
+                <Group noWrap spacing={10} mt={2}>
+                  <IconCar className={classes.icon} size='1rem' />
+                  <Text fz='xs' fw={500} className={classes.text}>
+                    {props.alert.vehicleModel}
+                  </Text>
+                  <IconBadgeSd className={classes.icon} size='1rem' />
+                  <Text fz='xs' fw={500} className={classes.text}>
+                    {props.alert.vehiclePlate}
+                  </Text>
+                </Group>
+              )}
+
+              {props.alert.message && (
+                <Group noWrap spacing={10} mt={2}>
+                  <IconMessage2
+                    stroke={1.5}
+                    size='1rem'
+                    className={classes.icon}
+                  />
+                  <Text fz='xs' fw={500} className={classes.text}>
+                    {props.alert.message}
+                  </Text>
+                </Group>
+              )}
             </div>
           </Group>
 
-          {props.alert.attachedUnits.length > 0 &&
-            <Divider my="xs" label="Attached Unites" labelPosition="center" />
-          }
-
-          {props.alert.attachedUnits.length > 0 &&
-            props.alert.attachedUnits.map((unit, index) => (
-              <Badge key={index} radius="xs" leftSection={carButton} style={{marginRight: 5}}>{unit.unitName}</Badge>
-            ))
-          }
+          {props.alert.attachedUnits.length > 0 && (
+            <>
+              <Divider my="xs" label="Attached Unites" labelPosition="center" />
+              {props.alert.attachedUnits.map((unit, index) => (
+                <Badge key={index} radius="xs" leftSection={carButton} style={{marginRight: 5}}>{unit.unitName}</Badge>
+              ))}
+            </>
+          )}
         </Paper>
       </Menu.Target>
 

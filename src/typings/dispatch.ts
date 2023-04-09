@@ -10,6 +10,10 @@ export type AlertData = {
   time: number,
   gender: string,
   attachedUnits: UnitData[],
+  message?: string,
+  weapon?: string,
+  vehicleModel?: string,
+  vehiclePlate?: string,
 }
 
 export type Alerts = {
