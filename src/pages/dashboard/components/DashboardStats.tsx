@@ -1,19 +1,7 @@
 import React from "react";
-import {
-	Box,
-	createStyles,
-	rem,
-	Text,
-	Group,
-	SimpleGrid,
-	Paper,
-} from "@mantine/core";
-
-import {
-	IconUserCircle,
-	IconScript,
-	IconFileDescription,
-} from "@tabler/icons-react";
+import { createStyles, rem, Text, Group, SimpleGrid, Paper } from "@mantine/core";
+import { IconUserCircle, IconScript, IconFileDescription } from "@tabler/icons-react";
+import { useStoreOfficers } from "../../../store/officersStore";
 
 const useStyles = createStyles((theme) => ({
 	container: {
@@ -48,61 +36,62 @@ const useStyles = createStyles((theme) => ({
 
 const DashboardStats = () => {
 	const { classes } = useStyles();
+  const { officers } = useStoreOfficers();
 	return (
-		<SimpleGrid cols={3} className={classes.container}>
-			<Paper withBorder p='md' radius='md'>
-				<Group position='apart'>
-					<Text size='xs' color='dimmed' className={classes.title}>
-						Employees
-					</Text>
-					<IconUserCircle className={classes.icon} size='1.4rem' stroke={1.5} />
-				</Group>
+    <SimpleGrid cols={3} className={classes.container}>
+      <Paper withBorder p='md' radius='md'>
+        <Group position='apart'>
+          <Text size='xs' color='dimmed' className={classes.title}>
+            Officers
+          </Text>
+          <IconUserCircle className={classes.icon} size='1.4rem' stroke={1.5} />
+        </Group>
 
-				<Group align='flex-end' spacing='xs' mt={25}>
-					<Text className={classes.value}>46</Text>
-				</Group>
+        <Group align='flex-end' spacing='xs' mt={25}>
+          <Text className={classes.value}>{officers.length}</Text>
+        </Group>
 
-				<Text fz='xs' c='dimmed' mt={7}>
-					Total amount of employees
-				</Text>
-			</Paper>
-			<Paper withBorder p='md' radius='md'>
-				<Group position='apart'>
-					<Text size='xs' color='dimmed' className={classes.title}>
-						Incidents
-					</Text>
-					<IconScript className={classes.icon} size='1.4rem' stroke={1.5} />
-				</Group>
+        <Text fz='xs' c='dimmed' mt={7}>
+          Total amount of employed officers
+        </Text>
+      </Paper>
+      <Paper withBorder p='md' radius='md'>
+        <Group position='apart'>
+          <Text size='xs' color='dimmed' className={classes.title}>
+            Incidents
+          </Text>
+          <IconScript className={classes.icon} size='1.4rem' stroke={1.5} />
+        </Group>
 
-				<Group align='flex-end' spacing='xs' mt={25}>
-					<Text className={classes.value}>396</Text>
-				</Group>
+        <Group align='flex-end' spacing='xs' mt={25}>
+          <Text className={classes.value}>396</Text>
+        </Group>
 
-				<Text fz='xs' c='dimmed' mt={7}>
-					Total amount of incidents created
-				</Text>
-			</Paper>
-			<Paper withBorder p='md' radius='md'>
-				<Group position='apart'>
-					<Text size='xs' color='dimmed' className={classes.title}>
-						Reports
-					</Text>
-					<IconFileDescription
-						className={classes.icon}
-						size='1.4rem'
-						stroke={1.5}
-					/>
-				</Group>
+        <Text fz='xs' c='dimmed' mt={7}>
+          Total amount of incidents created
+        </Text>
+      </Paper>
+      <Paper withBorder p='md' radius='md'>
+        <Group position='apart'>
+          <Text size='xs' color='dimmed' className={classes.title}>
+            Reports
+          </Text>
+          <IconFileDescription
+            className={classes.icon}
+            size='1.4rem'
+            stroke={1.5}
+          />
+        </Group>
 
-				<Group align='flex-end' spacing='xs' mt={25}>
-					<Text className={classes.value}>546</Text>
-				</Group>
+        <Group align='flex-end' spacing='xs' mt={25}>
+          <Text className={classes.value}>546</Text>
+        </Group>
 
-				<Text fz='xs' c='dimmed' mt={7}>
-					Total amount of reports created
-				</Text>
-			</Paper>
-		</SimpleGrid>
+        <Text fz='xs' c='dimmed' mt={7}>
+          Total amount of reports created
+        </Text>
+      </Paper>
+    </SimpleGrid>
 	);
 };
 

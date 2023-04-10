@@ -4,15 +4,7 @@ import { Route, Routes, NavLink } from 'react-router-dom';
 import Dashboard from './pages/dashboard';
 import Profiles from './pages/profiles';
 import Dispatch from './pages/dispatch';
-import {
-  IconLayoutDashboard,
-  IconUserCircle,
-  IconScript,
-  IconFileDescription,
-  IconBriefcase,
-  IconLogout,
-  IconMap2,
-} from '@tabler/icons-react';
+import { IconLayoutDashboard, IconUserCircle, IconScript, IconFileDescription, IconBriefcase, IconLogout, IconMap2 } from '@tabler/icons-react';
 import LSPDLogo from './assets/lspd.png';
 import { useNuiEvent } from './hooks/useNuiEvent';
 import { AlertData, OfficerData, UnitData } from './typings';
@@ -63,7 +55,6 @@ const useStyles = createStyles((theme) => ({
     fontSize: theme.fontSizes.sm,
     color: theme.colorScheme === 'dark' ? theme.colors.dark[1] : theme.colors.gray[7],
     padding: `${theme.spacing.xs} ${theme.spacing.sm}`,
-    borderRadius: theme.radius.sm,
     fontWeight: 500,
 
     '&:hover': {
@@ -118,7 +109,6 @@ function App() {
     setPersonalData(data.personalInformation);
   });
 
-
   const links = data.map((item) => (
     <NavLink
       key={item.label}
@@ -135,49 +125,47 @@ function App() {
 
   return (
     <Box className={classes.container}>
-      {visible ? (
-        <Transition transition='slide-up' mounted={visible}>
-          {(style) => (
-            <Box className={classes.main} style={style}>
-              <Navbar height={"100%"} width={{ sm: 300 }} p='sm'>
-                <Navbar.Section grow>
-                  <Center>
-                    <Image
-                      radius={"md"}
-                      width={200}
-                      height={200}
-                      src={LSPDLogo}
-                      alt='LSPD Logo'
-                    />
-                  </Center>
-                  <Group className={classes.header} position='apart'>
-                    <Code sx={{ fontWeight: 700 }}>{callsign} | {firstname} {lastname}</Code>
-                  </Group>
-                  {links}
-                </Navbar.Section>
+      <Transition transition='slide-up' mounted={visible}>
+        {(style) => (
+          <Box className={classes.main} style={style}>
+            <Navbar height={"100%"} width={{ sm: 300 }} p='sm'>
+              <Navbar.Section grow>
+                <Center>
+                  <Image
+                    radius={"md"}
+                    width={200}
+                    height={200}
+                    src={LSPDLogo}
+                    alt='LSPD Logo'
+                  />
+                </Center>
+                <Group className={classes.header} position='apart'>
+                  <Code sx={{ fontWeight: 700 }}>{callsign} | {firstname} {lastname}</Code>
+                </Group>
+                {links}
+              </Navbar.Section>
 
-                <Navbar.Section className={classes.footer}>
-                  <NavLink
-                    to='/'
-                    className={classes.link}
-                    onClick={() => { setVisible(false); setActiveLink(''); }}
-                  >
-                    <IconLogout className={classes.linkIcon} stroke={1.5} />
-                    <span>Logout</span>
-                  </NavLink>
-                </Navbar.Section>
-              </Navbar>
-              <Routes>
-                <Route path='/' element={<Dashboard />} />
-                <Route path="/profiles" element={<Profiles />} />
-                <Route path="/dispatch" element={<Dispatch />} />
-              </Routes>
-            </Box>
-          )}
-        </Transition>
-        ) : (
-          <Button style={{color: 'black'}} variant="default" onClick={() => { setVisible(true) }}>Open</Button>
-        )
+              <Navbar.Section className={classes.footer}>
+                <NavLink
+                  to='/'
+                  className={classes.link}
+                  onClick={() => { setVisible(false); setActiveLink(''); }}
+                >
+                  <IconLogout className={classes.linkIcon} stroke={1.5} />
+                  <span>Logout</span>
+                </NavLink>
+              </Navbar.Section>
+            </Navbar>
+            <Routes>
+              <Route path='/' element={<Dashboard />} />
+              <Route path="/profiles" element={<Profiles />} />
+              <Route path="/dispatch" element={<Dispatch />} />
+            </Routes>
+          </Box>
+        )}
+      </Transition>
+      {!visible &&
+        <Button style={{color: 'black'}} variant="default" onClick={() => { setVisible(true) }}>Open</Button>
       }
     </Box>
 	);
