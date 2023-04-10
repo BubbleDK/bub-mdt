@@ -39,7 +39,7 @@ const DashboardStats = () => {
   const { officers } = useStoreOfficers();
 	return (
     <SimpleGrid cols={3} className={classes.container}>
-      <Paper withBorder p='md' radius='md'>
+      <Paper withBorder p='md'>
         <Group position='apart'>
           <Text size='xs' color='dimmed' className={classes.title}>
             Officers
@@ -55,7 +55,7 @@ const DashboardStats = () => {
           Total amount of employed officers
         </Text>
       </Paper>
-      <Paper withBorder p='md' radius='md'>
+      <Paper withBorder p='md'>
         <Group position='apart'>
           <Text size='xs' color='dimmed' className={classes.title}>
             Incidents
@@ -71,7 +71,7 @@ const DashboardStats = () => {
           Total amount of incidents created
         </Text>
       </Paper>
-      <Paper withBorder p='md' radius='md'>
+      <Paper withBorder p='md'>
         <Group position='apart'>
           <Text size='xs' color='dimmed' className={classes.title}>
             Reports
