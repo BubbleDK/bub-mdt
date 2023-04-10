@@ -5,7 +5,7 @@ import { IconEye } from "@tabler/icons-react";
 
 const RecentActivity = () => {
 	return (
-		<Paper p='md' withBorder style={{ width: "42.5%" }}>
+		<Paper p='md' withBorder style={{ width: "40%" }}>
 			<Divider
 				my='xs'
 				labelPosition='center'
@@ -38,7 +38,7 @@ const RecentActivity = () => {
 									<Button
 										leftIcon={<IconEye size='1rem' />}
 										compact
-										variant='default'
+										variant="light"
 									>
 										View
 									</Button>

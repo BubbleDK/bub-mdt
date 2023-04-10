@@ -25,6 +25,8 @@ debugData([
 
       units: [],
 
+      announcements: [{id: 1, title: 'A nice title', time: new Date().valueOf(), content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex dolor in esse numquam? Ratione ut impedit officia nemo, pariatur voluptatem quas culpa distinctio excepturi? Dolorum minima blanditiis neque natus dolor?', postedBy: {citizenid: 1, firstname: 'Bubble', lastname: 'Test', role: 'Cheif', callsign: 'C-01', phone: '0000000'}}],
+
       personalInformation: {
         citizenid: 1, 
         firstname: 'Bubble', 

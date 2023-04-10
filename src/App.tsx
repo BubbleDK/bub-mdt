@@ -12,6 +12,7 @@ import { useStoreOfficers } from './store/officersStore';
 import { useStoreDispatch } from './store/dispatchStore';
 import { useStoreUnit } from './store/unitStore';
 import { useStorePersonal } from './store/personalInfoStore';
+import { AnnouncementData, useStoreAnnouncements } from './store/announcementsStore';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -102,12 +103,14 @@ function App() {
   const { setAlerts } = useStoreDispatch();
   const { setUnits } = useStoreUnit();
   const { setPersonalData, firstname, lastname, callsign } = useStorePersonal();
+  const { setAnnouncements } = useStoreAnnouncements();
 
-  useNuiEvent<{alerts?: AlertData[]; officers: OfficerData[]; units?: UnitData[]; personalInformation: OfficerData;}>('setupMdt', (data) => {
+  useNuiEvent<{alerts?: AlertData[]; officers: OfficerData[]; units?: UnitData[]; personalInformation: OfficerData; announcements: AnnouncementData[]}>('setupMdt', (data) => {
     setOfficers(data.officers);
     if (data.alerts !== undefined) setAlerts(data.alerts);
     if (data.units !== undefined) setUnits(data.units);
     setPersonalData(data.personalInformation);
+    setAnnouncements(data.announcements);
   });
 
   const links = data.map((item) => (
