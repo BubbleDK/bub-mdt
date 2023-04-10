@@ -52,4 +52,10 @@ export const useStoreUnit = create<Units>((set, get) => ({
         }
       })
     ),
+  getUnitByOfficer: (officerCitizenid: number) => {
+    const foundUnit = get().units.find(unit => {
+      return unit.unitMembers.some(member => member.citizenid === officerCitizenid);
+    });
+    return foundUnit;
+  },
 }))

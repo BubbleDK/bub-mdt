@@ -20,7 +20,7 @@ debugData([
 
       officers: [
         { citizenid: 1, firstname: 'Bubble', lastname: 'Test', role: 'Cheif', callsign: 'C-01', phone: '0000000'},
-        { citizenid: 2, firstname: 'John', lastname: 'Doe', role: 'Not Cheif', callsign: 'C-02', phone: '1000000'},
+        { citizenid: 2, firstname: 'John', lastname: 'Doe', role: 'Captain', callsign: 'C-02', phone: '1000000'},
       ],
 
       units: [],
