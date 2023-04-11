@@ -35,6 +35,6 @@ body {
 }
 
 .leaflet-bar a:hover, .leaflet-bar a:focus {
-  background-color: #2a2a2a;
+  background-color: rgb(42, 42, 42);
 }
 

@@ -7,12 +7,13 @@ import Dispatch from './pages/dispatch';
 import { IconLayoutDashboard, IconUserCircle, IconScript, IconFileDescription, IconBriefcase, IconLogout, IconMap2, IconUsers } from '@tabler/icons-react';
 import LSPDLogo from './assets/lspd.png';
 import { useNuiEvent } from './hooks/useNuiEvent';
-import { AlertData, OfficerData, UnitData } from './typings';
+import { AlertData, OfficerData, ProfileData, UnitData } from './typings';
 import { useStoreOfficers } from './store/officersStore';
 import { useStoreDispatch } from './store/dispatchStore';
 import { useStoreUnit } from './store/unitStore';
 import { useStorePersonal } from './store/personalInfoStore';
 import { AnnouncementData, useStoreAnnouncements } from './store/announcementsStore';
+import { useStoreProfiles } from './store/profilesStore';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -104,13 +105,15 @@ function App() {
   const { setUnits } = useStoreUnit();
   const { setPersonalData, firstname, lastname, callsign } = useStorePersonal();
   const { setAnnouncements } = useStoreAnnouncements();
+  const { setProfiles } = useStoreProfiles();
 
-  useNuiEvent<{alerts?: AlertData[]; officers: OfficerData[]; units?: UnitData[]; personalInformation: OfficerData; announcements: AnnouncementData[]}>('setupMdt', (data) => {
+  useNuiEvent<{alerts?: AlertData[]; officers: OfficerData[]; units?: UnitData[]; personalInformation: OfficerData; announcements: AnnouncementData[]; profiles: ProfileData[]}>('setupMdt', (data) => {
     setOfficers(data.officers);
     if (data.alerts !== undefined) setAlerts(data.alerts);
     if (data.units !== undefined) setUnits(data.units);
     setPersonalData(data.personalInformation);
     setAnnouncements(data.announcements);
+    setProfiles(data.profiles);
   });
 
   const links = data.map((item) => (
