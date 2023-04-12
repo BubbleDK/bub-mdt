@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Flex, TextInput, Avatar, UnstyledButton, Group, Text, createStyles, Stack, ScrollArea, Paper, rem } from '@mantine/core';
 import { useDebouncedValue } from '@mantine/hooks';
-import { IconSearch, IconMan, IconPhoneCall } from '@tabler/icons-react';
+import { IconSearch, IconMan, IconPhoneCall, IconAdjustments } from '@tabler/icons-react';
 import { useStoreProfiles } from '../../../store/profilesStore';
 
 const useStyles = createStyles((theme) => ({
@@ -12,7 +12,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   item : {
-    marginTop: 10,
+    marginTop: 5,
     padding: 5,
     borderRadius: 5,
     backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white,
@@ -46,9 +46,9 @@ const SearchTable = () => {
           icon={<IconSearch size={16} />}
           value={query}
           onChange={(e) => setQuery(e.currentTarget.value)}
-          w={250}
+          w={240}
         />
-        <Button variant="default">
+        <Button variant="default" leftIcon={<IconAdjustments size={rem(14)} />}>
           Filter
         </Button>
       </Flex>

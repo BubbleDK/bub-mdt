@@ -1,6 +1,7 @@
 import React from 'react'
 import {Container, Flex, Stack } from "@mantine/core";
 import SearchTable from './components/SearchTable';
+import ProfileInformation from './components/ProfileInformation';
 
 const Profiles = () => {
   return (
@@ -13,9 +14,9 @@ const Profiles = () => {
         wrap="wrap"
       >
         <SearchTable />
-        <Stack h={300} sx={(theme) => ({ backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] })}>
-          <div>Hello there</div>
-          <div>Hello number two</div>
+        <Stack h={890} sx={(theme) => ({ backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] })}>
+          <ProfileInformation />
+          <div>hello</div>
         </Stack>
       </Flex>
     </Container>
