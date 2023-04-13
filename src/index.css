@@ -38,3 +38,6 @@ body {
   background-color: rgb(42, 42, 42);
 }
 
+.ProseMirror p {
+  font-size: 12.5px;
+}
