@@ -40,6 +40,8 @@ import SubScript from "@tiptap/extension-subscript";
 import { Color } from "@tiptap/extension-color";
 import TextStyle from "@tiptap/extension-text-style";
 import React from "react";
+import { useStoreProfiles } from "../../../store/profilesStore";
+import { ProfileData } from "../../../typings";
 
 const useStyles = createStyles((theme) => ({
 	action: {
@@ -62,7 +64,8 @@ interface ItemProps {
 
 const content = "Place user information here...";
 
-const ProfileInformation = () => {
+const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void}) => {
+  const { selectedProfile } = useStoreProfiles()
 	const { classes, theme } = useStyles();
 	const editor = useEditor({
 		extensions: [
@@ -123,12 +126,12 @@ const ProfileInformation = () => {
 				<Text weight={500}>Citizen</Text>
 				<Group spacing={8} mr={0}>
 					<Tooltip label='Save' withArrow color='dark' position='bottom'>
-						<ActionIcon className={classes.action}>
+						<ActionIcon className={classes.action} onClick={() => { }} disabled={!selectedProfile}>
 							<IconDeviceFloppy size={16} color={theme.colors.green[6]} />
 						</ActionIcon>
 					</Tooltip>
 					<Tooltip label='Unlink' withArrow color='dark' position='bottom'>
-						<ActionIcon className={classes.action} onClick={() => {}}>
+						<ActionIcon className={classes.action} onClick={() => { props.onClick(null); }} disabled={!selectedProfile}>
 							<IconLinkOff size={16} color={theme.colors.gray[5]} />
 						</ActionIcon>
 					</Tooltip>
@@ -141,7 +144,7 @@ const ProfileInformation = () => {
 					<Image
 						width={260}
 						height={180}
-						src={"citizen[0].image"}
+						src={selectedProfile ? selectedProfile.image : ""}
 						alt='Placeholder for citizen picture'
 						withPlaceholder
 						//onClick={() => setCitizenPicture(true)}
@@ -149,30 +152,43 @@ const ProfileInformation = () => {
 					<Stack spacing='xs' w={350}>
 						<TextInput
 							icon={<IconId size={16} />}
-							placeholder={"Citizen ID"}
+							placeholder={selectedProfile ? selectedProfile.citizenid : "Citizen ID"}
 							radius='xs'
 							disabled
 						/>
 						<TextInput
 							icon={<IconUser size={16} />}
-							placeholder={`Fullname`}
+							placeholder={selectedProfile ? selectedProfile.firstname + ' ' + selectedProfile.lastname : "Fullname"}
 							radius='xs'
 							disabled
 						/>
 						<TextInput
 							icon={<IconFlag size={16} />}
-							placeholder={"Nationality"}
+							placeholder={selectedProfile ? selectedProfile.nationality : "Nationality"}
 							radius='xs'
 							disabled
 						/>
 						<TextInput
 							icon={<IconDeviceMobile size={16} />}
-							placeholder={"Phone number"}
+							placeholder={selectedProfile ? selectedProfile.phone : "Phone number"}
 							radius='xs'
 							disabled
 						/>
 					</Stack>
-					<RichTextEditor editor={editor}>
+					<RichTextEditor editor={useEditor({extensions: 
+            [
+              StarterKit,
+              Underline,
+              Link,
+              Superscript,
+              SubScript,
+              Highlight,
+              Color,
+              TextStyle,
+              TextAlign.configure({ types: ["heading", "paragraph"] }),
+            ],
+            content: selectedProfile ? selectedProfile.notes : 'Place user information here...',
+          })}>
 						<RichTextEditor.Toolbar sticky>
 							<RichTextEditor.ControlsGroup>
 								<RichTextEditor.Bold />

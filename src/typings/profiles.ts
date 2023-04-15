@@ -10,11 +10,12 @@ export type ProfileData = {
   tags: string[],
   relatedIncidents: number[],
   image: string,
+  notes: string,
 }
 
 export type Profiles = {
   profiles: ProfileData[]
   selectedProfile: ProfileData | null;
-  setProfile: ({}: ProfileData) => void;
+  setProfile: (data: ProfileData | null) => void;
   setProfiles: ({}: ProfileData[]) => void;
 }

@@ -3,6 +3,7 @@ import { Button, Flex, TextInput, Avatar, UnstyledButton, Group, Text, createSty
 import { useDebouncedValue } from '@mantine/hooks';
 import { IconSearch, IconMan, IconPhoneCall, IconAdjustments } from '@tabler/icons-react';
 import { useStoreProfiles } from '../../../store/profilesStore';
+import { ProfileData } from '../../../typings';
 
 const useStyles = createStyles((theme) => ({
   user: {
@@ -32,11 +33,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-type Props = {
-  onClick: () => void;
-};
-
-const SearchTable = (props: Props) => {
+const SearchTable = (props: {onClick: (data: ProfileData | null) => void}) => {
   const [query, setQuery] = useState('');
   const [debouncedQuery] = useDebouncedValue(query, 200);
   const { profiles, setProfile } = useStoreProfiles();
@@ -59,7 +56,7 @@ const SearchTable = (props: Props) => {
       <ScrollArea style={{ height: 820 }}>
         {profiles.map((profile) => (
           <Stack spacing="xs">
-            <UnstyledButton className={classes.user} onClick={() => { props.onClick(); setProfile(profile); }}>
+            <UnstyledButton className={classes.user} onClick={() => { props.onClick(profile); }}>
               <Group className={classes.item}>
                 <Avatar src={profile.image} size={62} radius={4} />
                 <div>

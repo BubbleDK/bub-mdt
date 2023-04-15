@@ -12,7 +12,7 @@ export const useStoreProfiles = create<Profiles>((set) => ({
     }));
   },
 
-  setProfile: (profile: ProfileData) => {
+  setProfile: (profile: ProfileData | null) => {
     set(() => ({
       selectedProfile: profile,
     }));

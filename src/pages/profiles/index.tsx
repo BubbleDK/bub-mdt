@@ -4,6 +4,8 @@ import SearchTable from './components/SearchTable';
 import ProfileInformation from './components/ProfileInformation';
 import RelatedIncidents from './components/RelatedIncidents';
 import AdditionalInformation from './components/AdditionalInformation';
+import { ProfileData } from '../../typings';
+import { useStoreProfiles } from '../../store/profilesStore';
 
 const customLoader = (
   <svg
@@ -33,12 +35,14 @@ const customLoader = (
 
 const Profiles = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const { setProfile } = useStoreProfiles();
 
-  const handleClick = () => {
+  const handleClick = (props: ProfileData | null) => {
     setIsLoading(true);
 
     setTimeout(() => {
       setIsLoading(false);
+      setProfile(props);
     }, 1000)
   }
 
@@ -53,8 +57,8 @@ const Profiles = () => {
       >
         <SearchTable onClick={handleClick}  />
         <Stack h={890} sx={(theme) => ({ backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0], gap: 10 })}>
-          <LoadingOverlay visible={isLoading} overlayBlur={5} transitionDuration={250} loader={customLoader} style={{left: 690, width: '61.5%', height: '97%', top: 15}} />
-          <ProfileInformation />
+          <LoadingOverlay visible={isLoading} overlayOpacity={0.95} transitionDuration={250} loader={customLoader} style={{left: 690, width: '61.5%', height: '97%', top: 15}} />
+          <ProfileInformation onClick={handleClick} />
           <Flex gap="md" justify="flex-start" align="center" direction="row" wrap="wrap">
             <RelatedIncidents />
             <AdditionalInformation />
