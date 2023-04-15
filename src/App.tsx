@@ -4,7 +4,7 @@ import { Route, Routes, NavLink } from 'react-router-dom';
 import Dashboard from './pages/dashboard';
 import Profiles from './pages/profiles';
 import Dispatch from './pages/dispatch';
-import { IconLayoutDashboard, IconUserCircle, IconScript, IconFileDescription, IconBriefcase, IconLogout, IconMap2, IconUsers } from '@tabler/icons-react';
+import { IconLayoutDashboard, IconUserCircle, IconScript, IconFileDescription, IconBriefcase, IconLogout, IconMap2, IconUsers, IconBuildingBank, IconBuildingSkyscraper, IconBook2 } from '@tabler/icons-react';
 import LSPDLogo from './assets/lspd.png';
 import { useNuiEvent } from './hooks/useNuiEvent';
 import { AlertData, OfficerData, ProfileData, UnitData } from './typings';
@@ -92,8 +92,11 @@ const data = [
   {link: 'incidents', label: 'Incidents', icon: IconScript},
   {link: 'reports', label: 'Reports', icon: IconFileDescription},
   {link: 'evidence', label: 'Evidence', icon: IconBriefcase},
+  {link: 'properties', label: 'Propterties', icon: IconBuildingSkyscraper},
   {link: 'dispatch', label: 'Dispatch', icon: IconMap2},
+  {link: 'charges', label: 'Charges', icon: IconBook2},
   {link: 'staff', label: 'Staff', icon: IconUsers},
+  {link: 'businesses', label: 'Businesses', icon: IconBuildingBank},
 ];
 
 function App() {

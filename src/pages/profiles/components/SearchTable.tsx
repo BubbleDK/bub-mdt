@@ -32,7 +32,11 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const SearchTable = () => {
+type Props = {
+  onClick: () => void;
+};
+
+const SearchTable = (props: Props) => {
   const [query, setQuery] = useState('');
   const [debouncedQuery] = useDebouncedValue(query, 200);
   const { profiles, setProfile } = useStoreProfiles();
@@ -55,7 +59,7 @@ const SearchTable = () => {
       <ScrollArea style={{ height: 820 }}>
         {profiles.map((profile) => (
           <Stack spacing="xs">
-            <UnstyledButton className={classes.user} onClick={() => setProfile(profile)}>
+            <UnstyledButton className={classes.user} onClick={() => { props.onClick(); setProfile(profile); }}>
               <Group className={classes.item}>
                 <Avatar src={profile.image} size={62} radius={4} />
                 <div>

@@ -16,6 +16,8 @@ import {
 	Box,
 	CloseButton,
 	Chip,
+  Badge,
+  Title
 } from "@mantine/core";
 import {
 	IconFlag,
@@ -228,7 +230,8 @@ const ProfileInformation = () => {
 					</RichTextEditor>
 				</Flex>
         <ScrollArea h={370}>
-				  <Stack spacing='xs' w={430}>
+				  <Stack spacing='sm' w={430}>
+            <Title color="green.7" order={6}>Last Seen: Recently</Title>
 						<MultiSelect
 							data={data}
 							valueComponent={Value}
@@ -251,37 +254,46 @@ const ProfileInformation = () => {
 								return item;
 							}}
 						/>
-						<Group spacing={8} mr={0}>
-							<Text size='md' weight={500}>
-								Licenses
-							</Text>
-							<Tooltip
-								label='Create new license'
-								withArrow
-								color='dark'
-								position='bottom'
-							>
-								<ActionIcon style={{ width: 18, minWidth: 0, marginTop: 3 }}>
-									<IconPlus size={16} />
-								</ActionIcon>
-							</Tooltip>
-						</Group>
+            <div>
+              <Group spacing={5} mr={0} style={{marginBottom: 10}}>
+                <Text size='md' weight={500}>
+                  Licenses
+                </Text>
+                <Tooltip
+                  label='Create new license'
+                  withArrow
+                  color='dark'
+                  position='bottom'
+                >
+                  <ActionIcon style={{ width: 18, minWidth: 0, marginTop: 3 }}>
+                    <IconPlus size={16} />
+                  </ActionIcon>
+                </Tooltip>
+              </Group>
 
-						<Group style={{ gap: 3 }}>
-							<Chip defaultChecked variant='light' radius='xs' color='teal'>
-								Drivers License
-							</Chip>
-							<Chip defaultChecked variant='light' radius='xs' color='indigo'>
-								Firearms License
-							</Chip>
-							<Chip defaultChecked variant='light' radius='xs' color='indigo'>
-								Firearms License
-							</Chip>
-						</Group>
+              <Group style={{ gap: 3 }}>
+                <Chip defaultChecked variant='light' radius='xs' color='teal'>
+                  Drivers License
+                </Chip>
+                <Chip defaultChecked variant='light' radius='xs' color='indigo'>
+                  Firearms License
+                </Chip>
+                <Chip defaultChecked variant='light' radius='xs' color='indigo'>
+                  Firearms License
+                </Chip>
+              </Group>
+            </div>
 
-						<Text size='md' weight={500}>
-							Employment
-						</Text>
+            <div>
+              <Text size='md' weight={500} style={{marginBottom: 10}}>
+                Employment
+              </Text>
+
+              <Group style={{ gap: 3 }}>
+                <Badge color="indigo" radius="xs" variant="dot" style={{height: '1.5rem'}}>San Adreas Scouts (Head Management)</Badge>
+                <Badge color="indigo" radius="xs" variant="dot" style={{height: '1.5rem'}}>Casino (Hotel)</Badge>
+              </Group>
+            </div>
 				  </Stack>
         </ScrollArea>
 			</Flex>
