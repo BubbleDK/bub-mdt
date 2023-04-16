@@ -63,7 +63,7 @@ interface ItemProps {
 }
 
 const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void}) => {
-  const { selectedProfile } = useStoreProfiles();
+  const { selectedProfile, setProfile } = useStoreProfiles();
 	const { classes, theme } = useStyles();
   const [tagData, setTagData] = useState<TagData[]>([]);
   const [tagValues, setTagValues] = useState<string[]>([])
@@ -98,6 +98,13 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void}
     })
     setTagValues(selectedProfile ? selectedProfile?.tags.map(item => item.value) : [])
   }, [selectedProfile])
+
+  useEffect(() => {
+    return () => {
+      // Reset selected profile state when component unmounts
+      setProfile(null);
+    };
+  }, []);
 
 	function Value({ value, label, onRemove, backgroundcolor }: ItemProps) {
 		const colorForBackground = backgroundcolor;
