@@ -55,32 +55,30 @@ const SearchTable = (props: {onClick: (data: ProfileData | null) => void}) => {
       </Flex>
       <ScrollArea style={{ height: 820 }}>
         {profiles.map((profile) => (
-          <Stack spacing="xs">
-            <UnstyledButton className={classes.user} onClick={() => { props.onClick(profile); }}>
-              <Group className={classes.item}>
-                <Avatar src={profile.image} size={62} radius={4} />
-                <div>
-                  <Text fz="sm" fw={500} className={classes.name}>
-                   ({profile.citizenid}) {profile.firstname} {profile.lastname}
+          <UnstyledButton className={classes.user} onClick={() => { props.onClick(profile); }} key={profile.citizenid}>
+            <Group className={classes.item}>
+              <Avatar src={profile.image} size={62} radius={4} />
+              <div>
+                <Text fz="sm" fw={500} className={classes.name}>
+                  ({profile.citizenid}) {profile.firstname} {profile.lastname}
+                </Text>
+
+                <Group spacing={10} mt={3}>
+                  <IconMan stroke={1.5} size="1rem" className={classes.icon} />
+                  <Text fz="xs" c="dimmed">
+                    {profile.gender}
                   </Text>
+                </Group>
 
-                  <Group spacing={10} mt={3}>
-                    <IconMan stroke={1.5} size="1rem" className={classes.icon} />
-                    <Text fz="xs" c="dimmed">
-                      {profile.gender}
-                    </Text>
-                  </Group>
-
-                  <Group spacing={10} mt={5}>
-                    <IconPhoneCall stroke={1.5} size="1rem" className={classes.icon} />
-                    <Text fz="xs" c="dimmed">
-                      {profile.phone}
-                    </Text>
-                  </Group>
-                </div>
-              </Group>
-            </UnstyledButton>
-          </Stack>
+                <Group spacing={10} mt={5}>
+                  <IconPhoneCall stroke={1.5} size="1rem" className={classes.icon} />
+                  <Text fz="xs" c="dimmed">
+                    {profile.phone}
+                  </Text>
+                </Group>
+              </div>
+            </Group>
+          </UnstyledButton>
         ))}
       </ScrollArea>
     </Paper>

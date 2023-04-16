@@ -41,7 +41,7 @@ import { Color } from "@tiptap/extension-color";
 import TextStyle from "@tiptap/extension-text-style";
 import React, { useEffect, useState } from "react";
 import { useStoreProfiles } from "../../../store/profilesStore";
-import { ProfileData } from "../../../typings";
+import { ProfileData, TagData } from "../../../typings";
 
 const useStyles = createStyles((theme) => ({
 	action: {
@@ -65,10 +65,8 @@ interface ItemProps {
 const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void}) => {
   const { selectedProfile } = useStoreProfiles();
 	const { classes, theme } = useStyles();
-	const data = [
-		{ value: "Dangerous", label: "Dangerous", backgroundcolor: "#C92A2A" },
-		{ value: "Whatever", label: "Whatever", backgroundcolor: "#141517" },
-	];
+  const [tagData, setTagData] = useState<TagData[]>([]);
+  const [tagValues, setTagValues] = useState<string[]>([])
   const editor = useEditor(
     {
       extensions: [
@@ -85,11 +83,20 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void}
       editable: selectedProfile ? true : false,
       content: 'Place user information here...',
     }
-  )
+  );
+  const initialTagData = [{ value: "dangerous", label: "Dangerous", backgroundcolor: "#C92A2A" }, { value: "whatever", label: "Whatever", backgroundcolor: "#141517" }]
 
   useEffect(() => {
+    setTagValues([]);
+    setTagData(initialTagData);
     editor?.commands.setContent(selectedProfile?.notes || 'Place user information here...');
     editor?.setEditable(selectedProfile ? true : false);
+    selectedProfile?.tags.map(item => { 
+      const tagExist = tagData.some(tag => tag.value === item.value);
+
+      if (!tagExist) setTagData([...tagData, item])
+    })
+    setTagValues(selectedProfile ? selectedProfile?.tags.map(item => item.value) : [])
   }, [selectedProfile])
 
 	function Value({ value, label, onRemove, backgroundcolor }: ItemProps) {
@@ -242,7 +249,9 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void}
             {selectedProfile && <Title color="green.7" order={6}>Last Seen: Recently</Title>}
 						<MultiSelect
               disabled={selectedProfile ? false : true}
-							data={data}
+							data={tagData}
+              value={tagValues}
+              onChange={setTagValues}
 							valueComponent={Value}
 							label='Tags'
 							placeholder='Select tags'
@@ -259,7 +268,7 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void}
 									label: value,
 									backgroundcolor: color ? color : "#141517",
 								};
-								data.push(item);
+								//data.push(item);
 								return item;
 							}}
 						/>
@@ -300,8 +309,8 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void}
 
               <Group style={{ gap: 3 }}>
                 {selectedProfile ? 
-                  selectedProfile.employment.map((job) => (
-                    <Badge color="indigo" radius="xs" variant="dot" style={{height: '1.5rem'}}>{job.companyName} {job.jobPosition}</Badge>
+                  selectedProfile.employment.map((job, index) => (
+                    <Badge key={index} color="indigo" radius="xs" variant="dot" style={{height: '1.5rem'}}>{job.companyName} ({job.jobPosition})</Badge>
                   ))
                   :
                   <Text></Text>

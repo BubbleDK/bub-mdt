@@ -47,7 +47,7 @@ debugData([
           nationality: 'Denmark', 
           phone: '1778528281', 
           employment: [{companyName: 'San Andreas Scouts', jobPosition: 'Head Management'}, {companyName: 'Los Santos Billboards', jobPosition: 'Owner'}, {companyName: 'UwU Cafe', jobPosition: 'Associate'}], 
-          tags: [{ value: "dangerous", label: "Dangerous", backgroundcolor: "#C92A2A" }], 
+          tags: [{ value: "dangerous", label: "Dangerous", backgroundcolor: "#C92A2A" }, {value: 'funny', label: 'Funny guy', backgroundcolor: "#141517"}], 
           relatedIncidents: [1, 2], 
           image: 'https://img.gta5-mods.com/q75/images/pepe-jean-s-for-male-mp-fivem/8ac75d-13825a080b7c4e241e3628811c3fd470.png', 
           notes: 'A very dangerous criminal'
