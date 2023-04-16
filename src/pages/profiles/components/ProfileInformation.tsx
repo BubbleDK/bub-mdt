@@ -39,7 +39,7 @@ import Superscript from "@tiptap/extension-superscript";
 import SubScript from "@tiptap/extension-subscript";
 import { Color } from "@tiptap/extension-color";
 import TextStyle from "@tiptap/extension-text-style";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useStoreProfiles } from "../../../store/profilesStore";
 import { ProfileData } from "../../../typings";
 
@@ -65,27 +65,34 @@ interface ItemProps {
 const content = "Place user information here...";
 
 const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void}) => {
-  const { selectedProfile } = useStoreProfiles()
+  const { selectedProfile } = useStoreProfiles();
 	const { classes, theme } = useStyles();
-	const editor = useEditor({
-		extensions: [
-			StarterKit,
-			Underline,
-			Link,
-			Superscript,
-			SubScript,
-			Highlight,
-			Color,
-			TextStyle,
-			TextAlign.configure({ types: ["heading", "paragraph"] }),
-		],
-		content,
-	});
-
 	const data = [
 		{ value: "Dangerous", label: "Dangerous", backgroundcolor: "#C92A2A" },
 		{ value: "Whatever", label: "Whatever", backgroundcolor: "#141517" },
 	];
+  const editor = useEditor(
+    {
+      extensions: [
+        StarterKit,
+        Underline,
+        Link,
+        Superscript,
+        SubScript,
+        Highlight,
+        Color,
+        TextStyle,
+        TextAlign.configure({ types: ["heading", "paragraph"] }),
+      ],
+      editable: selectedProfile ? true : false,
+      content: 'Place user information here...',
+    }
+  )
+
+  useEffect(() => {
+    editor?.commands.setContent(selectedProfile?.notes || 'Place user information here...')
+    editor?.setEditable(selectedProfile ? true : false)
+  }, [selectedProfile])
 
 	function Value({ value, label, onRemove, backgroundcolor }: ItemProps) {
 		const colorForBackground = backgroundcolor;
@@ -175,20 +182,7 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void}
 							disabled
 						/>
 					</Stack>
-					<RichTextEditor editor={useEditor({extensions: 
-            [
-              StarterKit,
-              Underline,
-              Link,
-              Superscript,
-              SubScript,
-              Highlight,
-              Color,
-              TextStyle,
-              TextAlign.configure({ types: ["heading", "paragraph"] }),
-            ],
-            content: selectedProfile ? selectedProfile.notes : 'Place user information here...',
-          })}>
+					<RichTextEditor editor={editor}>
 						<RichTextEditor.Toolbar sticky>
 							<RichTextEditor.ControlsGroup>
 								<RichTextEditor.Bold />
