@@ -290,22 +290,20 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void}
                   color='dark'
                   position='bottom'
                 >
-                  <ActionIcon style={{ width: 18, minWidth: 0, marginTop: 3 }}>
+                  <ActionIcon style={{ width: 18, minWidth: 0, marginTop: 3, minHeight: 0, height: rem(20) }} disabled={selectedProfile ? false : true}>
                     <IconPlus size={16} />
                   </ActionIcon>
                 </Tooltip>
               </Group>
 
               <Group style={{ gap: 3 }}>
-                <Chip defaultChecked variant='light' radius='xs' color='teal'>
-                  Drivers License
-                </Chip>
-                <Chip defaultChecked variant='light' radius='xs' color='indigo'>
-                  Firearms License
-                </Chip>
-                <Chip defaultChecked variant='light' radius='xs' color='indigo'>
-                  Firearms License
-                </Chip>
+                {selectedProfile &&
+                  selectedProfile.licenses.map((license, index) => (
+                    <Chip key={index} defaultChecked variant='light' radius='xs' color={license.color}>
+                      {license.licenseType}
+                    </Chip>
+                  ))
+                }
               </Group>
             </div>
 

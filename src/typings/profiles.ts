@@ -8,9 +8,15 @@ export type ProfileData = {
   phone: string,
   employment: EmploymentData[],
   tags: TagData[],
+  licenses: licenseData[],
   relatedIncidents: number[],
   image: string,
   notes: string,
+}
+
+export type licenseData = {
+  licenseType: string, 
+  color: string,
 }
 
 export type TagData = {
