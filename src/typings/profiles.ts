@@ -7,10 +7,16 @@ export type ProfileData = {
   nationality: string,
   phone: string,
   job: string,
-  tags: string[],
+  tags: TagData[],
   relatedIncidents: number[],
   image: string,
   notes: string,
+}
+
+export type TagData = {
+  value: string, 
+  label: string, 
+  backgroundcolor: string,
 }
 
 export type Profiles = {

@@ -62,8 +62,6 @@ interface ItemProps {
 	onRemove(): void;
 }
 
-const content = "Place user information here...";
-
 const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void}) => {
   const { selectedProfile } = useStoreProfiles();
 	const { classes, theme } = useStyles();
@@ -90,8 +88,8 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void}
   )
 
   useEffect(() => {
-    editor?.commands.setContent(selectedProfile?.notes || 'Place user information here...')
-    editor?.setEditable(selectedProfile ? true : false)
+    editor?.commands.setContent(selectedProfile?.notes || 'Place user information here...');
+    editor?.setEditable(selectedProfile ? true : false);
   }, [selectedProfile])
 
 	function Value({ value, label, onRemove, backgroundcolor }: ItemProps) {
@@ -182,7 +180,7 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void}
 							disabled
 						/>
 					</Stack>
-					<RichTextEditor editor={editor}>
+					<RichTextEditor editor={editor} styles={{ controlsGroup: { pointerEvents: selectedProfile ? 'auto' : 'none', backgroundColor: selectedProfile ? '#1A1B1E' : '#282828' } }}>
 						<RichTextEditor.Toolbar sticky>
 							<RichTextEditor.ControlsGroup>
 								<RichTextEditor.Bold />

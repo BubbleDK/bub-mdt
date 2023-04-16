@@ -23,7 +23,36 @@ debugData([
         { citizenid: 2, firstname: 'John', lastname: 'Doe', role: 'Captain', callsign: 'C-02', phone: '1000000'},
       ],
 
-      profiles: [{citizenid: "CITI12345", firstname: 'Bubble', lastname: 'Test', birthdate: '1990-11-13', gender: 'Male', nationality: 'Denmark', phone: '1778528281', job: 'Police', tags: ['Tag1', 'Tag2'], relatedIncidents: [1, 2], image: 'https://www.gamersheroes.com/wp-content/uploads/2021/12/How-To-Fix-Invisibility-Bug-In-Agencies-In-GTA-Online.jpg', notes: 'Place user information here...'}, {citizenid: "CITI54321", firstname: 'John', lastname: 'Doe', birthdate: '1990-11-13', gender: 'Male', nationality: 'Denmark', phone: '1778528281', job: 'Police', tags: ['Tag1', 'Tag2'], relatedIncidents: [1, 2], image: 'https://img.gta5-mods.com/q75/images/pepe-jean-s-for-male-mp-fivem/8ac75d-13825a080b7c4e241e3628811c3fd470.png', notes: 'A very dangerous criminal'}],
+      profiles: [
+        {
+          citizenid: "CITI12345", 
+          firstname: 'Bubble', 
+          lastname: 'Test', 
+          birthdate: '1990-11-13', 
+          gender: 'Male', 
+          nationality: 'Denmark', 
+          phone: '1778528281', 
+          job: 'Police', 
+          tags: [], 
+          relatedIncidents: [1, 2], 
+          image: 'https://www.gamersheroes.com/wp-content/uploads/2021/12/How-To-Fix-Invisibility-Bug-In-Agencies-In-GTA-Online.jpg', 
+          notes: 'Place user information here...'
+        }, 
+        {
+          citizenid: "CITI54321", 
+          firstname: 'John',
+          lastname: 'Doe', 
+          birthdate: '1990-11-13', 
+          gender: 'Male', 
+          nationality: 'Denmark', 
+          phone: '1778528281', 
+          job: 'Police', 
+          tags: [{ value: "dangerous", label: "Dangerous", backgroundcolor: "#C92A2A" }], 
+          relatedIncidents: [1, 2], 
+          image: 'https://img.gta5-mods.com/q75/images/pepe-jean-s-for-male-mp-fivem/8ac75d-13825a080b7c4e241e3628811c3fd470.png', 
+          notes: 'A very dangerous criminal'
+        }
+      ],
 
       units: [],
 
