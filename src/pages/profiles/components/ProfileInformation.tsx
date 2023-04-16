@@ -194,7 +194,7 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void}
 							disabled
 						/>
 					</Stack>
-					<RichTextEditor editor={editor} styles={{ controlsGroup: { pointerEvents: selectedProfile ? 'auto' : 'none', backgroundColor: selectedProfile ? '#1A1B1E' : '#282828' } }}>
+					<RichTextEditor editor={editor} styles={{ controlsGroup: { pointerEvents: selectedProfile ? 'auto' : 'none', backgroundColor: selectedProfile ? '#1A1B1E' : '#282828' }}}>
 						<RichTextEditor.Toolbar sticky>
 							<RichTextEditor.ControlsGroup>
 								<RichTextEditor.Bold />
