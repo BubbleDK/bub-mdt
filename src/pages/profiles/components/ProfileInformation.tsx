@@ -239,8 +239,9 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void}
 				</Flex>
         <ScrollArea h={370}>
 				  <Stack spacing='sm' w={430}>
-            <Title color="green.7" order={6}>Last Seen: Recently</Title>
+            {selectedProfile && <Title color="green.7" order={6}>Last Seen: Recently</Title>}
 						<MultiSelect
+              disabled={selectedProfile ? false : true}
 							data={data}
 							valueComponent={Value}
 							label='Tags'
@@ -298,8 +299,13 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void}
               </Text>
 
               <Group style={{ gap: 3 }}>
-                <Badge color="indigo" radius="xs" variant="dot" style={{height: '1.5rem'}}>San Adreas Scouts (Head Management)</Badge>
-                <Badge color="indigo" radius="xs" variant="dot" style={{height: '1.5rem'}}>Casino (Hotel)</Badge>
+                {selectedProfile ? 
+                  selectedProfile.employment.map((job) => (
+                    <Badge color="indigo" radius="xs" variant="dot" style={{height: '1.5rem'}}>{job.companyName} {job.jobPosition}</Badge>
+                  ))
+                  :
+                  <Text></Text>
+                }
               </Group>
             </div>
 				  </Stack>
