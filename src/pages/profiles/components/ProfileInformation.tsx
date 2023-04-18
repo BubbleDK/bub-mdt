@@ -30,6 +30,7 @@ import {
 	IconPlus,
 	IconChevronDown,
   IconHomeCheck,
+  IconBuildingSkyscraper,
 } from "@tabler/icons-react";
 import { RichTextEditor, Link } from "@mantine/tiptap";
 import { useEditor } from "@tiptap/react";
@@ -334,9 +335,9 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void}
               <Group style={{ gap: 3 }}>
                 {selectedProfile &&
                   selectedProfile.properties.map((property, index) => (
-                    <Badge key={index} style={{height: '1.5rem'}} radius="xs" color="indigo">
+                    <Badge key={index} style={{height: '1.5rem'}} radius="xs" color="teal">
                       <Center>
-                        <IconHomeCheck  size={18} style={{paddingRight: 5}} />
+                        {property.type === 'House' ? <IconHomeCheck  size={18} style={{paddingRight: 5}} /> : <IconBuildingSkyscraper size={18} style={{paddingRight: 5}} /> }
                         {property.address} ({property.type})
                       </Center>
                     </Badge>
