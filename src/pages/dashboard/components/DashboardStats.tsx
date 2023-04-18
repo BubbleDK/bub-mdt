@@ -2,6 +2,7 @@ import React from "react";
 import { createStyles, rem, Text, Group, SimpleGrid, Paper } from "@mantine/core";
 import { IconUserCircle, IconScript, IconFileDescription } from "@tabler/icons-react";
 import { useStoreOfficers } from "../../../store/officersStore";
+import { useStoreIncidents } from "../../../store/incidentsStore";
 
 const useStyles = createStyles((theme) => ({
 	container: {
@@ -37,6 +38,7 @@ const useStyles = createStyles((theme) => ({
 const DashboardStats = () => {
 	const { classes } = useStyles();
   const { officers } = useStoreOfficers();
+  const { incidents } = useStoreIncidents();
 	return (
     <SimpleGrid cols={3} className={classes.container}>
       <Paper withBorder p='md'>
@@ -64,7 +66,7 @@ const DashboardStats = () => {
         </Group>
 
         <Group align='flex-end' spacing='xs' mt={25}>
-          <Text className={classes.value}>396</Text>
+          <Text className={classes.value}>{incidents.length}</Text>
         </Group>
 
         <Text fz='xs' c='dimmed' mt={7}>
