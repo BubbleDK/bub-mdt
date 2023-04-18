@@ -1,7 +1,7 @@
-import { Group, Paper, Text, createStyles, Divider, ScrollArea, Menu, Stack, UnstyledButton } from '@mantine/core'
-import { IconChevronRight, IconListDetails } from '@tabler/icons-react'
+import { Paper, Group, ActionIcon, Divider, Text, Tooltip, createStyles, ScrollArea, Menu, Stack, UnstyledButton } from '@mantine/core'
+import { IconChevronRight, IconDeviceFloppy, IconLinkOff, IconListDetails } from '@tabler/icons-react'
 import React, { useEffect, useState } from 'react'
-import { IncidentData, ProfileData } from '../../../typings';
+import { IncidentData } from '../../../typings';
 import { useStoreIncidents } from '../../../store/incidentsStore';
 import { useStoreProfiles } from '../../../store/profilesStore';
 
@@ -35,7 +35,7 @@ const useStyles = createStyles((theme) => ({
   }
 }));
 
-const RelatedIncidents = () => {
+const InvolvedIncidents = () => {
   const { classes } = useStyles();
   const { incidents } = useStoreIncidents();
   const { selectedProfile } = useStoreProfiles();
@@ -43,31 +43,30 @@ const RelatedIncidents = () => {
 
   function findIncidentsByCitizenId(citizenId: string | undefined) {
     if (!citizenId) return setRelatedIncidents([]);
-    const incidentsByCitizen: IncidentData[] = [];
+    const InvolvedCivilians: IncidentData[] = [];
     incidents.forEach((incident) => {
+      const foundInInvolvedCivilians = incident.involvedCivilians.some((civilian) => civilian.citizenid === citizenId);
       const foundInCriminals = incident.involvedCriminals.some((criminal) => criminal.citizenid === citizenId);
-      if (foundInCriminals) {
-        incidentsByCitizen.push(incident);
+      if (foundInInvolvedCivilians && !foundInCriminals) {
+        InvolvedCivilians.push(incident);
       }
     });
-    setRelatedIncidents(incidentsByCitizen);
+    setRelatedIncidents(InvolvedCivilians);
   }
 
   useEffect(() => {
     findIncidentsByCitizenId(selectedProfile?.citizenid)
   }, [selectedProfile])
 
-  console.log(relatedIncidents)
-
   return (
-		<Paper p='md' withBorder style={{ width: 575, height: 380 }}>
-			<Group position='apart'>
-				<Text weight={500}>Known Convictions</Text>
+    <Paper p='md' withBorder style={{ width: 520, height: 380 }}>
+      <Group position='apart'>
+				<Text weight={500}>Involved Incidents</Text>
 			</Group>
 
-			<Divider my='sm' />
+      <Divider my='sm' />
 
-			<ScrollArea h={300}>
+      <ScrollArea h={300}>
 				<Stack spacing='xs'>
 					{relatedIncidents.map((incident) => (
 						<UnstyledButton className={classes.user} key={incident.id}>
@@ -97,8 +96,8 @@ const RelatedIncidents = () => {
 					))}
 				</Stack>
 			</ScrollArea>
-		</Paper>
-	);
+    </Paper>
+  )
 }
 
-export default RelatedIncidents
+export default InvolvedIncidents

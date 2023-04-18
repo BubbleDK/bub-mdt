@@ -3,7 +3,7 @@ import {Container, Flex, LoadingOverlay, Stack, DEFAULT_THEME } from "@mantine/c
 import SearchTable from './components/SearchTable';
 import ProfileInformation from './components/ProfileInformation';
 import RelatedIncidents from './components/RelatedIncidents';
-import AdditionalInformation from './components/AdditionalInformation';
+import InvolvedIncidents from './components/InvolvedIncidents';
 import { ProfileData } from '../../typings';
 import { useStoreProfiles } from '../../store/profilesStore';
 
@@ -61,7 +61,7 @@ const Profiles = () => {
           <ProfileInformation onClick={handleClick} />
           <Flex gap="md" justify="flex-start" align="center" direction="row" wrap="wrap">
             <RelatedIncidents />
-            <AdditionalInformation />
+            <InvolvedIncidents />
           </Flex>
         </Stack>
       </Flex>

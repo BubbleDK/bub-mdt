@@ -9,7 +9,6 @@ export type ProfileData = {
   employment: EmploymentData[],
   tags: TagData[],
   licenses: licenseData[],
-  relatedIncidents: number[],
   image: string,
   notes: string,
 }

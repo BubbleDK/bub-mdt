@@ -35,7 +35,6 @@ debugData([
           employment: [{companyName: 'RON Corp', jobPosition: 'Board Member'}], 
           licenses: [{licenseType: 'Drivers License', color: 'teal'}, {licenseType: 'Pilot License', color: 'indigo'}],
           tags: [], 
-          relatedIncidents: [1, 2], 
           image: 'https://www.gamersheroes.com/wp-content/uploads/2021/12/How-To-Fix-Invisibility-Bug-In-Agencies-In-GTA-Online.jpg', 
           notes: 'Place user information here...'
         }, 
@@ -50,7 +49,6 @@ debugData([
           employment: [{companyName: 'San Andreas Scouts', jobPosition: 'Head Management'}, {companyName: 'Los Santos Billboards', jobPosition: 'Owner'}, {companyName: 'UwU Cafe', jobPosition: 'Associate'}], 
           licenses: [{licenseType: 'Drivers License', color: 'teal'}],
           tags: [{ value: "dangerous", label: "Dangerous", backgroundcolor: "#C92A2A" }, {value: 'funny', label: 'Funny guy', backgroundcolor: "#141517"}], 
-          relatedIncidents: [1, 2], 
           image: 'https://img.gta5-mods.com/q75/images/pepe-jean-s-for-male-mp-fivem/8ac75d-13825a080b7c4e241e3628811c3fd470.png', 
           notes: 'A very dangerous criminal'
         }
@@ -63,12 +61,25 @@ debugData([
           details: 'Whatever',
           tags: [{ value: "dangerous", label: "Dangerous", backgroundcolor: "#C92A2A" }],
           involvedOfficers: [{ citizenid: 1, firstname: 'Bubble', lastname: 'Test', role: 'Cheif', callsign: 'C-01', phone: '0000000'}],
-          involvedCivilians: [{ citizenid: "CITI54321", firstname: 'John', lastname: 'Doe',  birthdate: '1990-11-13',  gender: 'Male',  nationality: 'Denmark',  phone: '1778528281',  employment: [{companyName: 'San Andreas Scouts', jobPosition: 'Head Management'}, {companyName: 'Los Santos Billboards', jobPosition: 'Owner'}, {companyName: 'UwU Cafe', jobPosition: 'Associate'}],  licenses: [{licenseType: 'Drivers License', color: 'teal'}], tags: [{ value: "dangerous", label: "Dangerous", backgroundcolor: "#C92A2A" }, {value: 'funny', label: 'Funny guy', backgroundcolor: "#141517"}],  relatedIncidents: [1, 2],  image: 'https://img.gta5-mods.com/q75/images/pepe-jean-s-for-male-mp-fivem/8ac75d-13825a080b7c4e241e3628811c3fd470.png',  notes: 'A very dangerous criminal'}],
+          involvedCivilians: [{ citizenid: "CITI54321", firstname: 'John', lastname: 'Doe',  birthdate: '1990-11-13',  gender: 'Male',  nationality: 'Denmark',  phone: '1778528281',  employment: [{companyName: 'San Andreas Scouts', jobPosition: 'Head Management'}, {companyName: 'Los Santos Billboards', jobPosition: 'Owner'}, {companyName: 'UwU Cafe', jobPosition: 'Associate'}],  licenses: [{licenseType: 'Drivers License', color: 'teal'}], tags: [{ value: "dangerous", label: "Dangerous", backgroundcolor: "#C92A2A" }, {value: 'funny', label: 'Funny guy', backgroundcolor: "#141517"}], image: 'https://img.gta5-mods.com/q75/images/pepe-jean-s-for-male-mp-fivem/8ac75d-13825a080b7c4e241e3628811c3fd470.png',  notes: 'A very dangerous criminal'}],
           evidence: 'evidence',
-          involvedCriminals: [{ citizenid: "CITI54321", firstname: 'John', lastname: 'Doe',  birthdate: '1990-11-13',  gender: 'Male',  nationality: 'Denmark',  phone: '1778528281',  employment: [{companyName: 'San Andreas Scouts', jobPosition: 'Head Management'}, {companyName: 'Los Santos Billboards', jobPosition: 'Owner'}, {companyName: 'UwU Cafe', jobPosition: 'Associate'}],  licenses: [{licenseType: 'Drivers License', color: 'teal'}], tags: [{ value: "dangerous", label: "Dangerous", backgroundcolor: "#C92A2A" }, {value: 'funny', label: 'Funny guy', backgroundcolor: "#141517"}],  relatedIncidents: [1, 2],  image: 'https://img.gta5-mods.com/q75/images/pepe-jean-s-for-male-mp-fivem/8ac75d-13825a080b7c4e241e3628811c3fd470.png',  notes: 'A very dangerous criminal'}],
+          involvedCriminals: [{ citizenid: "CITI54321", firstname: 'John', lastname: 'Doe',  birthdate: '1990-11-13',  gender: 'Male',  nationality: 'Denmark',  phone: '1778528281',  employment: [{companyName: 'San Andreas Scouts', jobPosition: 'Head Management'}, {companyName: 'Los Santos Billboards', jobPosition: 'Owner'}, {companyName: 'UwU Cafe', jobPosition: 'Associate'}],  licenses: [{licenseType: 'Drivers License', color: 'teal'}], tags: [{ value: "dangerous", label: "Dangerous", backgroundcolor: "#C92A2A" }, {value: 'funny', label: 'Funny guy', backgroundcolor: "#141517"}], image: 'https://img.gta5-mods.com/q75/images/pepe-jean-s-for-male-mp-fivem/8ac75d-13825a080b7c4e241e3628811c3fd470.png',  notes: 'A very dangerous criminal'}],
           timeStamp: new Date().valueOf(),
           createdBy: { citizenid: 1, firstname: 'Bubble', lastname: 'Test', role: 'Cheif', callsign: 'C-01', phone: '0000000'},
-        }
+        },
+        {
+          id: 2,
+          title: 'Bubble Test | Criminal Threats',
+          details: 'Something nice happended',
+          tags: [{ value: "dangerous", label: "Dangerous", backgroundcolor: "#C92A2A" }],
+          involvedOfficers: [{ citizenid: 2, firstname: 'John', lastname: 'Doe', role: 'Captain', callsign: 'C-02', phone: '1000000'}],
+          involvedCivilians: [{ citizenid: "CITI54321", firstname: 'John', lastname: 'Doe',  birthdate: '1990-11-13',  gender: 'Male',  nationality: 'Denmark',  phone: '1778528281',  employment: [{companyName: 'San Andreas Scouts', jobPosition: 'Head Management'}, {companyName: 'Los Santos Billboards', jobPosition: 'Owner'}, {companyName: 'UwU Cafe', jobPosition: 'Associate'}],  licenses: [{licenseType: 'Drivers License', color: 'teal'}], tags: [{ value: "dangerous", label: "Dangerous", backgroundcolor: "#C92A2A" }, {value: 'funny', label: 'Funny guy', backgroundcolor: "#141517"}], image: 'https://img.gta5-mods.com/q75/images/pepe-jean-s-for-male-mp-fivem/8ac75d-13825a080b7c4e241e3628811c3fd470.png',  notes: 'A very dangerous criminal'}],
+          evidence: 'evidence',
+          involvedCriminals: [{ citizenid: "CITI12345",  firstname: 'Bubble',  lastname: 'Test',  birthdate: '1990-11-13',  gender: 'Male',  nationality: 'Denmark',  phone: '1778528281',  employment: [{companyName: 'RON Corp', jobPosition: 'Board Member'}],  licenses: [{licenseType: 'Drivers License', color: 'teal'}, {licenseType: 'Pilot License', color: 'indigo'}], tags: [],  relatedIncidents: [1, 2],  image: 'https://www.gamersheroes.com/wp-content/uploads/2021/12/How-To-Fix-Invisibility-Bug-In-Agencies-In-GTA-Online.jpg',  notes: 'Place user information here...'
+          }],
+          timeStamp: new Date().valueOf(),
+          createdBy: { citizenid: 1, firstname: 'Bubble', lastname: 'Test', role: 'Cheif', callsign: 'C-01', phone: '0000000'},
+        },
       ],
 
       units: [],

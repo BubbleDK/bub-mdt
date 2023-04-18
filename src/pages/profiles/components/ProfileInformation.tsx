@@ -140,7 +140,7 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void}
 	}
 
 	return (
-		<Paper p='md' withBorder style={{ width: 1110, height: 450 }}>
+		<Paper p='md' withBorder style={{ width: 1110, height: 500 }}>
 			<Group position='apart'>
 				<Text weight={500}>Citizen</Text>
 				<Group spacing={8} mr={0}>
@@ -158,6 +158,7 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void}
 			</Group>
 
 			<Divider my='sm' />
+
 			<Flex gap='md' justify='flex-start' direction='row' wrap='wrap'>
 				<Flex gap='md' direction='row' wrap='wrap' w={630}>
 					<Image
@@ -246,21 +247,23 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void}
 							</RichTextEditor.ControlsGroup>
 						</RichTextEditor.Toolbar>
 
-						<ScrollArea style={{ height: 120, width: 625, padding: 0 }}>
+						<ScrollArea style={{ height: 170, width: 625, padding: 0 }}>
 							<RichTextEditor.Content style={{ lineHeight: 0.8, padding: 0 }} />
 						</ScrollArea>
 					</RichTextEditor>
 				</Flex>
         <ScrollArea h={370}>
-				  <Stack spacing='sm' w={430}>
+				  <Stack spacing={5} w={430}>
             {selectedProfile && <Title color="green.7" order={6}>Last Seen: Recently</Title>}
+            <Text size='md' weight={500}>
+              Tags
+            </Text>
 						<MultiSelect
               disabled={selectedProfile ? false : true}
 							data={tagData}
               value={tagValues}
               onChange={setTagValues}
 							valueComponent={Value}
-							label='Tags'
 							placeholder='Select tags'
 							rightSection={<IconChevronDown size='1rem' />}
 							rightSectionWidth={40}
@@ -280,7 +283,7 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void}
 							}}
 						/>
             <div>
-              <Group spacing={5} mr={0} style={{marginBottom: 10}}>
+              <Group spacing={5} mr={0}>
                 <Text size='md' weight={500}>
                   Licenses
                 </Text>
@@ -290,7 +293,7 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void}
                   color='dark'
                   position='bottom'
                 >
-                  <ActionIcon style={{ width: 18, minWidth: 0, marginTop: 3, minHeight: 0, height: rem(20) }} disabled={selectedProfile ? false : true}>
+                  <ActionIcon style={{ width: 18, minWidth: 0, minHeight: 0, height: rem(20) }} disabled={selectedProfile ? false : true}>
                     <IconPlus size={16} />
                   </ActionIcon>
                 </Tooltip>
@@ -308,18 +311,44 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void}
             </div>
 
             <div>
-              <Text size='md' weight={500} style={{marginBottom: 10}}>
+              <Text size='md' weight={500} style={{marginBottom: 2}}>
                 Employment
               </Text>
 
               <Group style={{ gap: 3 }}>
-                {selectedProfile ? 
+                {selectedProfile &&
                   selectedProfile.employment.map((job, index) => (
                     <Badge key={index} color="indigo" radius="xs" variant="dot" style={{height: '1.5rem'}}>{job.companyName} ({job.jobPosition})</Badge>
                   ))
-                  :
-                  <Text></Text>
                 }
+              </Group>
+            </div>
+
+            <div>
+              <Text size='md' weight={500} style={{marginBottom: 2}}>
+                Properties
+              </Text>
+
+              <Group style={{ gap: 3 }}>
+                {/* {selectedProfile &&
+                  selectedProfile.employment.map((job, index) => (
+                    <Badge key={index} color="indigo" radius="xs" variant="dot" style={{height: '1.5rem'}}>{job.companyName} ({job.jobPosition})</Badge>
+                  ))
+                } */}
+              </Group>
+            </div>
+
+            <div>
+              <Text size='md' weight={500} style={{marginBottom: 2}}>
+                Vehicles
+              </Text>
+
+              <Group style={{ gap: 3 }}>
+                {/* {selectedProfile &&
+                  selectedProfile.employment.map((job, index) => (
+                    <Badge key={index} color="indigo" radius="xs" variant="dot" style={{height: '1.5rem'}}>{job.companyName} ({job.jobPosition})</Badge>
+                  ))
+                } */}
               </Group>
             </div>
 				  </Stack>

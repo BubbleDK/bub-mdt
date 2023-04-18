@@ -68,7 +68,7 @@ const SearchTableIncidents = (props: {onClick: (data: IncidentData | null) => vo
                 </Text>
               </Group>
 
-              <Group position="apart">
+              <Group position="apart" style={{marginTop: 5}}>
                 <Text fz="xs" fw={500} className={classes.name}>
                   ID: #{incident.id}
                 </Text>

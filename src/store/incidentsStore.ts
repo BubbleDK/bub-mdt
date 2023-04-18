@@ -17,4 +17,4 @@ export const useStoreIncidents = create<Incidents>((set) => ({
       selectedIncident: incident,
     }));
   },
-}))
+}));
