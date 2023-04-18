@@ -40,7 +40,7 @@ const Incidents = () => {
     setTimeout(() => {
       setIsLoading(false);
       setIncident(props);
-    }, 750)
+    }, 650)
   }
 
   return (

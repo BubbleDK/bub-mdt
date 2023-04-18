@@ -43,7 +43,7 @@ const Profiles = () => {
     setTimeout(() => {
       setIsLoading(false);
       setProfile(props);
-    }, 750)
+    }, 650)
   }
 
   return (
