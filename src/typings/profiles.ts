@@ -1,3 +1,5 @@
+import { PropertyData } from "./properties"
+
 export type ProfileData = {
   citizenid: string,
   firstname: string,
@@ -11,6 +13,7 @@ export type ProfileData = {
   licenses: licenseData[],
   image: string,
   notes: string,
+  properties: PropertyData[],
 }
 
 export type licenseData = {

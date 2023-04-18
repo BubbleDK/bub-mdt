@@ -17,7 +17,8 @@ import {
 	CloseButton,
 	Chip,
   Badge,
-  Title
+  Title,
+  Center
 } from "@mantine/core";
 import {
 	IconFlag,
@@ -28,6 +29,7 @@ import {
 	IconUser,
 	IconPlus,
 	IconChevronDown,
+  IconHomeCheck,
 } from "@tabler/icons-react";
 import { RichTextEditor, Link } from "@mantine/tiptap";
 import { useEditor } from "@tiptap/react";
@@ -330,11 +332,16 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void}
               </Text>
 
               <Group style={{ gap: 3 }}>
-                {/* {selectedProfile &&
-                  selectedProfile.employment.map((job, index) => (
-                    <Badge key={index} color="indigo" radius="xs" variant="dot" style={{height: '1.5rem'}}>{job.companyName} ({job.jobPosition})</Badge>
+                {selectedProfile &&
+                  selectedProfile.properties.map((property, index) => (
+                    <Badge key={index} style={{height: '1.5rem'}} radius="xs" color="indigo">
+                      <Center>
+                        <IconHomeCheck  size={18} style={{paddingRight: 5}} />
+                        {property.address} ({property.type})
+                      </Center>
+                    </Badge>
                   ))
-                } */}
+                }
               </Group>
             </div>
 
