@@ -7,13 +7,15 @@ import Dispatch from './pages/dispatch';
 import { IconLayoutDashboard, IconUserCircle, IconScript, IconFileDescription, IconBriefcase, IconLogout, IconMap2, IconUsers, IconBuildingBank, IconBuildingSkyscraper, IconBook2 } from '@tabler/icons-react';
 import LSPDLogo from './assets/lspd.png';
 import { useNuiEvent } from './hooks/useNuiEvent';
-import { AlertData, OfficerData, ProfileData, UnitData } from './typings';
+import { AlertData, IncidentData, OfficerData, ProfileData, UnitData } from './typings';
 import { useStoreOfficers } from './store/officersStore';
 import { useStoreDispatch } from './store/dispatchStore';
 import { useStoreUnit } from './store/unitStore';
 import { useStorePersonal } from './store/personalInfoStore';
 import { AnnouncementData, useStoreAnnouncements } from './store/announcementsStore';
 import { useStoreProfiles } from './store/profilesStore';
+import Incidents from './pages/incidents';
+import { useStoreIncidents } from './store/incidentsStore';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -109,14 +111,16 @@ function App() {
   const { setPersonalData, firstname, lastname, callsign } = useStorePersonal();
   const { setAnnouncements } = useStoreAnnouncements();
   const { setProfiles } = useStoreProfiles();
+  const { setIncidents } = useStoreIncidents();
 
-  useNuiEvent<{alerts?: AlertData[]; officers: OfficerData[]; units?: UnitData[]; personalInformation: OfficerData; announcements: AnnouncementData[]; profiles: ProfileData[]}>('setupMdt', (data) => {
+  useNuiEvent<{alerts?: AlertData[]; officers: OfficerData[]; units?: UnitData[]; personalInformation: OfficerData; announcements: AnnouncementData[]; profiles: ProfileData[]; incidents: IncidentData[]}>('setupMdt', (data) => {
     setOfficers(data.officers);
     if (data.alerts !== undefined) setAlerts(data.alerts);
     if (data.units !== undefined) setUnits(data.units);
     setPersonalData(data.personalInformation);
     setAnnouncements(data.announcements);
     setProfiles(data.profiles);
+    setIncidents(data.incidents);
   });
 
   const links = data.map((item) => (
@@ -169,6 +173,7 @@ function App() {
             <Routes>
               <Route path='/' element={<Dashboard />} />
               <Route path="/profiles" element={<Profiles />} />
+              <Route path="/incidents" element={<Incidents />} />
               <Route path="/dispatch" element={<Dispatch />} />
             </Routes>
           </Box>

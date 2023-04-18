@@ -56,6 +56,21 @@ debugData([
         }
       ],
 
+      incidents: [
+        {
+          id: 1,
+          title: 'Incident 1',
+          details: 'Whatever',
+          tags: [{ value: "dangerous", label: "Dangerous", backgroundcolor: "#C92A2A" }],
+          involvedOfficers: [{ citizenid: 1, firstname: 'Bubble', lastname: 'Test', role: 'Cheif', callsign: 'C-01', phone: '0000000'}],
+          involvedCivilians: [{ citizenid: "CITI54321", firstname: 'John', lastname: 'Doe',  birthdate: '1990-11-13',  gender: 'Male',  nationality: 'Denmark',  phone: '1778528281',  employment: [{companyName: 'San Andreas Scouts', jobPosition: 'Head Management'}, {companyName: 'Los Santos Billboards', jobPosition: 'Owner'}, {companyName: 'UwU Cafe', jobPosition: 'Associate'}],  licenses: [{licenseType: 'Drivers License', color: 'teal'}], tags: [{ value: "dangerous", label: "Dangerous", backgroundcolor: "#C92A2A" }, {value: 'funny', label: 'Funny guy', backgroundcolor: "#141517"}],  relatedIncidents: [1, 2],  image: 'https://img.gta5-mods.com/q75/images/pepe-jean-s-for-male-mp-fivem/8ac75d-13825a080b7c4e241e3628811c3fd470.png',  notes: 'A very dangerous criminal'}],
+          evidence: 'evidence',
+          involvedCriminals: [{ citizenid: "CITI54321", firstname: 'John', lastname: 'Doe',  birthdate: '1990-11-13',  gender: 'Male',  nationality: 'Denmark',  phone: '1778528281',  employment: [{companyName: 'San Andreas Scouts', jobPosition: 'Head Management'}, {companyName: 'Los Santos Billboards', jobPosition: 'Owner'}, {companyName: 'UwU Cafe', jobPosition: 'Associate'}],  licenses: [{licenseType: 'Drivers License', color: 'teal'}], tags: [{ value: "dangerous", label: "Dangerous", backgroundcolor: "#C92A2A" }, {value: 'funny', label: 'Funny guy', backgroundcolor: "#141517"}],  relatedIncidents: [1, 2],  image: 'https://img.gta5-mods.com/q75/images/pepe-jean-s-for-male-mp-fivem/8ac75d-13825a080b7c4e241e3628811c3fd470.png',  notes: 'A very dangerous criminal'}],
+          timeStamp: new Date().valueOf(),
+          createdBy: { citizenid: 1, firstname: 'Bubble', lastname: 'Test', role: 'Cheif', callsign: 'C-01', phone: '0000000'},
+        }
+      ],
+
       units: [],
 
       announcements: [{id: 1, title: 'A nice title', time: new Date().valueOf(), content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex dolor in esse numquam? Ratione ut impedit officia nemo, pariatur voluptatem quas culpa distinctio excepturi? Dolorum minima blanditiis neque natus dolor?', postedBy: {citizenid: 1, firstname: 'Bubble', lastname: 'Test', role: 'Cheif', callsign: 'C-01', phone: '0000000'}}],

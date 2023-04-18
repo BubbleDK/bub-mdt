@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import {Container, Flex, LoadingOverlay, Stack, DEFAULT_THEME } from "@mantine/core";
-import SearchTable from './components/SearchTable';
-import ProfileInformation from './components/ProfileInformation';
-import RelatedIncidents from './components/RelatedIncidents';
-import AdditionalInformation from './components/AdditionalInformation';
-import { ProfileData } from '../../typings';
-import { useStoreProfiles } from '../../store/profilesStore';
+import { IncidentData } from '../../typings';
+import { useStoreIncidents } from '../../store/incidentsStore';
+import SearchTableIncidents from './components/SearchTableIncidents';
 
 const customLoader = (
   <svg
@@ -33,16 +30,16 @@ const customLoader = (
   </svg>
 );
 
-const Profiles = () => {
+const Incidents = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const { setProfile } = useStoreProfiles();
+  const { setIncident } = useStoreIncidents();
 
-  const handleClick = (props: ProfileData | null) => {
+  const handleClick = (props: IncidentData | null) => {
     setIsLoading(true);
 
     setTimeout(() => {
       setIsLoading(false);
-      setProfile(props);
+      setIncident(props);
     }, 750)
   }
 
@@ -55,13 +52,13 @@ const Profiles = () => {
         direction="row"
         wrap="wrap"
       >
-        <SearchTable onClick={handleClick}  />
+        <SearchTableIncidents onClick={handleClick}  />
         <Stack h={890} sx={(theme) => ({ backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0], gap: 10 })}>
           <LoadingOverlay visible={isLoading} overlayOpacity={0.95} transitionDuration={250} loader={customLoader} style={{left: 690, width: '61.5%', height: '97%', top: 15}} />
-          <ProfileInformation onClick={handleClick} />
+          {/* <ProfileInformation onClick={handleClick} /> */}
           <Flex gap="md" justify="flex-start" align="center" direction="row" wrap="wrap">
-            <RelatedIncidents />
-            <AdditionalInformation />
+            {/* <RelatedIncidents />
+            <AdditionalInformation /> */}
           </Flex>
         </Stack>
       </Flex>
@@ -69,4 +66,4 @@ const Profiles = () => {
   )
 }
 
-export default Profiles;
+export default Incidents;
