@@ -1,6 +1,6 @@
 import { Box, Transition, createStyles, Navbar, Group, Code, getStylesRef, rem, Image, Center, Button, Alert } from '@mantine/core';
-import { useState } from 'react';
-import { Route, Routes, NavLink } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Route, Routes, NavLink, useLocation } from 'react-router-dom';
 import Dashboard from './pages/dashboard';
 import Profiles from './pages/profiles';
 import Dispatch from './pages/dispatch';
@@ -105,6 +105,7 @@ function App() {
   const { classes, cx } = useStyles();
   const [visible, setVisible] = useState(true);
   const [activeLink, setActiveLink] = useState('');
+  const location = useLocation();
   const { setOfficers } = useStoreOfficers();
   const { setAlerts } = useStoreDispatch();
   const { setUnits } = useStoreUnit();
@@ -122,6 +123,10 @@ function App() {
     setProfiles(data.profiles);
     setIncidents(data.incidents);
   });
+
+  useEffect(() => {
+    setActiveLink(location.pathname.split('/')[1]);
+  }, [location]);
 
   const links = data.map((item) => (
     <NavLink
