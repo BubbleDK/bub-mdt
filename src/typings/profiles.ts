@@ -1,4 +1,5 @@
 import { PropertyData } from "./properties"
+import { VehicleData } from "./vehicles"
 
 export type ProfileData = {
   citizenid: string,
@@ -14,6 +15,7 @@ export type ProfileData = {
   image: string,
   notes: string,
   properties: PropertyData[],
+  vehicles: VehicleData[],
 }
 
 export type licenseData = {

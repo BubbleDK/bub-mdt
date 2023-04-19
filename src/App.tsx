@@ -1,10 +1,10 @@
-import { Box, Transition, createStyles, Navbar, Group, Code, getStylesRef, rem, Image, Center, Button } from '@mantine/core';
+import { Box, Transition, createStyles, Navbar, Group, Code, getStylesRef, rem, Image, Center, Button, Alert } from '@mantine/core';
 import { useState } from 'react';
 import { Route, Routes, NavLink } from 'react-router-dom';
 import Dashboard from './pages/dashboard';
 import Profiles from './pages/profiles';
 import Dispatch from './pages/dispatch';
-import { IconLayoutDashboard, IconUserCircle, IconScript, IconFileDescription, IconBriefcase, IconLogout, IconMap2, IconUsers, IconBuildingBank, IconBuildingSkyscraper, IconBook2 } from '@tabler/icons-react';
+import { IconLayoutDashboard, IconUserCircle, IconScript, IconFileDescription, IconBriefcase, IconLogout, IconMap2, IconUsers, IconBuildingBank, IconBuildingSkyscraper, IconBook2, IconAlertCircle } from '@tabler/icons-react';
 import LSPDLogo from './assets/lspd.png';
 import { useNuiEvent } from './hooks/useNuiEvent';
 import { AlertData, IncidentData, OfficerData, ProfileData, UnitData } from './typings';

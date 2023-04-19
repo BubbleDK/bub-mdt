@@ -31,6 +31,7 @@ import {
 	IconChevronDown,
   IconHomeCheck,
   IconBuildingSkyscraper,
+  IconCar
 } from "@tabler/icons-react";
 import { RichTextEditor, Link } from "@mantine/tiptap";
 import { useEditor } from "@tiptap/react";
@@ -65,7 +66,7 @@ interface ItemProps {
 	onRemove(): void;
 }
 
-const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void}) => {
+const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void, saveProfile: (data: ProfileData | null) => void}) => {
   const { selectedProfile, setProfile } = useStoreProfiles();
 	const { classes, theme } = useStyles();
   const [tagData, setTagData] = useState<TagData[]>([]);
@@ -96,7 +97,6 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void}
     editor?.setEditable(selectedProfile ? true : false);
     selectedProfile?.tags.map(item => { 
       const tagExist = tagData.some(tag => tag.value === item.value);
-
       if (!tagExist) setTagData([...tagData, item])
     })
     setTagValues(selectedProfile ? selectedProfile?.tags.map(item => item.value) : [])
@@ -109,7 +109,7 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void}
     };
   }, []);
 
-	function Value({ value, label, onRemove, backgroundcolor }: ItemProps) {
+	function Value({ label, onRemove, backgroundcolor }: ItemProps) {
 		const colorForBackground = backgroundcolor;
 		return (
 			<div>
@@ -126,6 +126,8 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void}
 						}`,
 						paddingLeft: theme.spacing.xs,
 						marginLeft: 5,
+            marginTop: 5,
+            marginBottom: 5,
 						borderRadius: theme.radius.sm,
 					})}
 				>
@@ -148,7 +150,7 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void}
 				<Text weight={500}>Citizen</Text>
 				<Group spacing={8} mr={0}>
 					<Tooltip label='Save' withArrow color='dark' position='bottom'>
-						<ActionIcon className={classes.action} onClick={() => { }} disabled={!selectedProfile}>
+						<ActionIcon className={classes.action} onClick={() => { props.saveProfile(selectedProfile) }} disabled={!selectedProfile}>
 							<IconDeviceFloppy size={16} color={theme.colors.green[6]} />
 						</ActionIcon>
 					</Tooltip>
@@ -281,7 +283,7 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void}
 									label: value,
 									backgroundcolor: color ? color : "#141517",
 								};
-								//data.push(item);
+                setTagData([...tagData, item]);
 								return item;
 							}}
 						/>
@@ -335,7 +337,7 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void}
               <Group style={{ gap: 3 }}>
                 {selectedProfile &&
                   selectedProfile.properties.map((property, index) => (
-                    <Badge key={index} style={{height: '1.5rem'}} radius="xs" color="teal">
+                    <Badge key={index} style={{height: '1.5rem'}} radius="xs" color="teal" variant="dot">
                       <Center>
                         {property.type === 'House' ? <IconHomeCheck  size={18} style={{paddingRight: 5}} /> : <IconBuildingSkyscraper size={18} style={{paddingRight: 5}} /> }
                         {property.address} ({property.type})
@@ -352,11 +354,16 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void}
               </Text>
 
               <Group style={{ gap: 3 }}>
-                {/* {selectedProfile &&
-                  selectedProfile.employment.map((job, index) => (
-                    <Badge key={index} color="indigo" radius="xs" variant="dot" style={{height: '1.5rem'}}>{job.companyName} ({job.jobPosition})</Badge>
+                {selectedProfile &&
+                  selectedProfile.vehicles.map((vehicle, index) => (
+                    <Badge key={index} style={{height: '1.5rem'}} radius="xs" color={vehicle.color} variant="dot">
+                      <Center>
+                        <IconCar  size={18} style={{paddingRight: 5}} />
+                        {vehicle.model} ({vehicle.plate})
+                      </Center>
+                    </Badge>
                   ))
-                } */}
+                }
               </Group>
             </div>
 				  </Stack>

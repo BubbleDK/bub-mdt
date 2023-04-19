@@ -55,9 +55,7 @@ const RelatedIncidents = () => {
 
   useEffect(() => {
     findIncidentsByCitizenId(selectedProfile?.citizenid)
-  }, [selectedProfile])
-
-  console.log(relatedIncidents)
+  }, [selectedProfile]);
 
   return (
 		<Paper p='md' withBorder style={{ width: 575, height: 380 }}>

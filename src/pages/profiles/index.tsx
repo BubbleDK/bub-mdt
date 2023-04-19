@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import {Container, Flex, LoadingOverlay, Stack, DEFAULT_THEME } from "@mantine/core";
+import {Container, Flex, LoadingOverlay, Stack, DEFAULT_THEME, Dialog, Alert, Transition } from "@mantine/core";
 import SearchTable from './components/SearchTable';
 import ProfileInformation from './components/ProfileInformation';
 import RelatedIncidents from './components/RelatedIncidents';
 import InvolvedIncidents from './components/InvolvedIncidents';
 import { ProfileData } from '../../typings';
 import { useStoreProfiles } from '../../store/profilesStore';
+import { useDisclosure } from '@mantine/hooks';
+import { IconAlertCircle } from '@tabler/icons-react';
 
 const customLoader = (
   <svg
@@ -36,14 +38,23 @@ const customLoader = (
 const Profiles = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { setProfile } = useStoreProfiles();
+  const [opened, { toggle, close }] = useDisclosure(false);
 
-  const handleClick = (props: ProfileData | null) => {
+  const setProfileClick = (props: ProfileData | null) => {
     setIsLoading(true);
 
     setTimeout(() => {
       setIsLoading(false);
       setProfile(props);
     }, 650)
+  }
+
+  const saveProfileClick = (props: ProfileData | null) => {
+    toggle();
+
+    setTimeout(() => {
+      close();
+    }, 2000)
   }
 
   return (
@@ -55,16 +66,24 @@ const Profiles = () => {
         direction="row"
         wrap="wrap"
       >
-        <SearchTable onClick={handleClick}  />
+        <SearchTable onClick={setProfileClick}  />
         <Stack h={890} sx={(theme) => ({ backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0], gap: 10 })}>
           <LoadingOverlay visible={isLoading} overlayOpacity={0.95} transitionDuration={250} loader={customLoader} style={{left: 690, width: '61.5%', height: '97%', top: 15}} />
-          <ProfileInformation onClick={handleClick} />
+          <ProfileInformation onClick={setProfileClick} saveProfile={saveProfileClick} />
           <Flex gap="md" justify="flex-start" align="center" direction="row" wrap="wrap">
             <RelatedIncidents />
             <InvolvedIncidents />
           </Flex>
         </Stack>
       </Flex>
+
+      <Transition mounted={opened} transition={'scale'} duration={200} timingFunction="ease">
+        {(styles) => (
+          <Alert style={{...styles, position: 'fixed', bottom: 15, left: '50%', transform: 'translateX(-50%)', width: 400}} icon={<IconAlertCircle size="1rem" />} color="green" radius="xs" variant="filled">
+            You sucessfully updated the profile
+          </Alert>
+        )}
+      </Transition>
     </Container>
   )
 }

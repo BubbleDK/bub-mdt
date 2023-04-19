@@ -38,6 +38,7 @@ debugData([
           image: 'https://www.gamersheroes.com/wp-content/uploads/2021/12/How-To-Fix-Invisibility-Bug-In-Agencies-In-GTA-Online.jpg', 
           notes: 'Place user information here...',
           properties: [{address: 'Pill box Swiss St', type: 'Apartment'}, {address: 'Vinewood Hills 4', type: 'House'}],
+          vehicles: [{model: 'Vapid Peyote', plate: '44KJ469', color: 'gray', owner: 'CITI12345'}, {model: 'Vapid Peyote', plate: '44KJ468', color: 'gray', owner: 'CITI12345'}],
         }, 
         {
           citizenid: "CITI54321", 
@@ -53,6 +54,7 @@ debugData([
           image: 'https://img.gta5-mods.com/q75/images/pepe-jean-s-for-male-mp-fivem/8ac75d-13825a080b7c4e241e3628811c3fd470.png', 
           notes: 'A very dangerous criminal',
           properties: [],
+          vehicles: [],
         }
       ],
 
