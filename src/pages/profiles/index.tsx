@@ -8,6 +8,8 @@ import { ProfileData } from '../../typings';
 import { useStoreProfiles } from '../../store/profilesStore';
 import { useDisclosure } from '@mantine/hooks';
 import { IconAlertCircle } from '@tabler/icons-react';
+import { useRecentActivityStore } from '../../store/recentActivity';
+import { useStorePersonal } from '../../store/personalInfoStore';
 
 const customLoader = (
   <svg
@@ -37,8 +39,21 @@ const customLoader = (
 
 const Profiles = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const { setProfile } = useStoreProfiles();
+  const { setProfile, selectedProfile } = useStoreProfiles();
   const [opened, { toggle, close }] = useDisclosure(false);
+  const { addToRecentActivity } = useRecentActivityStore();
+  const { firstname, lastname } = useStorePersonal();
+
+  useEffect(() => {
+    let mountedSelectedProfile = selectedProfile;
+    setProfile(null);
+    setIsLoading(true);
+
+    setTimeout(() => {
+      setIsLoading(false);
+      setProfile(mountedSelectedProfile);
+    }, 650)
+  }, []);
 
   const setProfileClick = (props: ProfileData | null) => {
     setIsLoading(true);
@@ -51,6 +66,7 @@ const Profiles = () => {
 
   const saveProfileClick = (props: ProfileData | null) => {
     toggle();
+    addToRecentActivity({ category: 'Profiles', type: 'Updated', doneBy: firstname + ' ' + lastname, timeAgo: new Date().valueOf(), timeAgotext: '', activityID: props?.citizenid });
 
     setTimeout(() => {
       close();

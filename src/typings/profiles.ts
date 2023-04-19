@@ -39,4 +39,5 @@ export type Profiles = {
   selectedProfile: ProfileData | null;
   setProfile: (data: ProfileData | null) => void;
   setProfiles: ({}: ProfileData[]) => void;
+  findProfileByCitizenId: (citizenId?: string) => void;
 }

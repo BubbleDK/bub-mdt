@@ -17,4 +17,10 @@ export const useStoreProfiles = create<Profiles>((set) => ({
       selectedProfile: profile,
     }));
   },
+
+  findProfileByCitizenId: (citizenid?: string) => {
+    set((state) => ({
+      selectedProfile: state.profiles.find((profile) => profile.citizenid === citizenid) || null
+    }));
+  },
 }))

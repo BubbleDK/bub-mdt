@@ -102,13 +102,6 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void,
     setTagValues(selectedProfile ? selectedProfile?.tags.map(item => item.value) : [])
   }, [selectedProfile])
 
-  useEffect(() => {
-    return () => {
-      // Reset selected profile state when component unmounts
-      setProfile(null);
-    };
-  }, []);
-
 	function Value({ label, onRemove, backgroundcolor }: ItemProps) {
 		const colorForBackground = backgroundcolor;
 		return (
