@@ -23,4 +23,13 @@ export const useStoreProfiles = create<Profiles>((set) => ({
       selectedProfile: state.profiles.find((profile) => profile.citizenid === citizenid) || null
     }));
   },
+
+  replaceProfile: (updatedProfile: ProfileData) => {
+    set((state) => ({
+      profiles: state.profiles.map((profile) =>
+        profile.citizenid === updatedProfile.citizenid ? updatedProfile : profile
+      ),
+      selectedProfile: state.selectedProfile?.citizenid === updatedProfile.citizenid ? updatedProfile : state.selectedProfile,
+    }));
+  },
 }))

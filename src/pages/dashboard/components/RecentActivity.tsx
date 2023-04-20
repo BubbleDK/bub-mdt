@@ -68,6 +68,7 @@ const RecentActivity = () => {
             const timeDiff = timeAgo(activity.timeAgo);
             return { ...activity, timeAgotext: timeDiff };
           })}
+          idAccessor="activity.activityID"
 				/>
 			</Box>
 		</Paper>

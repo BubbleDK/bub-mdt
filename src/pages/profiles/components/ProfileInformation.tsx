@@ -102,7 +102,7 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void,
     setTagValues(selectedProfile ? selectedProfile?.tags.map(item => item.value) : [])
   }, [selectedProfile])
 
-	function Value({ label, onRemove, backgroundcolor }: ItemProps) {
+	function Value({ value, label, backgroundcolor }: ItemProps) {
 		const colorForBackground = backgroundcolor;
 		return (
 			<div>
@@ -126,7 +126,9 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void,
 				>
 					<Box sx={{ lineHeight: 1, fontSize: rem(12) }}>{label}</Box>
 					<CloseButton
-						onMouseDown={onRemove}
+						onMouseDown={() => {
+              setTagData(tagData.filter((item) => item.value !== value));
+            }}
 						variant='transparent'
 						size={22}
 						iconSize={14}
@@ -143,7 +145,7 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void,
 				<Text weight={500}>Citizen</Text>
 				<Group spacing={8} mr={0}>
 					<Tooltip label='Save' withArrow color='dark' position='bottom'>
-						<ActionIcon className={classes.action} onClick={() => { props.saveProfile(selectedProfile) }} disabled={!selectedProfile}>
+						<ActionIcon className={classes.action} onClick={() => { props.saveProfile(selectedProfile ? { ...selectedProfile, tags: tagData } : null) }} disabled={!selectedProfile}>
 							<IconDeviceFloppy size={16} color={theme.colors.green[6]} />
 						</ActionIcon>
 					</Tooltip>

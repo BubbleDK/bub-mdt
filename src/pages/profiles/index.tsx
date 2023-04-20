@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {Container, Flex, LoadingOverlay, Stack, DEFAULT_THEME, Dialog, Alert, Transition } from "@mantine/core";
+import {Container, Flex, LoadingOverlay, Stack, DEFAULT_THEME, Alert, Transition } from "@mantine/core";
 import SearchTable from './components/SearchTable';
 import ProfileInformation from './components/ProfileInformation';
 import RelatedIncidents from './components/RelatedIncidents';
@@ -39,12 +39,13 @@ const customLoader = (
 
 const Profiles = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const { setProfile, selectedProfile } = useStoreProfiles();
+  const { setProfile, selectedProfile, replaceProfile } = useStoreProfiles();
   const [opened, { toggle, close }] = useDisclosure(false);
   const { addToRecentActivity } = useRecentActivityStore();
   const { firstname, lastname } = useStorePersonal();
 
   useEffect(() => {
+    if (!selectedProfile) return;
     let mountedSelectedProfile = selectedProfile;
     setProfile(null);
     setIsLoading(true);
@@ -67,6 +68,7 @@ const Profiles = () => {
   const saveProfileClick = (props: ProfileData | null) => {
     toggle();
     addToRecentActivity({ category: 'Profiles', type: 'Updated', doneBy: firstname + ' ' + lastname, timeAgo: new Date().valueOf(), timeAgotext: '', activityID: props?.citizenid });
+    replaceProfile(props ? props : {} as ProfileData);
 
     setTimeout(() => {
       close();

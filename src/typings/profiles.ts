@@ -40,4 +40,5 @@ export type Profiles = {
   setProfile: (data: ProfileData | null) => void;
   setProfiles: ({}: ProfileData[]) => void;
   findProfileByCitizenId: (citizenId?: string) => void;
+  replaceProfile: (updatedProfile: ProfileData) => void;
 }
