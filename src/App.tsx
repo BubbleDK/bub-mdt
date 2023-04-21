@@ -1,10 +1,10 @@
-import { Box, Transition, createStyles, Navbar, Group, Code, getStylesRef, rem, Image, Center, Button, Alert } from '@mantine/core';
+import { Box, Transition, createStyles, Navbar, Group, Code, getStylesRef, rem, Image, Center, Button, Text, ChevronIcon, Collapse, UnstyledButton, ThemeIcon, ScrollArea } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import { Route, Routes, NavLink, useLocation } from 'react-router-dom';
 import Dashboard from './pages/dashboard';
 import Profiles from './pages/profiles';
 import Dispatch from './pages/dispatch';
-import { IconLayoutDashboard, IconUserCircle, IconScript, IconFileDescription, IconBriefcase, IconLogout, IconMap2, IconUsers, IconBuildingBank, IconBuildingSkyscraper, IconBook2, IconAlertCircle } from '@tabler/icons-react';
+import { IconLayoutDashboard, IconUserCircle, IconScript, IconFileDescription, IconBriefcase, IconLogout, IconMap2, IconUsers, IconBuildingBank, IconBuildingSkyscraper, IconBook2, IconAlertCircle, IconChevronRight, IconChevronLeft } from '@tabler/icons-react';
 import LSPDLogo from './assets/lspd.png';
 import { useNuiEvent } from './hooks/useNuiEvent';
 import { AlertData, IncidentData, OfficerData, ProfileData, UnitData } from './typings';
@@ -18,6 +18,20 @@ import Incidents from './pages/incidents';
 import { useStoreIncidents } from './store/incidentsStore';
 
 const useStyles = createStyles((theme) => ({
+  control: {
+    fontWeight: 500,
+    display: 'block',
+    width: '100%',
+    padding: `${theme.spacing.xs} ${theme.spacing.md}`,
+    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
+    fontSize: theme.fontSizes.sm,
+
+    '&:hover': {
+      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[0],
+      color: theme.colorScheme === 'dark' ? theme.white : theme.black,
+    },
+  },
+
   container: {
     width: '100%',
     height: '100%',
@@ -37,7 +51,7 @@ const useStyles = createStyles((theme) => ({
   header: {
     marginTop: theme.spacing.md,
     paddingBottom: theme.spacing.md,
-    marginBottom: `calc(${theme.spacing.md} * 1.5)`,
+    marginBottom: `calc(${theme.spacing.xs})`,
     borderBottom: `${rem(1)} solid ${
       theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2]
     }`,
@@ -86,6 +100,10 @@ const useStyles = createStyles((theme) => ({
       },
     },
   },
+
+  chevron: {
+    transition: 'transform 200ms ease',
+  },
 }));
 
 const data = [
@@ -97,12 +115,12 @@ const data = [
   {link: 'properties', label: 'Propterties', icon: IconBuildingSkyscraper},
   {link: 'dispatch', label: 'Dispatch', icon: IconMap2},
   {link: 'charges', label: 'Charges', icon: IconBook2},
-  {link: 'staff', label: 'Staff', icon: IconUsers},
   {link: 'businesses', label: 'Businesses', icon: IconBuildingBank},
+  {link: 'staff', label: 'Staff', icon: IconUsers, links: [{ label: 'Staff', link: 'upc', icon: IconUsers }, { label: 'Acadamy Sheet', link: 'pvc', icon: IconUsers }, { label: '10 codes / commands', link: 'pvc', icon: IconUsers }]},
 ];
 
 function App() {
-  const { classes, cx } = useStyles();
+  const { classes, cx, theme } = useStyles();
   const [visible, setVisible] = useState(true);
   const [activeLink, setActiveLink] = useState('');
   const location = useLocation();
@@ -113,6 +131,8 @@ function App() {
   const { setAnnouncements } = useStoreAnnouncements();
   const { setProfiles } = useStoreProfiles();
   const { setIncidents } = useStoreIncidents();
+  const [opened, setOpened] = useState(false);
+  const ChevronIcon = theme.dir === 'ltr' ? IconChevronRight : IconChevronLeft;
 
   useNuiEvent<{alerts?: AlertData[]; officers: OfficerData[]; units?: UnitData[]; personalInformation: OfficerData; announcements: AnnouncementData[]; profiles: ProfileData[]; incidents: IncidentData[]}>('setupMdt', (data) => {
     setOfficers(data.officers);
@@ -129,17 +149,57 @@ function App() {
   }, [location]);
 
   const links = data.map((item) => (
-    <NavLink
-      key={item.label}
-      to={`/${item.link}`}
-      onClick={() => {
-        setActiveLink(item.link);
-      }}
-      className={cx(classes.link, {[classes.linkActive]: activeLink === item.link})}
-    >
-      <item.icon className={classes.linkIcon} stroke={1.5}/>
-      <span>{item.label}</span>
-    </NavLink>
+    <>
+      {item.links === undefined ? (
+        <NavLink
+          key={item.label}
+          to={`/${item.link}`}
+          onClick={() => {
+            setActiveLink(item.link);
+          }}
+          className={cx(classes.link, {[classes.linkActive]: activeLink === item.link})}
+        >
+          <item.icon className={classes.linkIcon} stroke={1.5}/>
+          <span>{item.label}</span>
+        </NavLink>
+      ) : (
+        <>
+          <UnstyledButton onClick={() => setOpened((o) => !o)} className={classes.control}>
+            <Group position="apart" spacing={0}>
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <item.icon className={classes.linkIcon} stroke={1.5}/>
+                <span>{item.label}</span>
+              </Box>
+              {item.links && (
+                <ChevronIcon
+                  className={classes.chevron}
+                  size="1rem"
+                  stroke={1.5}
+                  style={{
+                    transform: opened ? `rotate(${theme.dir === 'rtl' ? -90 : 90}deg)` : 'none',
+                  }}
+                />
+              )}
+            </Group>
+          </UnstyledButton>
+            {item.links ? <Collapse in={opened}>{item.links.map((link) => (
+              <NavLink
+                key={link.label}
+                to={`/${link.link}`}
+                onClick={() => {
+                  setActiveLink(link.link);
+                }}
+                className={cx(classes.link, {[classes.linkActive]: activeLink === link.link})}
+                style={{ marginLeft: rem(26), paddingLeft: rem(31), padding: `${theme.spacing.xs} ${theme.spacing.md}`, borderLeft: `${rem(1)} solid ${theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[3]}`}}
+              >
+                <link.icon className={classes.linkIcon} stroke={1.5}/>
+                <span>{link.label}</span>
+              </NavLink>
+            ))}
+          </Collapse> : null}
+        </>
+      )}
+    </>
   ));
 
   return (
@@ -161,7 +221,9 @@ function App() {
                 <Group className={classes.header} position='apart'>
                   <Code sx={{ fontWeight: 700 }}>{callsign} | {firstname} {lastname}</Code>
                 </Group>
-                {links}
+                <ScrollArea h={553} scrollbarSize={2}>
+                  {links}
+                </ScrollArea>
               </Navbar.Section>
 
               <Navbar.Section className={classes.footer}>
