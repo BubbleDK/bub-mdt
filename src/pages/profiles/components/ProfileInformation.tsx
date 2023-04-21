@@ -69,8 +69,6 @@ interface ItemProps {
 const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void, saveProfile: (data: ProfileData | null) => void}) => {
   const { selectedProfile, setProfile } = useStoreProfiles();
 	const { classes, theme } = useStyles();
-  const [tagData, setTagData] = useState<TagData[]>([]);
-  const [tagValues, setTagValues] = useState<string[]>([])
   const editor = useEditor(
     {
       extensions: [
@@ -89,20 +87,20 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void,
     }
   );
   const initialTagData = [{ value: "dangerous", label: "Dangerous", backgroundcolor: "#C92A2A" }, { value: "whatever", label: "Whatever", backgroundcolor: "#141517" }]
+  const [availableTags, setAvailableTags] = useState<TagData[]>([]);
+  const [selectedTagValues, setSelectedTagValues] = useState<string[]>([]);
+
 
   useEffect(() => {
-    setTagValues([]);
-    setTagData(initialTagData);
     editor?.commands.setContent(selectedProfile?.notes || 'Place user information here...');
     editor?.setEditable(selectedProfile ? true : false);
-    selectedProfile?.tags.map(item => { 
-      const tagExist = tagData.some(tag => tag.value === item.value);
-      if (!tagExist) setTagData([...tagData, item])
-    })
-    setTagValues(selectedProfile ? selectedProfile?.tags.map(item => item.value) : [])
+
+    const profileTags = selectedProfile ? selectedProfile.tags : [];
+    setAvailableTags([...initialTagData, ...profileTags.filter((profileTag) => !initialTagData.some((initialTag) => initialTag.value === profileTag.value))]);
+    setSelectedTagValues(selectedProfile ? selectedProfile?.tags.map(item => item.value) : [])
   }, [selectedProfile])
 
-	function Value({ value, label, backgroundcolor }: ItemProps) {
+	function Value({ onRemove, label, backgroundcolor }: ItemProps) {
 		const colorForBackground = backgroundcolor;
 		return (
 			<div>
@@ -126,9 +124,7 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void,
 				>
 					<Box sx={{ lineHeight: 1, fontSize: rem(12) }}>{label}</Box>
 					<CloseButton
-						onMouseDown={() => {
-              setTagData(tagData.filter((item) => item.value !== value));
-            }}
+						onMouseDown={onRemove}
 						variant='transparent'
 						size={22}
 						iconSize={14}
@@ -139,13 +135,28 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void,
 		);
 	}
 
+  const handleTagChange = (newTagValues: string[]) => {
+    const removedTags = selectedTagValues.filter((value) => !newTagValues.includes(value));
+    const addedTags = newTagValues.filter((value) => !selectedTagValues.includes(value));
+
+    if (removedTags.length > 0) {
+      handleTagRemove(removedTags[0]);
+    } else if (addedTags.length > 0) {
+      setSelectedTagValues(newTagValues);
+    }
+  };
+
+  const handleTagRemove = (removedTagValue: string) => {
+    setSelectedTagValues((prev) => prev.filter((value) => value !== removedTagValue));
+  };
+
 	return (
 		<Paper p='md' withBorder style={{ width: 1110, height: 500 }}>
 			<Group position='apart'>
 				<Text weight={500}>Citizen</Text>
 				<Group spacing={8} mr={0}>
 					<Tooltip label='Save' withArrow color='dark' position='bottom'>
-						<ActionIcon className={classes.action} onClick={() => { props.saveProfile(selectedProfile ? { ...selectedProfile, tags: tagData } : null) }} disabled={!selectedProfile}>
+						<ActionIcon className={classes.action} onClick={() => { props.saveProfile(selectedProfile ? { ...selectedProfile, tags: availableTags.filter((tag) => selectedTagValues.includes(tag.value)) } : null) }} disabled={!selectedProfile}>
 							<IconDeviceFloppy size={16} color={theme.colors.green[6]} />
 						</ActionIcon>
 					</Tooltip>
@@ -258,30 +269,29 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void,
             <Text size='md' weight={500}>
               Tags
             </Text>
-						<MultiSelect
+            <MultiSelect
               disabled={selectedProfile ? false : true}
-							data={tagData}
-              value={tagValues}
-              onChange={setTagValues}
-							valueComponent={Value}
-							placeholder='Select tags'
-							rightSection={<IconChevronDown size='1rem' />}
-							rightSectionWidth={40}
-							searchable
-							creatable
-							maxSelectedValues={8}
-							getCreateLabel={(query) => `+ Create ${query}`}
-							onCreate={(query) => {
-								const [value, color] = query.split(":");
-								const item = {
-									value: value,
-									label: value,
-									backgroundcolor: color ? color : "#141517",
-								};
-                setTagData([...tagData, item]);
-								return item;
+              data={availableTags}
+              value={selectedTagValues}
+              onChange={handleTagChange}
+              placeholder="Select or create tags"
+              creatable
+              searchable
+              valueComponent={Value}
+              getCreateLabel={(query) => `+ Create ${query}`}
+              onCreate={(query) => {
+                const [value, color] = query.split(":");
+                const existingTag = availableTags.find((tag) => tag.value === value);
+                if (existingTag) {
+                  setSelectedTagValues((prev) => [...prev, existingTag.value]);
+                } else {
+                  const newTag = { value: value, label: value, backgroundcolor: color ? color : "#141517" };
+                  setAvailableTags([...availableTags, newTag]);
+                  setSelectedTagValues([...selectedTagValues, newTag.value]);
+                  return newTag;
+                }
 							}}
-						/>
+            />
             <div>
               <Group spacing={5} mr={0}>
                 <Text size='md' weight={500}>
