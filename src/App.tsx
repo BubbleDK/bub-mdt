@@ -4,7 +4,7 @@ import { Route, Routes, NavLink, useLocation } from 'react-router-dom';
 import Dashboard from './pages/dashboard';
 import Profiles from './pages/profiles';
 import Dispatch from './pages/dispatch';
-import { IconLayoutDashboard, IconUserCircle, IconScript, IconFileDescription, IconBriefcase, IconLogout, IconMap2, IconUsers, IconBuildingBank, IconBuildingSkyscraper, IconBook2, IconSettings, IconChevronRight, IconChevronLeft } from '@tabler/icons-react';
+import { IconLayoutDashboard, IconUserCircle, IconScript, IconFileDescription, IconBriefcase, IconLogout, IconMap2, IconUsers, IconBuildingBank, IconBuildingSkyscraper, IconChartHistogram, IconSettings, IconChevronRight, IconChevronLeft, IconCode } from '@tabler/icons-react';
 import LSPDLogo from './assets/lspd.png';
 import { useNuiEvent } from './hooks/useNuiEvent';
 import { AlertData, IncidentData, OfficerData, ProfileData, UnitData } from './typings';
@@ -115,7 +115,11 @@ const data = [
   {link: 'properties', label: 'Propterties', icon: IconBuildingSkyscraper},
   {link: 'dispatch', label: 'Dispatch', icon: IconMap2},
   {link: 'businesses', label: 'Businesses', icon: IconBuildingBank},
-  {link: 'staff', label: 'Staff', icon: IconUsers, links: [{ label: 'Staff', link: 'upc', icon: IconUsers }, { label: 'Acadamy Sheet', link: 'pvc', icon: IconUsers }, { label: '10 codes / commands', link: 'pvc', icon: IconUsers }]},
+  {label: 'Staff', icon: IconUsers, links: [
+    { label: 'Staff', link: 'staff', icon: IconUsers }, 
+    { label: '10 codes / commands', link: '10-codes', icon: IconCode },
+    { label: 'Statistics', link: 'statistics', icon: IconChartHistogram },
+  ]},
 ];
 
 function App() {
