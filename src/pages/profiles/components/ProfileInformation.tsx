@@ -49,14 +49,11 @@ import { ProfileData, TagData } from "../../../typings";
 
 const useStyles = createStyles((theme) => ({
 	action: {
-		backgroundColor: theme.colors.dark[2],
-		...theme.fn.hover({
-			backgroundColor:
-				theme.colorScheme === "dark"
-					? theme.colors.dark[5]
-					: theme.colors.gray[1],
-		}),
-	},
+    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+    ...theme.fn.hover({
+      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[1],
+    }),
+  },
 }));
 
 interface ItemProps {
@@ -67,7 +64,7 @@ interface ItemProps {
 }
 
 const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void, saveProfile: (data: ProfileData | null) => void}) => {
-  const { selectedProfile, setProfile } = useStoreProfiles();
+  const { selectedProfile } = useStoreProfiles();
 	const { classes, theme } = useStyles();
   const editor = useEditor(
     {
@@ -86,7 +83,6 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void,
       content: 'Place user information here...',
     }
   );
-  const initialTagData = [{ value: "dangerous", label: "Dangerous", backgroundcolor: "#C92A2A" }, { value: "whatever", label: "Whatever", backgroundcolor: "#141517" }]
   const [availableTags, setAvailableTags] = useState<TagData[]>([]);
   const [selectedTagValues, setSelectedTagValues] = useState<string[]>([]);
 
@@ -96,6 +92,7 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void,
     editor?.setEditable(selectedProfile ? true : false);
 
     const profileTags = selectedProfile ? selectedProfile.tags : [];
+    const initialTagData = [{ value: "dangerous", label: "Dangerous", backgroundcolor: "#C92A2A" }, { value: "whatever", label: "Whatever", backgroundcolor: "#141517" }]
     setAvailableTags([...initialTagData, ...profileTags.filter((profileTag) => !initialTagData.some((initialTag) => initialTag.value === profileTag.value))]);
     setSelectedTagValues(selectedProfile ? selectedProfile?.tags.map(item => item.value) : [])
   }, [selectedProfile])
