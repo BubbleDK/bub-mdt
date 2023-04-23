@@ -230,7 +230,7 @@ function App() {
                   <NavLink
                     to='/'
                     className={classes.link}
-                    style={{ width: 125 }}
+                    style={{ width: 119 }}
                     onClick={() => { setVisible(false); setActiveLink(''); }}
                   >
                     <IconLogout className={classes.linkIcon} stroke={1.5} />
@@ -242,7 +242,7 @@ function App() {
                     onClick={() => { setActiveLink('configuration'); }}
                   >
                     <IconSettings className={classes.linkIcon} stroke={1.5} />
-                    <span>Configuration</span>
+                    <span>Configurations</span>
                   </NavLink>
                 </Group>
               </Navbar.Section>
