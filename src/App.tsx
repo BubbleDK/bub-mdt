@@ -4,7 +4,7 @@ import { Route, Routes, NavLink, useLocation } from 'react-router-dom';
 import Dashboard from './pages/dashboard';
 import Profiles from './pages/profiles';
 import Dispatch from './pages/dispatch';
-import { IconLayoutDashboard, IconUserCircle, IconScript, IconFileDescription, IconBriefcase, IconLogout, IconMap2, IconUsers, IconBuildingBank, IconBuildingSkyscraper, IconBook2, IconAlertCircle, IconChevronRight, IconChevronLeft } from '@tabler/icons-react';
+import { IconLayoutDashboard, IconUserCircle, IconScript, IconFileDescription, IconBriefcase, IconLogout, IconMap2, IconUsers, IconBuildingBank, IconBuildingSkyscraper, IconBook2, IconSettings, IconChevronRight, IconChevronLeft } from '@tabler/icons-react';
 import LSPDLogo from './assets/lspd.png';
 import { useNuiEvent } from './hooks/useNuiEvent';
 import { AlertData, IncidentData, OfficerData, ProfileData, UnitData } from './typings';
@@ -114,7 +114,6 @@ const data = [
   {link: 'evidence', label: 'Evidence', icon: IconBriefcase},
   {link: 'properties', label: 'Propterties', icon: IconBuildingSkyscraper},
   {link: 'dispatch', label: 'Dispatch', icon: IconMap2},
-  {link: 'charges', label: 'Charges', icon: IconBook2},
   {link: 'businesses', label: 'Businesses', icon: IconBuildingBank},
   {link: 'staff', label: 'Staff', icon: IconUsers, links: [{ label: 'Staff', link: 'upc', icon: IconUsers }, { label: 'Acadamy Sheet', link: 'pvc', icon: IconUsers }, { label: '10 codes / commands', link: 'pvc', icon: IconUsers }]},
 ];
@@ -227,14 +226,25 @@ function App() {
               </Navbar.Section>
 
               <Navbar.Section className={classes.footer}>
-                <NavLink
-                  to='/'
-                  className={classes.link}
-                  onClick={() => { setVisible(false); setActiveLink(''); }}
-                >
-                  <IconLogout className={classes.linkIcon} stroke={1.5} />
-                  <span>Logout</span>
-                </NavLink>
+                <Group position='left' spacing={1}>
+                  <NavLink
+                    to='/'
+                    className={classes.link}
+                    style={{ width: 125 }}
+                    onClick={() => { setVisible(false); setActiveLink(''); }}
+                  >
+                    <IconLogout className={classes.linkIcon} stroke={1.5} />
+                    <span>Logout</span>
+                  </NavLink>
+                  <NavLink
+                    to='configuration'
+                    className={cx(classes.link, {[classes.linkActive]: activeLink === 'configuration'})}
+                    onClick={() => { setActiveLink('configuration'); }}
+                  >
+                    <IconSettings className={classes.linkIcon} stroke={1.5} />
+                    <span>Configuration</span>
+                  </NavLink>
+                </Group>
               </Navbar.Section>
             </Navbar>
             <Routes>
