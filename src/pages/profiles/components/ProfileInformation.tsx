@@ -28,7 +28,6 @@ import {
 	IconLinkOff,
 	IconUser,
 	IconPlus,
-	IconChevronDown,
   IconHomeCheck,
   IconBuildingSkyscraper,
   IconCar
@@ -55,13 +54,6 @@ const useStyles = createStyles((theme) => ({
     }),
   },
 }));
-
-interface ItemProps {
-	value: string;
-	label: string;
-	backgroundcolor: string;
-	onRemove(): void;
-}
 
 const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void, saveProfile: (data: ProfileData | null) => void}) => {
   const { selectedProfile } = useStoreProfiles();
@@ -97,7 +89,7 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void,
     setSelectedTagValues(selectedProfile ? selectedProfile?.tags.map(item => item.value) : [])
   }, [selectedProfile])
 
-	function Value({ onRemove, label, backgroundcolor }: ItemProps) {
+	function Value({ onRemove, label, backgroundcolor }: { value: string; label: string; backgroundcolor: string; onRemove(): void; }) {
 		const colorForBackground = backgroundcolor;
 		return (
 			<div>
