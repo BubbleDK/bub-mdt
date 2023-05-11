@@ -78,7 +78,7 @@ const useStyles = createStyles((theme) => ({
 
     '&:hover': {
       borderRadius: theme.radius.md,
-      background: 'linear-gradient(90deg, rgba(79,79,79,0.5) 0%, rgba(187,187,187,0) 100%)',
+      background: 'linear-gradient(90deg, rgba(51,124,255,0.5) 0%, rgba(187,187,187,0) 100%)',
       color: theme.colorScheme === 'dark' ? theme.white : theme.black,
 
       [`& .${getStylesRef('icon')}`]: {
@@ -96,7 +96,7 @@ const useStyles = createStyles((theme) => ({
   linkActive: {
     '&, &:hover': {
       borderRadius: theme.radius.md,
-      background: 'linear-gradient(90deg, rgba(79,79,79,0.5) 0%, rgba(187,187,187,0) 100%)',
+      background: 'linear-gradient(90deg, rgba(51,124,255,0.5) 0%, rgba(187,187,187,0) 100%)',
       [`& .${getStylesRef('icon')}`]: {
         color: 'white',
       },
