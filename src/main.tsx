@@ -112,7 +112,7 @@ if (isEnvBrowser()) {
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <MantineProvider theme={{colorScheme: 'dark'}}>
+    <MantineProvider theme={{colorScheme: 'dark', fontFamily: 'Nunito, sans-serif'}}>
       <ModalsProvider>
         <HashRouter>
           <App/>
