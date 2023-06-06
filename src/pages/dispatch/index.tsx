@@ -28,7 +28,7 @@ const useStyles = createStyles((theme) => ({
 
 	map: {
 		height: "880px",
-		width: "7+85px",
+		width: "785px",
 		border: "1px solid gray",
 		backgroundColor: "rgb(125, 193, 220)",
 		display: "flex",

@@ -85,8 +85,8 @@ const Profiles = () => {
         wrap="wrap"
       >
         <SearchTable onClick={setProfileClick}  />
-        <Stack h={890} sx={(theme) => ({ backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0], gap: 10 })}>
-          <LoadingOverlay visible={isLoading} overlayOpacity={0.95} transitionDuration={250} loader={customLoader} style={{left: 690, width: '61.5%', height: '97%', top: 15}} />
+        <Stack h={890} sx={(theme) => ({ gap: 10 })}>
+          <LoadingOverlay visible={isLoading} overlayOpacity={0.95} overlayColor={"rgb(34, 35, 37)"} transitionDuration={250} loader={customLoader} style={{left: 690, width: '61.5%', height: '97%', top: 15}} />
           <ProfileInformation onClick={setProfileClick} saveProfile={saveProfileClick} />
           <Flex gap="md" justify="flex-start" align="center" direction="row" wrap="wrap">
             <RelatedIncidents />

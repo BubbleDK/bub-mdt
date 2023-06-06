@@ -20,7 +20,7 @@ export const useRecentActivityStore = create<RecentActivityState>((set) => ({
     set((state) => {
       const { recentActivity } = state;
       const newRecentActivity = [...recentActivity, activity];
-      if (newRecentActivity.length > 8) {
+      if (newRecentActivity.length > 6) {
         newRecentActivity.splice(0, 1);
       }
       return { recentActivity: newRecentActivity };

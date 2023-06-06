@@ -140,7 +140,7 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void,
   };
 
 	return (
-		<Paper p='md' withBorder style={{ width: 1110, height: 500 }}>
+		<Paper p='md' withBorder style={{ width: 1110, height: 500, backgroundColor: 'rgb(34, 35, 37)' }}>
 			<Group position='apart'>
 				<Text weight={500}>Citizen</Text>
 				<Group spacing={8} mr={0}>
@@ -172,30 +172,34 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void,
 					<Stack spacing='xs' w={350}>
 						<TextInput
 							icon={<IconId size={16} />}
+              style={{backgroundColor: '#252628'}}
 							placeholder={selectedProfile ? selectedProfile.citizenid : "Citizen ID"}
 							radius='xs'
 							disabled
 						/>
 						<TextInput
 							icon={<IconUser size={16} />}
+              style={{backgroundColor: '#252628'}}
 							placeholder={selectedProfile ? selectedProfile.firstname + ' ' + selectedProfile.lastname : "Fullname"}
 							radius='xs'
 							disabled
 						/>
 						<TextInput
 							icon={<IconFlag size={16} />}
+              style={{backgroundColor: '#252628'}}
 							placeholder={selectedProfile ? selectedProfile.nationality : "Nationality"}
 							radius='xs'
 							disabled
 						/>
 						<TextInput
 							icon={<IconDeviceMobile size={16} />}
+              style={{backgroundColor: '#252628'}}
 							placeholder={selectedProfile ? selectedProfile.phone : "Phone number"}
 							radius='xs'
 							disabled
 						/>
 					</Stack>
-					<RichTextEditor editor={editor} styles={{ controlsGroup: { pointerEvents: selectedProfile ? 'auto' : 'none', backgroundColor: selectedProfile ? '#1A1B1E' : '#282828' }}}>
+					<RichTextEditor editor={editor} styles={{ content: { backgroundColor: 'rgb(34, 35, 37)' }, toolbar: { backgroundColor: '#252628' }, controlsGroup: { pointerEvents: selectedProfile ? 'auto' : 'none', backgroundColor: selectedProfile ? '#1A1B1E' : '#282828' }}}>
 						<RichTextEditor.Toolbar sticky>
 							<RichTextEditor.ControlsGroup>
 								<RichTextEditor.Bold />

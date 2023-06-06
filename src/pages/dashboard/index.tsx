@@ -1,11 +1,10 @@
 import React from 'react';
-import { Box, createStyles, Divider, Flex, Paper, Text, Title, Group, ActionIcon, Button, rem, UnstyledButton } from '@mantine/core';
-import DashboardStats from './components/DashboardStats';
-import { DataTable } from 'mantine-datatable';
-import { IconEye, IconEdit, IconTrash, IconCalendar, IconSearch } from "@tabler/icons-react";
+import { createStyles, Divider, Text, Group, rem, UnstyledButton } from '@mantine/core';
+import { IconCalendar, IconSearch, IconUsers } from "@tabler/icons-react";
 import RecentActivity from './components/RecentActivity';
-import QuoteAndBulletinBoard from './components/QuoteAndBulletinBoard';
 import ActiveOfficers from './components/ActiveOfficers';
+import Announcements from './components/Announcements';
+import { useStorePersonal } from '../../store/personalInfoStore';
 
 const useStyles = createStyles((theme) => ({
   dashboard: {
@@ -13,11 +12,11 @@ const useStyles = createStyles((theme) => ({
     padding: `calc(${theme.spacing.md} * 1.5)`,
   },
   root: {
-    width: rem(250),
+    width: rem(300),
     height: rem(34),
     paddingLeft: theme.spacing.lg,
     paddingRight: rem(5),
-    borderRadius: theme.radius.md,
+    borderRadius: theme.radius.xs,
     color: theme.colorScheme === 'dark' ? theme.colors.dark[2] : theme.colors.gray[5],
     backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.white,
     border: `${rem(1)} solid ${
@@ -47,13 +46,14 @@ const useStyles = createStyles((theme) => ({
 
 const Dashboard = () => {
   const { classes, cx } = useStyles();
+  const { firstname, lastname } = useStorePersonal();
   return (
 		<div className={classes.dashboard}>
-      <div style={{flexGrow: 2}}>
+      <div style={{flexGrow: 3, width: 870}}>
         <Group position="apart">
           <div>
             <Text style={{fontSize: 24, color: 'white'}} weight={500}>
-              Dashboard
+              Welcome back, <span>{firstname} {lastname}</span>
             </Text>
             <Text color="dimmed" size="xs" style={{display: 'flex', gap: 10}}>
               <IconCalendar size={rem(18)} /> <Text color="dimmed" size={14}>{new Date().toLocaleDateString('en-EN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</Text>
@@ -66,18 +66,22 @@ const Dashboard = () => {
                 Search
               </Text>
               <Text weight={700} className={classes.shortcut}>
-                /
+                CTRL + F
               </Text>
             </Group>
           </UnstyledButton>
         </Group>
+
+        <Divider style={{marginTop: 20, marginBottom: 20}} />
+
+        <RecentActivity />
+
+        <Announcements />
       </div>
 
       <Divider orientation="vertical" style={{marginLeft: 20, marginRight: 20}} />
 
-      <div style={{flexGrow: 1}}>
-        Hello
-      </div>
+      <ActiveOfficers />
 		</div>
 	);
 }

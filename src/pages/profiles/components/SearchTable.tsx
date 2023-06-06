@@ -16,7 +16,7 @@ const useStyles = createStyles((theme) => ({
     marginTop: 5,
     padding: 5,
     borderRadius: 5,
-    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white,
+    backgroundColor: '#1c1d1f',
     border: `0.1px solid rgb(42, 42, 42, 1)`,
 
     '&:hover': {
@@ -40,7 +40,7 @@ const SearchTable = (props: {onClick: (data: ProfileData | null) => void}) => {
   const { classes } = useStyles();
 
   return (
-    <Paper p='sm' withBorder style={{width: 365}}>
+    <Paper p='sm' withBorder style={{width: 365, backgroundColor: 'rgb(34, 35, 37)'}}>
       <Flex gap="xs" justify="flex-start" align="center" direction="row" wrap="wrap" style={{marginBottom: 10}}>
         <TextInput
           placeholder="Search profiles..."

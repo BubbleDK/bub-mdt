@@ -59,7 +59,7 @@ const InvolvedIncidents = () => {
   }, [selectedProfile])
 
   return (
-    <Paper p='md' withBorder style={{ width: 520, height: 380 }}>
+    <Paper p='md' withBorder style={{ width: 520, height: 380, backgroundColor: 'rgb(34, 35, 37)' }}>
       <Group position='apart'>
 				<Text weight={500}>Involved Incidents</Text>
 			</Group>

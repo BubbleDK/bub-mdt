@@ -5,6 +5,7 @@ export type OfficerData = {
   role: string,
   callsign: string,
   phone: string,
+  image: string,
 }
 
 export type Officers = {

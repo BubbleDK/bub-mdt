@@ -42,8 +42,6 @@ const useStyles = createStyles((theme) => ({
   },
 
   main: {
-    width: '95%',
-    height: '95%',
     backgroundColor: theme.colors.dark[8],
     borderRadius: theme.radius.sm,
     display: 'flex',
@@ -77,7 +75,7 @@ const useStyles = createStyles((theme) => ({
     fontWeight: 500,
 
     '&:hover': {
-      borderRadius: theme.radius.md,
+      borderRadius: theme.radius.sm,
       background: 'linear-gradient(90deg, rgba(51,124,255,0.5) 0%, rgba(187,187,187,0) 100%)',
       color: theme.colorScheme === 'dark' ? theme.white : theme.black,
 
@@ -95,7 +93,7 @@ const useStyles = createStyles((theme) => ({
 
   linkActive: {
     '&, &:hover': {
-      borderRadius: theme.radius.md,
+      borderRadius: theme.radius.sm,
       background: 'linear-gradient(90deg, rgba(51,124,255,0.5) 0%, rgba(187,187,187,0) 100%)',
       [`& .${getStylesRef('icon')}`]: {
         color: 'white',
@@ -142,7 +140,7 @@ const staffData = [
 
 function App() {
   const { classes, cx, theme } = useStyles();
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
   const [activeLink, setActiveLink] = useState('');
   const location = useLocation();
   const { setOfficers } = useStoreOfficers();
@@ -152,8 +150,6 @@ function App() {
   const { setAnnouncements } = useStoreAnnouncements();
   const { setProfiles } = useStoreProfiles();
   const { setIncidents } = useStoreIncidents();
-  const [opened, setOpened] = useState(false);
-  const ChevronIcon = theme.dir === 'ltr' ? IconChevronRight : IconChevronLeft;
 
   useNuiEvent<SetupMdtData>('setupMdt', (data) => {
     setOfficers(data.officers);
@@ -215,8 +211,7 @@ function App() {
     <div className={classes.container}>
       <Transition transition='slide-up' mounted={visible}>
         {(style) => (
-          <div style={{display: 'flex', width: '95%', height: '95%'}}>
-
+          <div style={{...style, display: 'flex', width: '100%', margin: 50, height: '95%'}}>
             <div>
               <Navbar height={"100%"} width={{ sm: 300 }} p='xs' style={{backgroundColor: '#242527', borderTopLeftRadius: 5, borderBottomLeftRadius: 5}}>
                 <Navbar.Section grow>
