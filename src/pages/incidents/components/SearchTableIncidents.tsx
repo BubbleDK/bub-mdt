@@ -20,7 +20,7 @@ const useStyles = createStyles((theme) => ({
     marginTop: 5,
     padding: 10,
     borderRadius: 5,
-    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white,
+    backgroundColor: '#1d1e20',
     border: `0.1px solid rgb(42, 42, 42, 1)`,
 
     '&:hover': {
@@ -44,7 +44,7 @@ const SearchTableIncidents = (props: {onClick: (data: IncidentData | null) => vo
   const { classes } = useStyles();
 
   return (
-    <Paper p='sm' withBorder style={{width: 365}}>
+    <Paper p='sm' withBorder style={{width: 370, backgroundColor: 'rgb(34, 35, 37)'}}>
       <Flex gap="xs" justify="flex-start" align="center" direction="row" wrap="wrap" style={{marginBottom: 10}}>
         <TextInput
           placeholder="Search incidents..."
