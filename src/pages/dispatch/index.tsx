@@ -145,6 +145,7 @@ const Dispatch = () => {
     validate: {
       unitName: (value) => (value.length === 0 ? 'Unit name is required' : units.some(el => el.unitName === value.toLocaleLowerCase()) ? 'Unit name already exist!' : null),
       unitVehicle: (value) => (value === '' ? 'You must pick a vehicle type' : null),
+      unitOfficers: (value) => (value.length < 1 ? 'You must pick at least one officer' : null),
     },
   });
 
@@ -161,6 +162,7 @@ const Dispatch = () => {
   }
 
   const handleSubmit = (props: UnitData) => {
+    console.log(form.values.unitOfficers.length)
     addUnit(props);
     setPopoverOpened(false);
     form.reset();
@@ -254,7 +256,7 @@ const Dispatch = () => {
                   )}
                 </Popover.Target>
 
-              <Popover.Dropdown sx={(theme) => ({ background: theme.colors.dark[7] })}>
+              <Popover.Dropdown sx={(theme) => ({ background: '#1d1e20' })}>
                 <form onSubmit={form.onSubmit((values) => handleSubmit({id: getHighestId(), unitName: values.unitName.toLocaleLowerCase(), carModel: values.unitVehicle , unitMembers: findUnitMembers(values.unitOfficers), isOwner: citizenid}))}>
                   <TextInput placeholder="Eg. unit-1" label="Unit Name" data-autofocus withAsterisk {...form.getInputProps('unitName')} />
 
@@ -280,6 +282,7 @@ const Dispatch = () => {
                     searchable
                     clearButtonProps={{ 'aria-label': 'Clear selection' }}
                     clearable
+                    withAsterisk
                     nothingFound="Nothing found"
                     {...form.getInputProps('unitOfficers')}
                   />

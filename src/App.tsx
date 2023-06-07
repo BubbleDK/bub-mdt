@@ -196,7 +196,7 @@ function App() {
 		<>
 			{item.links === undefined ? (
 				<NavLink
-					key={item.label}
+					key={item.link}
 					to={`/${item.link}`}
 					onClick={() => {
 						setActiveLink(item.link);

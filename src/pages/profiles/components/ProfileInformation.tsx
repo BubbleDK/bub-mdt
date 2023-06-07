@@ -145,7 +145,7 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void,
 				<Text weight={500}>Citizen</Text>
 				<Group spacing={8} mr={0}>
 					<Tooltip label='Save' withArrow color='dark' position='bottom'>
-						<ActionIcon className={classes.action} onClick={() => { props.saveProfile(selectedProfile ? { ...selectedProfile, tags: availableTags.filter((tag) => selectedTagValues.includes(tag.value)) } : null) }} disabled={!selectedProfile}>
+						<ActionIcon className={classes.action} onClick={() => { props.saveProfile(selectedProfile ? { ...selectedProfile, notes: editor ? editor.getHTML() : selectedProfile.notes, tags: availableTags.filter((tag) => selectedTagValues.includes(tag.value)) } : null) }} disabled={!selectedProfile}>
 							<IconDeviceFloppy size={16} color={theme.colors.green[6]} />
 						</ActionIcon>
 					</Tooltip>

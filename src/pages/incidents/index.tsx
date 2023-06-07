@@ -3,6 +3,8 @@ import {Container, Flex, LoadingOverlay, Stack, DEFAULT_THEME, createStyles } fr
 import { IncidentData } from '../../typings';
 import { useStoreIncidents } from '../../store/incidentsStore';
 import SearchTableIncidents from './components/SearchTableIncidents';
+import IncidentRow from './components/IncidentRow';
+import CriminalsRow from './components/CriminalsRow';
 
 const useStyles = createStyles((theme) => ({
   incidents: {
@@ -56,14 +58,10 @@ const Incidents = () => {
   return (
     <div className={classes.incidents}>
       <SearchTableIncidents onClick={handleClick}  />
-      <Stack h={890} sx={(theme) => ({ backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0], gap: 10 })}>
-        <LoadingOverlay visible={isLoading} overlayOpacity={0.95} transitionDuration={250} loader={customLoader} style={{left: 690, width: '61.5%', height: '97%', top: 15}} />
-        {/* <ProfileInformation onClick={handleClick} /> */}
-        <Flex gap="md" justify="flex-start" align="center" direction="row" wrap="wrap">
-          {/* <RelatedIncidents />
-          <AdditionalInformation /> */}
-        </Flex>
-      </Stack>
+      <LoadingOverlay visible={isLoading} overlayOpacity={0.95} overlayColor={"rgb(34, 35, 37)"} transitionDuration={250} loader={customLoader} style={{left: 785, width: '55.8%', height: '96%', top: 19, borderRadius: '0.25rem'}} />
+
+      <IncidentRow handleUnlink={handleClick} />
+      <CriminalsRow />
     </div>
   )
 }
