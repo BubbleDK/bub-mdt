@@ -44,7 +44,8 @@ const useStyles = createStyles((theme) => ({
 		color: "white",
 	},
 	text: {
-		color: "#b7b7b7",
+		color: "white",
+    fontWeight: 550
 	},
 	activeCalls: {
 		width: 320,
@@ -61,7 +62,7 @@ const ActiveCalls = (props: DispatchAlerts) => {
   const { setNodeRef, isOver } = useDroppable({
     id: props.alert.id,
   });
-  let isOverContainer = isOver ? "#2C2E33" : "#141517";
+  let isOverContainer = isOver ? "#2C2E33" : '#1d1e20';
   const variantMapping: AlertTypes = {
     default: <ImLocation color='black' size={25} />,
     '10-71': <GiPistolGun color='black' size={25} />,

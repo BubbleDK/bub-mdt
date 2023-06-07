@@ -41,12 +41,12 @@ const useStyles = createStyles((theme) => ({
 
 	activeCalls: {
 		width: 350,
-    backgroundColor: '#1A1B1E',
+    backgroundColor: 'rgb(34, 35, 37)'
 	},
 
   activeUnits: {
     width: 320,
-    backgroundColor: '#1A1B1E',
+    backgroundColor: 'rgb(34, 35, 37)'
   },
 
   headerBox: {
@@ -206,7 +206,7 @@ const Dispatch = () => {
       <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd} sensors={sensors}>
         <div className={classes.activeCalls}>
           <Group position="apart" className={classes.headerBox}>
-            <Title order={6}>
+            <Title order={6} c={'white'} fw={550}>
               Active Calls
             </Title>
           </Group>
@@ -234,7 +234,7 @@ const Dispatch = () => {
         </div>
         <div className={classes.activeUnits}>
           <Group position="apart" className={classes.headerBox} style={{paddingBottom: 14}}>
-            <Title order={6}>
+            <Title order={6} c={'white'} fw={550}>
               Units
             </Title>
             <Popover width={320} position="bottom" withArrow shadow="md" opened={popoverOpened} onChange={setPopoverOpened} transitionProps={{ transition: 'pop' }}>

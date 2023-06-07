@@ -27,7 +27,7 @@ const useStyles = createStyles((theme) => ({
     paddingBottom: '5px',
     paddingRight: '10px',
     paddingLeft: '10px',
-    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.white,
+    backgroundColor: '#1d1e20',
 
     '&:hover': {
       backgroundColor: '#17181b',
@@ -58,7 +58,7 @@ const RelatedIncidents = () => {
   }, [selectedProfile]);
 
   return (
-		<Paper p='md' withBorder style={{ width: 575, height: 380, backgroundColor: 'rgb(34, 35, 37)' }}>
+		<Paper p='md' withBorder style={{ width: 539, height: 368, backgroundColor: 'rgb(34, 35, 37)' }}>
 			<Group position='apart'>
 				<Text weight={500}>Known Convictions</Text>
 			</Group>

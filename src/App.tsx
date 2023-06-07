@@ -132,7 +132,7 @@ const pagesData = [
 
 const staffData = [
   { label: 'Roster', link: 'roster', icon: IconUsers }, 
-  { label: '10 codes / commands', link: '10-codes', icon: IconCode },
+  { label: '10 codes / commands', link: '10Codes', icon: IconCode },
   { label: 'Penal Codes', link: 'penalcodes', icon: IconFileEuro },
   { label: 'Statistics', link: 'statistics', icon: IconChartHistogram },
 ]
@@ -216,13 +216,7 @@ function App() {
               <Navbar height={"100%"} width={{ sm: 300 }} p='xs' style={{backgroundColor: '#242527', borderTopLeftRadius: 5, borderBottomLeftRadius: 5}}>
                 <Navbar.Section grow>
                   <Center>
-                    <Image
-                      radius={"md"}
-                      width={150}
-                      height={150}
-                      src={LSPDLogo}
-                      alt='LSPD Logo'
-                    />
+                    <Image radius={"md"} width={150} height={150} src={LSPDLogo} alt='LSPD Logo' />
                   </Center>
                   <Divider my="sm" />
                   <Text size="xs" weight={500} color="dimmed" style={{margin: 8}}>
@@ -270,7 +264,7 @@ function App() {
               </Navbar>
             </div>
 
-            <div style={{backgroundColor: '#1c1d1f', width: '100%', borderTopRightRadius: 5, borderBottomRightRadius: 5}}>
+            <div style={{backgroundColor: '#1c1d1f', width: 1520, borderTopRightRadius: 5, borderBottomRightRadius: 5}}>
               <Routes>
                 <Route path='/' element={<Dashboard />} />
                 <Route path="/profiles" element={<Profiles />} />

@@ -140,7 +140,7 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void,
   };
 
 	return (
-		<Paper p='md' withBorder style={{ width: 1110, height: 500, backgroundColor: 'rgb(34, 35, 37)' }}>
+		<Paper p='md' withBorder style={{ width: '100%', height: 500, backgroundColor: 'rgb(34, 35, 37)' }}>
 			<Group position='apart'>
 				<Text weight={500}>Citizen</Text>
 				<Group spacing={8} mr={0}>
@@ -160,7 +160,7 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void,
 			<Divider my='sm' />
 
 			<Flex gap='md' justify='flex-start' direction='row' wrap='wrap'>
-				<Flex gap='md' direction='row' wrap='wrap' w={630}>
+				<Flex gap='md' direction='row' wrap='wrap' w={628}>
 					<Image
 						width={260}
 						height={180}
@@ -172,28 +172,28 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void,
 					<Stack spacing='xs' w={350}>
 						<TextInput
 							icon={<IconId size={16} />}
-              style={{backgroundColor: '#252628'}}
+              style={{backgroundColor: '#1d1e20'}}
 							placeholder={selectedProfile ? selectedProfile.citizenid : "Citizen ID"}
 							radius='xs'
 							disabled
 						/>
 						<TextInput
 							icon={<IconUser size={16} />}
-              style={{backgroundColor: '#252628'}}
+              style={{backgroundColor: '#1d1e20'}}
 							placeholder={selectedProfile ? selectedProfile.firstname + ' ' + selectedProfile.lastname : "Fullname"}
 							radius='xs'
 							disabled
 						/>
 						<TextInput
 							icon={<IconFlag size={16} />}
-              style={{backgroundColor: '#252628'}}
+              style={{backgroundColor: '#1d1e20'}}
 							placeholder={selectedProfile ? selectedProfile.nationality : "Nationality"}
 							radius='xs'
 							disabled
 						/>
 						<TextInput
 							icon={<IconDeviceMobile size={16} />}
-              style={{backgroundColor: '#252628'}}
+              style={{backgroundColor: '#1d1e20'}}
 							placeholder={selectedProfile ? selectedProfile.phone : "Phone number"}
 							radius='xs'
 							disabled
@@ -257,7 +257,7 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void,
 					</RichTextEditor>
 				</Flex>
         <ScrollArea h={370}>
-				  <Stack spacing={5} w={430}>
+				  <Stack spacing={5} w={400}>
             {selectedProfile && <Title color="green.7" order={6}>Last Seen: Recently</Title>}
             <Text size='md' weight={500}>
               Tags
