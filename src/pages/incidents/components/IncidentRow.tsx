@@ -1,6 +1,6 @@
-import { ActionIcon, Divider, Group, Paper, ScrollArea, Text, TextInput, Tooltip, createStyles } from '@mantine/core'
-import { IconDeviceFloppy, IconLinkOff, IconPencilPlus } from '@tabler/icons-react'
-import React from 'react'
+import { ActionIcon, Badge, Button, Center, Divider, Group, Paper, Popover, ScrollArea, Select, Text, TextInput, Tooltip, UnstyledButton, createStyles, rem } from '@mantine/core'
+import { IconDeviceFloppy, IconLinkOff, IconPencilPlus, IconLocation, IconPlus, IconX } from '@tabler/icons-react'
+import React, { useState } from 'react'
 import { useStoreIncidents } from '../../../store/incidentsStore';
 import { IncidentData } from '../../../typings';
 import { useForm } from '@mantine/form';
@@ -22,6 +22,17 @@ const useStyles = createStyles((theme) => ({
       backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[1],
     }),
   },
+  user: {
+    display: 'block',
+    width: '100%',
+    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
+  },
+
+  item : {
+    padding: 10,
+    backgroundColor: '#1d1e20',
+    border: `0.1px solid rgb(42, 42, 42, 1)`,
+  },
 }));
 
 interface Props {
@@ -31,13 +42,13 @@ interface Props {
 const IncidentRow = (props: Props) => {
   const { classes, theme } = useStyles();
   const { selectedIncident } = useStoreIncidents();
-  
+  const [openedTagPopover, setOpenedTagPopover] = useState(false);
   const form = useForm({
     initialValues: {
       titel: '',
+      location: '',
     },
   });
-
   const editor = useEditor(
     {
       extensions: [
@@ -55,6 +66,10 @@ const IncidentRow = (props: Props) => {
       content: 'Incident description...',
     }
   );
+
+  function handleSubmit(): void {
+    throw new Error('Function not implemented.');
+  }
 
   return (
     <Paper p='md' withBorder style={{width: 550, backgroundColor: 'rgb(34, 35, 37)'}}>
@@ -84,65 +99,226 @@ const IncidentRow = (props: Props) => {
 
       <Divider my='sm' />
 
-      <div style={{display: 'flex', flexDirection: 'column', gap: 10}}>
-        <TextInput radius='xs' variant="filled" placeholder="Place titel here..." {...form.getInputProps('titel')} />
+      <ScrollArea h={800} scrollbarSize={4} type="never">
+        <div style={{display: 'flex', flexDirection: 'column', gap: 10}}>
+          <TextInput radius='xs' variant="filled" placeholder="Place titel here..." {...form.getInputProps('titel')} />
 
-        <RichTextEditor editor={editor} styles={{ content: { backgroundColor: 'rgb(34, 35, 37)' }, toolbar: { backgroundColor: '#252628' }}} style={{borderRadius: 2}}>
-          <RichTextEditor.Toolbar sticky>
-            <RichTextEditor.ControlsGroup>
-              <RichTextEditor.Bold />
-              <RichTextEditor.Italic />
-              <RichTextEditor.Underline />
-              <RichTextEditor.Strikethrough />
-              <RichTextEditor.ClearFormatting />
-              <RichTextEditor.Highlight />
-            </RichTextEditor.ControlsGroup>
+          <RichTextEditor editor={editor} styles={{ content: { backgroundColor: 'rgb(34, 35, 37)' }, toolbar: { backgroundColor: '#252628', zIndex: 999 }}} style={{borderRadius: 2}}>
+            <RichTextEditor.Toolbar>
+              <RichTextEditor.ControlsGroup>
+                <RichTextEditor.Bold />
+                <RichTextEditor.Italic />
+                <RichTextEditor.Underline />
+                <RichTextEditor.Strikethrough />
+                <RichTextEditor.ClearFormatting />
+                <RichTextEditor.Highlight />
+              </RichTextEditor.ControlsGroup>
 
-            <RichTextEditor.ControlsGroup>
-              <RichTextEditor.Hr />
-              <RichTextEditor.BulletList />
-              <RichTextEditor.OrderedList />
-            </RichTextEditor.ControlsGroup>
+              <RichTextEditor.ControlsGroup>
+                <RichTextEditor.Hr />
+                <RichTextEditor.BulletList />
+                <RichTextEditor.OrderedList />
+              </RichTextEditor.ControlsGroup>
 
-            <RichTextEditor.ControlsGroup>
-              <RichTextEditor.Link />
-              <RichTextEditor.Unlink />
-            </RichTextEditor.ControlsGroup>
+              <RichTextEditor.ControlsGroup>
+                <RichTextEditor.Link />
+                <RichTextEditor.Unlink />
+              </RichTextEditor.ControlsGroup>
 
-            <RichTextEditor.ControlsGroup>
-              <RichTextEditor.AlignLeft />
-              <RichTextEditor.AlignCenter />
-              <RichTextEditor.AlignJustify />
-              <RichTextEditor.AlignRight />
-            </RichTextEditor.ControlsGroup>
+              <RichTextEditor.ControlsGroup>
+                <RichTextEditor.AlignLeft />
+                <RichTextEditor.AlignCenter />
+                <RichTextEditor.AlignJustify />
+                <RichTextEditor.AlignRight />
+              </RichTextEditor.ControlsGroup>
 
-            <RichTextEditor.ControlsGroup>
-              <RichTextEditor.ColorPicker
-                colors={[
-                  "#25262b",
-                  "#868e96",
-                  "#fa5252",
-                  "#e64980",
-                  "#be4bdb",
-                  "#7950f2",
-                  "#4c6ef5",
-                  "#228be6",
-                  "#15aabf",
-                  "#12b886",
-                  "#40c057",
-                  "#82c91e",
-                  "#fab005",
-                  "#fd7e14",
-                ]}
-              />
-            </RichTextEditor.ControlsGroup>
-          </RichTextEditor.Toolbar>
+              <RichTextEditor.ControlsGroup>
+                <RichTextEditor.ColorPicker
+                  colors={[
+                    "#25262b",
+                    "#868e96",
+                    "#fa5252",
+                    "#e64980",
+                    "#be4bdb",
+                    "#7950f2",
+                    "#4c6ef5",
+                    "#228be6",
+                    "#15aabf",
+                    "#12b886",
+                    "#40c057",
+                    "#82c91e",
+                    "#fab005",
+                    "#fd7e14",
+                  ]}
+                />
+              </RichTextEditor.ControlsGroup>
+            </RichTextEditor.Toolbar>
 
-          <ScrollArea style={{ height: 300, width: 510 }}>
-            <RichTextEditor.Content />
-          </ScrollArea>
-        </RichTextEditor>
-      </div>
+            <ScrollArea style={{ height: 300, width: 510 }}>
+              <RichTextEditor.Content />
+            </ScrollArea>
+          </RichTextEditor>
+
+          <TextInput
+            {...form.getInputProps('location')}
+            radius='xs' 
+            variant="filled"
+            rightSection={<Tooltip
+              color='dark'
+              label="Location of the incident"
+              position="top-end"
+              withArrow
+              transitionProps={{ transition: 'pop-bottom-right' }}
+            >
+              <Text color="dimmed" sx={{ cursor: 'help' }}>
+                <Center>
+                  <IconLocation size="1.1rem" stroke={1.5} />
+                </Center>
+              </Text>
+            </Tooltip>}
+            placeholder="Location"
+          />
+        </div>
+
+          <Divider my={10} />
+
+        <div style={{display: 'flex', flexDirection: 'column', gap: 6}}>
+          <div className={classes.user}>
+            <div className={classes.item}>
+              <Group position="apart">
+                <Text fz="sm" fw={500} c="white">
+                  Tags
+                </Text>
+
+                <Popover width={200} position="bottom" withArrow shadow="md" opened={openedTagPopover} onChange={setOpenedTagPopover}>
+                  <Popover.Target>
+                    <Tooltip label='Add Tag' withArrow color='dark' position="top-end">
+                      <ActionIcon className={classes.action} onClick={() => { setOpenedTagPopover((o) => !o) }}>
+                        <IconPlus size={16} />
+                      </ActionIcon>
+                    </Tooltip>
+                  </Popover.Target>
+
+                  <Popover.Dropdown style={{backgroundColor: 'rgb(34, 35, 37)'}}>
+                    <form onSubmit={form.onSubmit((values) => handleSubmit())}>
+                      <TextInput radius='xs' label="Tag Name" placeholder="Enter tag name..." />
+                      <Select
+                        maw={320}
+                        mx="auto"
+                        mt={5}
+                        label="Tag Color"
+                        placeholder="Pick one"
+                        data={['Blue', 'Red', 'Yellow', 'Orange', 'Green', 'Purple', 'Pink', 'Gray']}
+                        transitionProps={{ transition: 'pop-top-left', duration: 80, timingFunction: 'ease' }}
+                      />
+                      <Group position="right" mt="md">
+                        <Button variant="outline" color="green" type="submit">Create</Button>
+                      </Group>
+                    </form>
+                  </Popover.Dropdown>
+                </Popover>
+              </Group>
+              
+              <div>
+                {/* <Badge 
+                  color="red" 
+                  radius="xs" 
+                  variant="filled"
+                  pl={3}
+                  style={{margin: 2.5}}
+                  leftSection={
+                    <ActionIcon size="xs" radius="xs" variant="transparent">
+                      <IconX size={rem(14)} />
+                    </ActionIcon>
+                  }
+                >
+                  Dangerous
+                </Badge> */}
+              </div>
+            </div>
+          </div>
+
+          <div className={classes.user}>
+            <div className={classes.item}>
+              <Group position="apart">
+                <Text fz="sm" fw={500} c="white">
+                  Involved Officers
+                </Text>
+
+                <Tooltip label='Add Officer' withArrow color='dark' position="top-end">
+                  <ActionIcon className={classes.action} onClick={() => { }}>
+                    <IconPlus size={16} />
+                  </ActionIcon>
+                </Tooltip>
+              </Group>
+            </div>
+          </div>
+
+          <div className={classes.user}>
+            <div className={classes.item}>
+              <Group position="apart">
+                <Text fz="sm" fw={500} c="white">
+                  Involved Citizens
+                </Text>
+
+                <Tooltip label='Add Citizen' withArrow color='dark' position="top-end">
+                  <ActionIcon className={classes.action} onClick={() => { }}>
+                    <IconPlus size={16} />
+                  </ActionIcon>
+                </Tooltip>
+              </Group>
+            </div>
+          </div>
+
+          <div className={classes.user}>
+            <div className={classes.item}>
+              <Group position="apart">
+                <Text fz="sm" fw={500} c="white">
+                  Involved Evidence
+                </Text>
+
+                <Tooltip label='Add Evidence' withArrow color='dark' position="top-end">
+                  <ActionIcon className={classes.action} onClick={() => { }}>
+                    <IconPlus size={16} />
+                  </ActionIcon>
+                </Tooltip>
+              </Group>
+            </div>
+          </div>
+          
+          <div className={classes.user}>
+            <div className={classes.item}>
+              <Group position="apart">
+                <Text fz="sm" fw={500} c="white">
+                  Involved Reports
+                </Text>
+
+                <Tooltip label='Add Report' withArrow color='dark' position="top-end">
+                  <ActionIcon className={classes.action} onClick={() => { }}>
+                    <IconPlus size={16} />
+                  </ActionIcon>
+                </Tooltip>
+              </Group>
+            </div>
+          </div>
+
+          <div className={classes.user}>
+            <div className={classes.item}>
+              <Group position="apart">
+                <Text fz="sm" fw={500} c="white">
+                  Gallary
+                </Text>
+
+                <Tooltip label='Add Picture' withArrow color='dark' position="top-end">
+                  <ActionIcon className={classes.action} onClick={() => { }}>
+                    <IconPlus size={16} />
+                  </ActionIcon>
+                </Tooltip>
+              </Group>
+            </div>
+          </div>
+        </div>
+      </ScrollArea>
     </Paper>
   )
 }

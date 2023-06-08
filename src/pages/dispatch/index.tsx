@@ -240,21 +240,21 @@ const Dispatch = () => {
               Units
             </Title>
             <Popover width={320} position="bottom" withArrow shadow="md" opened={popoverOpened} onChange={setPopoverOpened} transitionProps={{ transition: 'pop' }}>
-                <Popover.Target>
-                  {isOfficerAlreadyInAUnit(citizenid) ? (
-                    <Tooltip label="You are already a part of a unit" color="dark" position="bottom" withArrow>
+              <Popover.Target>
+                {isOfficerAlreadyInAUnit(citizenid) ? (
+                  <Tooltip label="You are already a part of a unit" color="dark" position="bottom" withArrow>
                     <UnstyledButton sx={(theme) => ({borderRadius: theme.radius.sm, cursor: "pointer", "&:hover": {backgroundColor: theme.colors.dark[5]}})}>
                       <IconPlus size="1.4rem" stroke={1.5} />
                     </UnstyledButton>
                   </Tooltip>
-                  ) : (
-                    <Tooltip label="Create new unit" color="dark" position="bottom" withArrow>
-                      <UnstyledButton sx={(theme) => ({borderRadius: theme.radius.sm, cursor: "pointer", "&:hover": {backgroundColor: theme.colors.dark[5]}})} onClick={() => setPopoverOpened((o) => !o)}>
-                        <IconPlus size="1.4rem" stroke={1.5} />
-                      </UnstyledButton>
-                    </Tooltip>
-                  )}
-                </Popover.Target>
+                ) : (
+                  <Tooltip label="Create new unit" color="dark" position="bottom" withArrow>
+                    <UnstyledButton sx={(theme) => ({borderRadius: theme.radius.sm, cursor: "pointer", "&:hover": {backgroundColor: theme.colors.dark[5]}})} onClick={() => setPopoverOpened((o) => !o)}>
+                      <IconPlus size="1.4rem" stroke={1.5} />
+                    </UnstyledButton>
+                  </Tooltip>
+                )}
+              </Popover.Target>
 
               <Popover.Dropdown sx={(theme) => ({ background: '#1d1e20' })}>
                 <form onSubmit={form.onSubmit((values) => handleSubmit({id: getHighestId(), unitName: values.unitName.toLocaleLowerCase(), carModel: values.unitVehicle , unitMembers: findUnitMembers(values.unitOfficers), isOwner: citizenid}))}>
