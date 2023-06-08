@@ -1,6 +1,6 @@
 import { ActionIcon, Badge, Button, Center, Divider, Group, Paper, Popover, ScrollArea, Select, Text, TextInput, Tooltip, UnstyledButton, createStyles, rem } from '@mantine/core'
 import { IconDeviceFloppy, IconLinkOff, IconPencilPlus, IconLocation, IconPlus, IconX } from '@tabler/icons-react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useStoreIncidents } from '../../../store/incidentsStore';
 import { IncidentData } from '../../../typings';
 import { useForm } from '@mantine/form';
@@ -45,7 +45,7 @@ const IncidentRow = (props: Props) => {
   const [openedTagPopover, setOpenedTagPopover] = useState(false);
   const form = useForm({
     initialValues: {
-      titel: '',
+      title: '',
       location: '',
     },
   });
@@ -66,6 +66,19 @@ const IncidentRow = (props: Props) => {
       content: 'Incident description...',
     }
   );
+
+  useEffect(() => {
+    if (selectedIncident) {
+      form.setValues({
+        title: selectedIncident.title
+      })
+    } else {
+      form.setValues({
+        title: '',
+        location: '',
+      })
+    }
+  }, [selectedIncident]);
 
   function handleSubmit(): void {
     throw new Error('Function not implemented.');
@@ -101,7 +114,7 @@ const IncidentRow = (props: Props) => {
 
       <ScrollArea h={800} scrollbarSize={4} type="never">
         <div style={{display: 'flex', flexDirection: 'column', gap: 10}}>
-          <TextInput radius='xs' variant="filled" placeholder="Place titel here..." {...form.getInputProps('titel')} />
+          <TextInput radius='xs' variant="filled" placeholder="Place title here..." {...form.getInputProps('title')} />
 
           <RichTextEditor editor={editor} styles={{ content: { backgroundColor: 'rgb(34, 35, 37)' }, toolbar: { backgroundColor: '#252628', zIndex: 999 }}} style={{borderRadius: 2}}>
             <RichTextEditor.Toolbar>
@@ -212,7 +225,7 @@ const IncidentRow = (props: Props) => {
                         transitionProps={{ transition: 'pop-top-left', duration: 80, timingFunction: 'ease' }}
                       />
                       <Group position="right" mt="md">
-                        <Button variant="outline" color="green" type="submit">Create</Button>
+                        <Button variant="filled" color="green" type="submit" compact>Create</Button>
                       </Group>
                     </form>
                   </Popover.Dropdown>
@@ -220,20 +233,22 @@ const IncidentRow = (props: Props) => {
               </Group>
               
               <div>
-                {/* <Badge 
-                  color="red" 
-                  radius="xs" 
-                  variant="filled"
-                  pl={3}
-                  style={{margin: 2.5}}
-                  leftSection={
-                    <ActionIcon size="xs" radius="xs" variant="transparent">
-                      <IconX size={rem(14)} />
-                    </ActionIcon>
-                  }
-                >
-                  Dangerous
-                </Badge> */}
+                {selectedIncident?.tags.map((tag) => (
+                  <Badge 
+                    color={tag.backgroundcolor}
+                    radius="xs" 
+                    variant="light"
+                    pl={3}
+                    style={{margin: 2.5}}
+                    leftSection={
+                      <ActionIcon size="xs" radius="xs" variant="transparent">
+                        <IconX size={rem(14)} />
+                      </ActionIcon>
+                    }
+                  >
+                    {tag.label}
+                  </Badge>
+                ))}
               </div>
             </div>
           </div>
