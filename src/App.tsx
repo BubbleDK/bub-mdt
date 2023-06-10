@@ -1,10 +1,10 @@
-import { Box, Transition, createStyles, Navbar, Group, Code, getStylesRef, rem, Image, Center, Button, Text, ChevronIcon, Collapse, UnstyledButton, ThemeIcon, ScrollArea, Divider } from '@mantine/core';
+import { Box, Transition, createStyles, Navbar, Group, Code, getStylesRef, rem, Image, Center, Button, Text, ChevronIcon, Collapse, UnstyledButton, ThemeIcon, ScrollArea, Divider, Menu } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import { Route, Routes, NavLink, useLocation } from 'react-router-dom';
 import Dashboard from './pages/dashboard';
 import Profiles from './pages/profiles';
 import Dispatch from './pages/dispatch';
-import { IconLayoutDashboard, IconUserCircle, IconBuildingBank, IconSlice, IconVideo, IconCar, IconScript, IconFileDescription, IconBriefcase, IconZoomExclamation, IconMap2, IconUsers, IconPointFilled, IconBuildingSkyscraper, IconChartHistogram, IconSettings, IconChevronRight, IconChevronLeft, IconCode, IconFileEuro, IconDotsVertical } from '@tabler/icons-react';
+import { IconLayoutDashboard, IconUserCircle, IconBuildingBank, IconSlice, IconVideo, IconCar, IconScript, IconFileDescription, IconBriefcase, IconZoomExclamation, IconMap2, IconUsers, IconPointFilled, IconBuildingSkyscraper, IconChartHistogram, IconSettings, IconChevronRight, IconChevronLeft, IconCode, IconFileEuro, IconDotsVertical, IconDoorExit } from '@tabler/icons-react';
 import LSPDLogo from './assets/lspd.png';
 import { useNuiEvent } from './hooks/useNuiEvent';
 import { AlertData, IncidentData, OfficerData, ProfileData, UnitData } from './typings';
@@ -135,7 +135,6 @@ const pagesData = [
       { link: 'properties', label: 'Propterties', icon: IconBuildingSkyscraper },
       { link: 'cameras', label: 'Cameras', icon: IconVideo },
       { link: 'weaponRegistry', label: 'Weapon Registery', icon: IconSlice },
-      { label: 'Penal Codes', link: 'penalcodes', icon: IconFileEuro },
     ], 
     label: 'Others', 
     icon: IconPointFilled
@@ -309,33 +308,46 @@ function App() {
                   </ScrollArea>
                 </Navbar.Section>
                 <Box sx={{paddingTop: 5, borderTop: `${rem(1)} solid ${ theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2]}`}}>
-                  <UnstyledButton
-                    sx={{
-                      display: 'block',
-                      width: '100%',
-                      padding: theme.spacing.xs,
-                      borderRadius: theme.radius.sm,
-                      color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
+                  <Menu shadow="md" width={200} withArrow position='top-end'>
+                    <Menu.Target>
+                      <UnstyledButton
+                        sx={{
+                          display: 'block',
+                          width: '100%',
+                          padding: theme.spacing.xs,
+                          borderRadius: theme.radius.sm,
+                          color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
 
-                      '&:hover': {
-                        backgroundColor:
-                          theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[0],
-                      },
-                    }}
-                  >
-                    <Group>
-                      <Box sx={{ flex: 1 }}>
-                        <Text size="sm" weight={500}>
-                          {firstname} {lastname}
-                        </Text>
-                        <Text color="dimmed" size="xs">
-                          {role} | {callsign}
-                        </Text>
-                      </Box>
+                          '&:hover': {
+                            backgroundColor:
+                              theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[0],
+                          },
+                        }}
+                      >
+                        <Group>
+                          <Box sx={{ flex: 1 }}>
+                            <Text size="sm" weight={500}>
+                              {firstname} {lastname}
+                            </Text>
+                            <Text color="dimmed" size="xs">
+                              {role} | {callsign}
+                            </Text>
+                          </Box>
 
-                      <IconDotsVertical size={rem(18)} />
-                    </Group>
-                  </UnstyledButton>
+                          <IconDotsVertical size={rem(18)} />
+                        </Group>
+                      </UnstyledButton>
+                    </Menu.Target>
+
+                    <Menu.Dropdown>
+                      <Menu.Item icon={<IconSettings size={14} />}>
+                        <NavLink to={`/configuration`} style={{ textDecoration: 'none', color: '#C1C2C5' }}>
+                          <span>Configuration</span>
+                        </NavLink>
+                      </Menu.Item>
+                      <Menu.Item icon={<IconDoorExit size={14} />} onClick={() => { setVisible(false) }}>Logout</Menu.Item>
+                    </Menu.Dropdown>
+                  </Menu>
                 </Box>
               </Navbar>
             </div>
@@ -353,7 +365,7 @@ function App() {
         )}
       </Transition>
       {!visible &&
-        <Button style={{color: 'black'}} variant="default" onClick={() => { setVisible(true) }}>Open</Button>
+        <Button style={{color: 'black', position: 'absolute'}} variant="default" onClick={() => { setVisible(true) }}>Open</Button>
       }
     </div>
 	);

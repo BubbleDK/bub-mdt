@@ -87,7 +87,7 @@ const IncidentRow = (props: Props) => {
   return (
     <Paper p='md' withBorder style={{width: 550, backgroundColor: 'rgb(34, 35, 37)'}}>
       <Group position='apart'>
-        <Text weight={500} c={'white'}>{selectedIncident ? 'Edit' : 'Create'} Incident</Text>
+        <Text weight={500} c={'white'}>{selectedIncident ? 'Edit' : 'Create'} Incident {selectedIncident && `(#${selectedIncident.id})`}</Text>
 				<Group spacing={8} mr={0}>
           {selectedIncident ? (
             <Tooltip label='Save' withArrow color='dark' position='bottom'>
@@ -193,7 +193,7 @@ const IncidentRow = (props: Props) => {
           />
         </div>
 
-          <Divider my={10} />
+        <Divider my={10} />
 
         <div style={{display: 'flex', flexDirection: 'column', gap: 6}}>
           <div className={classes.user}>
@@ -305,26 +305,10 @@ const IncidentRow = (props: Props) => {
             <div className={classes.item}>
               <Group position="apart">
                 <Text fz="sm" fw={500} c="white">
-                  Involved Reports
+                  Involved Vehicles
                 </Text>
 
-                <Tooltip label='Add Report' withArrow color='dark' position="top-end">
-                  <ActionIcon className={classes.action} onClick={() => { }}>
-                    <IconPlus size={16} />
-                  </ActionIcon>
-                </Tooltip>
-              </Group>
-            </div>
-          </div>
-
-          <div className={classes.user}>
-            <div className={classes.item}>
-              <Group position="apart">
-                <Text fz="sm" fw={500} c="white">
-                  Gallary
-                </Text>
-
-                <Tooltip label='Add Picture' withArrow color='dark' position="top-end">
+                <Tooltip label='Add Vehicle' withArrow color='dark' position="top-end">
                   <ActionIcon className={classes.action} onClick={() => { }}>
                     <IconPlus size={16} />
                   </ActionIcon>

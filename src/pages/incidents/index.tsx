@@ -5,6 +5,7 @@ import { useStoreIncidents } from '../../store/incidentsStore';
 import SearchTableIncidents from './components/SearchTableIncidents';
 import IncidentRow from './components/IncidentRow';
 import CriminalsRow from './components/CriminalsRow';
+import { is } from 'immer/dist/internal';
 
 const useStyles = createStyles((theme) => ({
   incidents: {
@@ -43,7 +44,7 @@ const customLoader = (
 
 const Incidents = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const { setIncident } = useStoreIncidents();
+  const { setIncident, selectedIncident } = useStoreIncidents();
   const { classes, cx } = useStyles();
 
   const handleClick = (props: IncidentData | null) => {
@@ -54,6 +55,18 @@ const Incidents = () => {
       setIncident(props);
     }, 650)
   }
+
+  useEffect(() => {
+    if (!selectedIncident) return;
+    let mountedSelectedProfile = selectedIncident;
+    setIncident(null);
+    setIsLoading(true);
+
+    setTimeout(() => {
+      setIsLoading(false);
+      setIncident(mountedSelectedProfile);
+    }, 650)
+  }, []);
 
   return (
     <div className={classes.incidents}>

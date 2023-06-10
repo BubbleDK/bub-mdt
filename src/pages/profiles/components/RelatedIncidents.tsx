@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { IncidentData, ProfileData } from '../../../typings';
 import { useStoreIncidents } from '../../../store/incidentsStore';
 import { useStoreProfiles } from '../../../store/profilesStore';
+import { useNavigate } from 'react-router-dom';
 
 const useStyles = createStyles((theme) => ({
 	action: {
@@ -37,9 +38,10 @@ const useStyles = createStyles((theme) => ({
 
 const RelatedIncidents = () => {
   const { classes } = useStyles();
-  const { incidents } = useStoreIncidents();
+  const { incidents, setIncident, getIncident } = useStoreIncidents();
   const { selectedProfile } = useStoreProfiles();
   const [relatedIncidents, setRelatedIncidents] = useState<IncidentData[]>([]);
+  const navigate = useNavigate();
 
   function findIncidentsByCitizenId(citizenId: string | undefined) {
     if (!citizenId) return setRelatedIncidents([]);
@@ -86,7 +88,7 @@ const RelatedIncidents = () => {
 									</Group>
 								</Menu.Target>
 								<Menu.Dropdown>
-									<Menu.Item icon={<IconListDetails size={14} />}>
+									<Menu.Item icon={<IconListDetails size={14} />} onClick={() => { setIncident(getIncident(incident.id)); navigate('/incidents'); }}>
 										View Incident
 									</Menu.Item>
 								</Menu.Dropdown>

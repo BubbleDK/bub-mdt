@@ -1,6 +1,9 @@
-import React from 'react'
-import { ActionIcon, Group, Paper, Tooltip, Text, createStyles, Divider } from '@mantine/core'
-import { IconPlus } from '@tabler/icons-react';
+import React, { useState } from 'react'
+import { ActionIcon, Group, Paper, Tooltip, Text, createStyles, Divider, Badge, Checkbox, Select, rem } from '@mantine/core'
+import { IconChevronDown, IconPlus, IconTrash, IconX } from '@tabler/icons-react';
+import { useStoreIncidents } from '../../../store/incidentsStore';
+import { useStoreProfiles } from '../../../store/profilesStore';
+import InvolvedCriminals from './InvolvedCriminals';
 
 const useStyles = createStyles((theme) => ({
 	action: {
@@ -12,7 +15,9 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const CriminalsRow = () => {
-  const { classes, theme } = useStyles();
+  const { classes } = useStyles();
+  const { selectedIncident } = useStoreIncidents();
+
   return (
     <Paper p='md' withBorder style={{width: 450, backgroundColor: 'rgb(34, 35, 37)'}}>
       <Group position='apart'>
@@ -25,6 +30,10 @@ const CriminalsRow = () => {
 			</Group>
 
       <Divider my='sm' />
+
+      {selectedIncident && selectedIncident.involvedCriminals.map((criminal) => (
+        <InvolvedCriminals criminal={criminal} />
+      ))}
     </Paper>
   )
 }

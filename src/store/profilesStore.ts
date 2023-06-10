@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import produce from "immer";
 import { ProfileData, Profiles } from '../typings';
 
-export const useStoreProfiles = create<Profiles>((set) => ({
+export const useStoreProfiles = create<Profiles>((set, get) => ({
   profiles: [],
   selectedProfile: null,
 
@@ -31,5 +31,10 @@ export const useStoreProfiles = create<Profiles>((set) => ({
       ),
       selectedProfile: state.selectedProfile?.citizenid === updatedProfile.citizenid ? updatedProfile : state.selectedProfile,
     }));
+  },
+
+  getProfile: (citizenid: string): ProfileData | null => {
+    const { profiles } = get();
+    return profiles.find(profile => profile.citizenid === citizenid) || null;
   },
 }))
