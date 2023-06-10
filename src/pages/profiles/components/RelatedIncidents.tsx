@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { IncidentData, ProfileData } from '../../../typings';
 import { useStoreIncidents } from '../../../store/incidentsStore';
 import { useStoreProfiles } from '../../../store/profilesStore';
+import { useNavigate } from 'react-router-dom';
 
 const useStyles = createStyles((theme) => ({
 	action: {
@@ -27,7 +28,7 @@ const useStyles = createStyles((theme) => ({
     paddingBottom: '5px',
     paddingRight: '10px',
     paddingLeft: '10px',
-    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.white,
+    backgroundColor: '#1d1e20',
 
     '&:hover': {
       backgroundColor: '#17181b',
@@ -37,9 +38,10 @@ const useStyles = createStyles((theme) => ({
 
 const RelatedIncidents = () => {
   const { classes } = useStyles();
-  const { incidents } = useStoreIncidents();
+  const { incidents, setIncident, getIncident } = useStoreIncidents();
   const { selectedProfile } = useStoreProfiles();
   const [relatedIncidents, setRelatedIncidents] = useState<IncidentData[]>([]);
+  const navigate = useNavigate();
 
   function findIncidentsByCitizenId(citizenId: string | undefined) {
     if (!citizenId) return setRelatedIncidents([]);
@@ -58,7 +60,7 @@ const RelatedIncidents = () => {
   }, [selectedProfile]);
 
   return (
-		<Paper p='md' withBorder style={{ width: 575, height: 380 }}>
+		<Paper p='md' withBorder style={{ width: 539, height: 368, backgroundColor: 'rgb(34, 35, 37)' }}>
 			<Group position='apart'>
 				<Text weight={500}>Known Convictions</Text>
 			</Group>
@@ -86,7 +88,7 @@ const RelatedIncidents = () => {
 									</Group>
 								</Menu.Target>
 								<Menu.Dropdown>
-									<Menu.Item icon={<IconListDetails size={14} />}>
+									<Menu.Item icon={<IconListDetails size={14} />} onClick={() => { setIncident(getIncident(incident.id)); navigate('/incidents'); }}>
 										View Incident
 									</Menu.Item>
 								</Menu.Dropdown>

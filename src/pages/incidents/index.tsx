@@ -1,8 +1,20 @@
 import React, { useEffect, useState } from 'react'
-import {Container, Flex, LoadingOverlay, Stack, DEFAULT_THEME } from "@mantine/core";
+import {Container, Flex, LoadingOverlay, Stack, DEFAULT_THEME, createStyles } from "@mantine/core";
 import { IncidentData } from '../../typings';
 import { useStoreIncidents } from '../../store/incidentsStore';
 import SearchTableIncidents from './components/SearchTableIncidents';
+import IncidentRow from './components/IncidentRow';
+import CriminalsRow from './components/CriminalsRow';
+import { is } from 'immer/dist/internal';
+
+const useStyles = createStyles((theme) => ({
+  incidents: {
+    height: 880,
+    margin: 20,
+    display: 'flex',
+    gap: 15
+  },
+}));
 
 const customLoader = (
   <svg
@@ -32,7 +44,8 @@ const customLoader = (
 
 const Incidents = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const { setIncident } = useStoreIncidents();
+  const { setIncident, selectedIncident } = useStoreIncidents();
+  const { classes, cx } = useStyles();
 
   const handleClick = (props: IncidentData | null) => {
     setIsLoading(true);
@@ -43,26 +56,26 @@ const Incidents = () => {
     }, 650)
   }
 
+  useEffect(() => {
+    if (!selectedIncident) return;
+    let mountedSelectedProfile = selectedIncident;
+    setIncident(null);
+    setIsLoading(true);
+
+    setTimeout(() => {
+      setIsLoading(false);
+      setIncident(mountedSelectedProfile);
+    }, 650)
+  }, []);
+
   return (
-    <Container w={'100%'} p={15} style={{maxWidth: '100%'}}>
-      <Flex
-        gap="md"
-        justify="flex-start"
-        align="center"
-        direction="row"
-        wrap="wrap"
-      >
-        <SearchTableIncidents onClick={handleClick}  />
-        <Stack h={890} sx={(theme) => ({ backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0], gap: 10 })}>
-          <LoadingOverlay visible={isLoading} overlayOpacity={0.95} transitionDuration={250} loader={customLoader} style={{left: 690, width: '61.5%', height: '97%', top: 15}} />
-          {/* <ProfileInformation onClick={handleClick} /> */}
-          <Flex gap="md" justify="flex-start" align="center" direction="row" wrap="wrap">
-            {/* <RelatedIncidents />
-            <AdditionalInformation /> */}
-          </Flex>
-        </Stack>
-      </Flex>
-    </Container>
+    <div className={classes.incidents}>
+      <SearchTableIncidents onClick={handleClick}  />
+      <LoadingOverlay visible={isLoading} overlayOpacity={0.95} overlayColor={"rgb(34, 35, 37)"} transitionDuration={250} loader={customLoader} style={{left: 785, width: '55.8%', height: '96%', top: 19, borderRadius: '0.25rem'}} />
+
+      <IncidentRow handleUnlink={handleClick} />
+      <CriminalsRow />
+    </div>
   )
 }
 

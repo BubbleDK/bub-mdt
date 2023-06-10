@@ -10,7 +10,10 @@ import "./DispatchMarkerStyle.css";
 import { AlertTypes, DispatchAlerts } from '../../../typings';
 import { Flex, Badge, Title, Button, Group, Text, createStyles } from "@mantine/core";
 import { IconClockFilled, IconCar, IconMan, IconBadgeSd } from "@tabler/icons-react";
-import { timeAgo } from "../../../utils/convertDateToTime";
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+
+dayjs.extend(relativeTime)
 
 const useStyles = createStyles((theme) => ({
 	icon: {
@@ -67,7 +70,7 @@ const DispatchMarker = (props: DispatchAlerts) => {
                     className={classes.icon}
                   />
                   <Text fz='xs' fw={500} className={classes.text}>
-                    {timeAgo(alert.time)}
+                    {dayjs(alert.time).fromNow().charAt(0).toUpperCase() + dayjs(alert.time).fromNow().slice(1)}
                   </Text>
                 </Group>
 

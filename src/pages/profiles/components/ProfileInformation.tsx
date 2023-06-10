@@ -140,12 +140,12 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void,
   };
 
 	return (
-		<Paper p='md' withBorder style={{ width: 1110, height: 500 }}>
+		<Paper p='md' withBorder style={{ width: '100%', height: 500, backgroundColor: 'rgb(34, 35, 37)' }}>
 			<Group position='apart'>
 				<Text weight={500}>Citizen</Text>
 				<Group spacing={8} mr={0}>
 					<Tooltip label='Save' withArrow color='dark' position='bottom'>
-						<ActionIcon className={classes.action} onClick={() => { props.saveProfile(selectedProfile ? { ...selectedProfile, tags: availableTags.filter((tag) => selectedTagValues.includes(tag.value)) } : null) }} disabled={!selectedProfile}>
+						<ActionIcon className={classes.action} onClick={() => { props.saveProfile(selectedProfile ? { ...selectedProfile, notes: editor ? editor.getHTML() : selectedProfile.notes, tags: availableTags.filter((tag) => selectedTagValues.includes(tag.value)) } : null) }} disabled={!selectedProfile}>
 							<IconDeviceFloppy size={16} color={theme.colors.green[6]} />
 						</ActionIcon>
 					</Tooltip>
@@ -160,7 +160,7 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void,
 			<Divider my='sm' />
 
 			<Flex gap='md' justify='flex-start' direction='row' wrap='wrap'>
-				<Flex gap='md' direction='row' wrap='wrap' w={630}>
+				<Flex gap='md' direction='row' wrap='wrap' w={628}>
 					<Image
 						width={260}
 						height={180}
@@ -172,30 +172,34 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void,
 					<Stack spacing='xs' w={350}>
 						<TextInput
 							icon={<IconId size={16} />}
+              style={{backgroundColor: '#1d1e20'}}
 							placeholder={selectedProfile ? selectedProfile.citizenid : "Citizen ID"}
 							radius='xs'
 							disabled
 						/>
 						<TextInput
 							icon={<IconUser size={16} />}
+              style={{backgroundColor: '#1d1e20'}}
 							placeholder={selectedProfile ? selectedProfile.firstname + ' ' + selectedProfile.lastname : "Fullname"}
 							radius='xs'
 							disabled
 						/>
 						<TextInput
 							icon={<IconFlag size={16} />}
+              style={{backgroundColor: '#1d1e20'}}
 							placeholder={selectedProfile ? selectedProfile.nationality : "Nationality"}
 							radius='xs'
 							disabled
 						/>
 						<TextInput
 							icon={<IconDeviceMobile size={16} />}
+              style={{backgroundColor: '#1d1e20'}}
 							placeholder={selectedProfile ? selectedProfile.phone : "Phone number"}
 							radius='xs'
 							disabled
 						/>
 					</Stack>
-					<RichTextEditor editor={editor} styles={{ controlsGroup: { pointerEvents: selectedProfile ? 'auto' : 'none', backgroundColor: selectedProfile ? '#1A1B1E' : '#282828' }}}>
+					<RichTextEditor editor={editor} styles={{ content: { backgroundColor: 'rgb(34, 35, 37)' }, toolbar: { backgroundColor: '#252628' }, controlsGroup: { pointerEvents: selectedProfile ? 'auto' : 'none', backgroundColor: selectedProfile ? '#1A1B1E' : '#282828' }}}>
 						<RichTextEditor.Toolbar sticky>
 							<RichTextEditor.ControlsGroup>
 								<RichTextEditor.Bold />
@@ -253,7 +257,7 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void,
 					</RichTextEditor>
 				</Flex>
         <ScrollArea h={370}>
-				  <Stack spacing={5} w={430}>
+				  <Stack spacing={5} w={400}>
             {selectedProfile && <Title color="green.7" order={6}>Last Seen: Recently</Title>}
             <Text size='md' weight={500}>
               Tags

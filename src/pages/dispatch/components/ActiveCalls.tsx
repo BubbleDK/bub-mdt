@@ -25,13 +25,16 @@ import {
 	IconArrowRight,
   IconBadgeSd
 } from "@tabler/icons-react";
-import { timeAgo } from "../../../utils/convertDateToTime";
 import { AlertData, AlertTypes } from "../../../typings";
 import { useDroppable } from '@dnd-kit/core';
 import { GiPistolGun } from "react-icons/gi";
 import { MdCarRental } from 'react-icons/md';
 import { ImLocation } from 'react-icons/im';
 import { FaCarCrash } from 'react-icons/fa';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+
+dayjs.extend(relativeTime)
 
 const useStyles = createStyles((theme) => ({
 	styling: {
@@ -41,7 +44,8 @@ const useStyles = createStyles((theme) => ({
 		color: "white",
 	},
 	text: {
-		color: "#b7b7b7",
+		color: "white",
+    fontWeight: 550
 	},
 	activeCalls: {
 		width: 320,
@@ -58,19 +62,20 @@ const ActiveCalls = (props: DispatchAlerts) => {
   const { setNodeRef, isOver } = useDroppable({
     id: props.alert.id,
   });
-  let isOverContainer = isOver ? "#2C2E33" : "#141517";
+  let isOverContainer = isOver ? "#2C2E33" : '#1d1e20';
   const variantMapping: AlertTypes = {
     default: <ImLocation color='black' size={25} />,
     '10-71': <GiPistolGun color='black' size={25} />,
     '10-60': <MdCarRental color='black' size={25} />,
     '10-50': <FaCarCrash color='black' size={25} />
   }
-
   const carButton = (
     <ActionIcon size="xs" color="blue" radius="xl" variant="transparent">
       <IconCar />
     </ActionIcon>
   );
+
+  const word = dayjs(props.alert.time).fromNow();
 
 	return (
     <Menu width={150} shadow='md' withArrow>
@@ -106,7 +111,7 @@ const ActiveCalls = (props: DispatchAlerts) => {
                   className={classes.icon}
                 />
                 <Text fz='xs' fw={500} className={classes.text}>
-                  {timeAgo(props.alert.time)}
+                  {word.charAt(0).toUpperCase() + word.slice(1)}
                 </Text>
               </Group>
 

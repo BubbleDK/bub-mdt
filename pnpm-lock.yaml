@@ -28,6 +28,7 @@ specifiers:
   '@types/react-dom': ^18.0.11
   '@vitejs/plugin-react': ^3.1.0
   autoprefixer: ^10.4.14
+  dayjs: ^1.11.7
   i: ^0.3.7
   immer: ^9.0.21
   leaflet: ^1.9.3
@@ -64,6 +65,7 @@ dependencies:
   '@tiptap/pm': 2.0.2_@tiptap+core@2.0.2
   '@tiptap/react': 2.0.2_5qsqxtgrvdydajrobuba465tkm
   '@tiptap/starter-kit': 2.0.2_@tiptap+pm@2.0.2
+  dayjs: 1.11.7
   immer: 9.0.21
   leaflet: 1.9.3
   mantine-datatable: 2.3.4_dpa7ppba5crm4wln64btsic2gm
@@ -1499,6 +1501,10 @@ packages:
 
   /dash-get/1.0.2:
     resolution: {integrity: sha512-4FbVrHDwfOASx7uQVxeiCTo7ggSdYZbqs8lH+WU6ViypPlDbe9y6IP5VVUDQBv9DcnyaiPT5XT0UWHgJ64zLeQ==}
+    dev: false
+
+  /dayjs/1.11.7:
+    resolution: {integrity: sha512-+Yw9U6YO5TQohxLcIkrXBeY73WP3ejHWVvx8XCk3gxvQDCTEmS48ZrSZCKciI7Bhl/uCMyxYtE9UqRILmFphkQ==}
     dev: false
 
   /debug/4.3.4:

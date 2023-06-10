@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {Container, Flex, LoadingOverlay, Stack, DEFAULT_THEME, Alert, Transition } from "@mantine/core";
+import {Container, Flex, LoadingOverlay, Stack, DEFAULT_THEME, Alert, Transition, createStyles } from "@mantine/core";
 import SearchTable from './components/SearchTable';
 import ProfileInformation from './components/ProfileInformation';
 import RelatedIncidents from './components/RelatedIncidents';
@@ -10,6 +10,15 @@ import { useDisclosure } from '@mantine/hooks';
 import { IconAlertCircle } from '@tabler/icons-react';
 import { useRecentActivityStore } from '../../store/recentActivity';
 import { useStorePersonal } from '../../store/personalInfoStore';
+
+const useStyles = createStyles((theme) => ({
+  profiles: {
+    height: 880,
+    margin: 20,
+    display: 'flex',
+    gap: 15
+  },
+}));
 
 const customLoader = (
   <svg
@@ -43,6 +52,7 @@ const Profiles = () => {
   const [opened, { toggle, close }] = useDisclosure(false);
   const { addToRecentActivity } = useRecentActivityStore();
   const { firstname, lastname } = useStorePersonal();
+  const { classes, cx } = useStyles();
 
   useEffect(() => {
     if (!selectedProfile) return;
@@ -76,24 +86,16 @@ const Profiles = () => {
   }
 
   return (
-    <Container w={'100%'} p={15} style={{maxWidth: '100%'}}>
-      <Flex
-        gap="md"
-        justify="flex-start"
-        align="center"
-        direction="row"
-        wrap="wrap"
-      >
-        <SearchTable onClick={setProfileClick}  />
-        <Stack h={890} sx={(theme) => ({ backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0], gap: 10 })}>
-          <LoadingOverlay visible={isLoading} overlayOpacity={0.95} transitionDuration={250} loader={customLoader} style={{left: 690, width: '61.5%', height: '97%', top: 15}} />
-          <ProfileInformation onClick={setProfileClick} saveProfile={saveProfileClick} />
-          <Flex gap="md" justify="flex-start" align="center" direction="row" wrap="wrap">
-            <RelatedIncidents />
-            <InvolvedIncidents />
-          </Flex>
-        </Stack>
-      </Flex>
+    <div className={classes.profiles}>
+      <SearchTable onClick={setProfileClick}  />
+      <Stack sx={(theme) => ({ gap: 12 })}>
+        <LoadingOverlay visible={isLoading} overlayOpacity={0.95} overlayColor={"rgb(34, 35, 37)"} transitionDuration={250} loader={customLoader} style={{left: 705, width: '60.25%', height: '96%', top: 19, borderRadius: '0.25rem'}} />
+        <ProfileInformation onClick={setProfileClick} saveProfile={saveProfileClick} />
+        <Flex gap="md" justify="flex-start" align="center" direction="row" wrap="wrap">
+          <RelatedIncidents />
+          <InvolvedIncidents />
+        </Flex>
+      </Stack>
 
       <Transition mounted={opened} transition={'scale'} duration={200} timingFunction="ease">
         {(styles) => (
@@ -102,7 +104,7 @@ const Profiles = () => {
           </Alert>
         )}
       </Transition>
-    </Container>
+    </div>
   )
 }
 

@@ -69,7 +69,7 @@ const ActiveUnits = (props: UnitData) => {
 
 	return (
 		<div className={classes.styling} ref={setNodeRef} {...listeners} {...attributes}>
-			<Paper withBorder sx={(theme) => ({ backgroundColor: theme.colors.dark[8], padding: theme.spacing.xs, borderRadius: theme.radius.sm })}>
+			<Paper withBorder sx={(theme) => ({ backgroundColor: '#1d1e20', padding: theme.spacing.xs, borderRadius: theme.radius.sm })}>
         <Group position="apart">
           <Badge color='orange'>{props.unitName}</Badge>
           {isMember &&

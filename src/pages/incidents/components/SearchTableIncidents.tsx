@@ -4,7 +4,10 @@ import { useDebouncedValue } from '@mantine/hooks';
 import { IconSearch, IconAdjustments } from '@tabler/icons-react';
 import { IncidentData } from '../../../typings';
 import { useStoreIncidents } from '../../../store/incidentsStore';
-import { timeAgo } from '../../../utils/convertDateToTime';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+
+dayjs.extend(relativeTime)
 
 const useStyles = createStyles((theme) => ({
   user: {
@@ -17,7 +20,7 @@ const useStyles = createStyles((theme) => ({
     marginTop: 5,
     padding: 10,
     borderRadius: 5,
-    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white,
+    backgroundColor: '#1d1e20',
     border: `0.1px solid rgb(42, 42, 42, 1)`,
 
     '&:hover': {
@@ -41,14 +44,14 @@ const SearchTableIncidents = (props: {onClick: (data: IncidentData | null) => vo
   const { classes } = useStyles();
 
   return (
-    <Paper p='sm' withBorder style={{width: 365}}>
+    <Paper p='sm' withBorder style={{width: 450, backgroundColor: 'rgb(34, 35, 37)'}}>
       <Flex gap="xs" justify="flex-start" align="center" direction="row" wrap="wrap" style={{marginBottom: 10}}>
         <TextInput
           placeholder="Search incidents..."
           icon={<IconSearch size={16} />}
           value={query}
           onChange={(e) => setQuery(e.currentTarget.value)}
-          w={240}
+          w={322}
         />
         <Button variant="default" leftIcon={<IconAdjustments size={rem(14)} />}>
           Filter
@@ -74,7 +77,7 @@ const SearchTableIncidents = (props: {onClick: (data: IncidentData | null) => vo
                 </Text>
 
                 <Text fz="xs" fw={500} className={classes.name}>
-                  {incident.createdBy.firstname} {incident.createdBy.lastname} - {timeAgo(incident.timeStamp)}
+                  {incident.createdBy.firstname} {incident.createdBy.lastname} - {dayjs(incident.timeStamp).fromNow().charAt(0).toUpperCase() + dayjs(incident.timeStamp).fromNow().slice(1)}
                 </Text>
               </Group>
             </div>

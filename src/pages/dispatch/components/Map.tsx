@@ -7,7 +7,7 @@ type RefType = {
 }
 
 const Map = (props: PropsWithChildren<{}>, ref: Ref<RefType>) => {
-  const customImageUrl = "https://i1.lensdump.com/i/gj7atT.png";
+  const customImageUrl = "https://i.imgur.com/EdOZjzF.jpg";
 	const map = useMap();
 
   const flyToPos = (coordsY: number, coordsX: number) => {

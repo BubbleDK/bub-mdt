@@ -31,6 +31,7 @@
     "@tiptap/pm": "^2.0.2",
     "@tiptap/react": "^2.0.2",
     "@tiptap/starter-kit": "^2.0.2",
+    "dayjs": "^1.11.7",
     "immer": "^9.0.21",
     "leaflet": "^1.9.3",
     "mantine-datatable": "^2.3.4",

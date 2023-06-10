@@ -28,7 +28,7 @@ const useStyles = createStyles((theme) => ({
 
 	map: {
 		height: "880px",
-		width: "7+85px",
+		width: "785px",
 		border: "1px solid gray",
 		backgroundColor: "rgb(125, 193, 220)",
 		display: "flex",
@@ -41,12 +41,12 @@ const useStyles = createStyles((theme) => ({
 
 	activeCalls: {
 		width: 350,
-    backgroundColor: '#1A1B1E',
+    backgroundColor: 'rgb(34, 35, 37)'
 	},
 
   activeUnits: {
     width: 320,
-    backgroundColor: '#1A1B1E',
+    backgroundColor: 'rgb(34, 35, 37)'
   },
 
   headerBox: {
@@ -145,6 +145,7 @@ const Dispatch = () => {
     validate: {
       unitName: (value) => (value.length === 0 ? 'Unit name is required' : units.some(el => el.unitName === value.toLocaleLowerCase()) ? 'Unit name already exist!' : null),
       unitVehicle: (value) => (value === '' ? 'You must pick a vehicle type' : null),
+      unitOfficers: (value) => (value.length < 1 ? 'You must pick at least one officer' : null),
     },
   });
 
@@ -161,6 +162,7 @@ const Dispatch = () => {
   }
 
   const handleSubmit = (props: UnitData) => {
+    console.log(form.values.unitOfficers.length)
     addUnit(props);
     setPopoverOpened(false);
     form.reset();
@@ -206,7 +208,7 @@ const Dispatch = () => {
       <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd} sensors={sensors}>
         <div className={classes.activeCalls}>
           <Group position="apart" className={classes.headerBox}>
-            <Title order={6}>
+            <Title order={6} c={'white'} fw={550}>
               Active Calls
             </Title>
           </Group>
@@ -234,27 +236,27 @@ const Dispatch = () => {
         </div>
         <div className={classes.activeUnits}>
           <Group position="apart" className={classes.headerBox} style={{paddingBottom: 14}}>
-            <Title order={6}>
+            <Title order={6} c={'white'} fw={550}>
               Units
             </Title>
             <Popover width={320} position="bottom" withArrow shadow="md" opened={popoverOpened} onChange={setPopoverOpened} transitionProps={{ transition: 'pop' }}>
-                <Popover.Target>
-                  {isOfficerAlreadyInAUnit(citizenid) ? (
-                    <Tooltip label="You are already a part of a unit" color="dark" position="bottom" withArrow>
+              <Popover.Target>
+                {isOfficerAlreadyInAUnit(citizenid) ? (
+                  <Tooltip label="You are already a part of a unit" color="dark" position="bottom" withArrow>
                     <UnstyledButton sx={(theme) => ({borderRadius: theme.radius.sm, cursor: "pointer", "&:hover": {backgroundColor: theme.colors.dark[5]}})}>
                       <IconPlus size="1.4rem" stroke={1.5} />
                     </UnstyledButton>
                   </Tooltip>
-                  ) : (
-                    <Tooltip label="Create new unit" color="dark" position="bottom" withArrow>
-                      <UnstyledButton sx={(theme) => ({borderRadius: theme.radius.sm, cursor: "pointer", "&:hover": {backgroundColor: theme.colors.dark[5]}})} onClick={() => setPopoverOpened((o) => !o)}>
-                        <IconPlus size="1.4rem" stroke={1.5} />
-                      </UnstyledButton>
-                    </Tooltip>
-                  )}
-                </Popover.Target>
+                ) : (
+                  <Tooltip label="Create new unit" color="dark" position="bottom" withArrow>
+                    <UnstyledButton sx={(theme) => ({borderRadius: theme.radius.sm, cursor: "pointer", "&:hover": {backgroundColor: theme.colors.dark[5]}})} onClick={() => setPopoverOpened((o) => !o)}>
+                      <IconPlus size="1.4rem" stroke={1.5} />
+                    </UnstyledButton>
+                  </Tooltip>
+                )}
+              </Popover.Target>
 
-              <Popover.Dropdown sx={(theme) => ({ background: theme.colors.dark[7] })}>
+              <Popover.Dropdown sx={(theme) => ({ background: '#1d1e20' })}>
                 <form onSubmit={form.onSubmit((values) => handleSubmit({id: getHighestId(), unitName: values.unitName.toLocaleLowerCase(), carModel: values.unitVehicle , unitMembers: findUnitMembers(values.unitOfficers), isOwner: citizenid}))}>
                   <TextInput placeholder="Eg. unit-1" label="Unit Name" data-autofocus withAsterisk {...form.getInputProps('unitName')} />
 
@@ -280,6 +282,7 @@ const Dispatch = () => {
                     searchable
                     clearButtonProps={{ 'aria-label': 'Clear selection' }}
                     clearable
+                    withAsterisk
                     nothingFound="Nothing found"
                     {...form.getInputProps('unitOfficers')}
                   />
