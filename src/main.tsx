@@ -66,7 +66,17 @@ debugData([{
         involvedOfficers: [{ citizenid: 1, firstname: 'Bubble', lastname: 'Test', role: 'Cheif', callsign: 'C-01', phone: '0000000'}],
         involvedCivilians: [{ citizenid: "CITI54321", firstname: 'John', lastname: 'Doe',  birthdate: '1990-11-13',  gender: 'Male',  nationality: 'Denmark',  phone: '1778528281',  employment: [{companyName: 'San Andreas Scouts', jobPosition: 'Head Management'}, {companyName: 'Los Santos Billboards', jobPosition: 'Owner'}, {companyName: 'UwU Cafe', jobPosition: 'Associate'}],  licenses: [{licenseType: 'Drivers License', color: 'teal'}], tags: [{ value: "dangerous", label: "Dangerous", backgroundcolor: "#C92A2A" }, {value: 'funny', label: 'Funny guy', backgroundcolor: "#141517"}], image: 'https://img.gta5-mods.com/q75/images/pepe-jean-s-for-male-mp-fivem/8ac75d-13825a080b7c4e241e3628811c3fd470.png',  notes: 'A very dangerous criminal'}],
         evidence: 'evidence',
-        involvedCriminals: [{ citizenId: 'CITI12345', charges: [{id: 1, title: 'Speeding', details: 'Driving over the posted speed limit', jailtime: 0, fine: 150, points: 1, category: 'Traffic Violations', color: 'green', amountOfAddedCharges: 2}], isWarrantForArrestActive: false, final: '0% / 0 months / $300 fine / 2 points', pleadedGuilty: true, processed: true }],
+        involvedCriminals: [{ citizenId: 'CITI12345', charges: [{
+          id: 1,
+          title: 'First Degree Speeding',
+          details: 'Drives in excess of the speed limit by more than 55 miles per hour. Adds 3 points.',
+          jailtime: 0,
+          fine: 1125,
+          points: 3,
+          category: 'Traffic Violations',
+          color: 'green',
+          amountOfAddedCharges: 2
+        }], isWarrantForArrestActive: false, final: '0% / 0 months / $300 fine / 2 points', pleadedGuilty: true, processed: true }],
         timeStamp: new Date().valueOf(),
         createdBy: { citizenid: 1, firstname: 'Bubble', lastname: 'Test', role: 'Cheif', callsign: 'C-01', phone: '0000000'},
       },

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { ActionIcon, Group, Paper, Tooltip, Text, createStyles, Divider, Badge, Checkbox, Select, rem } from '@mantine/core'
+import { ActionIcon, Group, Paper, Tooltip, Text, createStyles, Divider, Badge, Checkbox, Select, rem, Modal } from '@mantine/core'
 import { IconChevronDown, IconPlus, IconTrash, IconX } from '@tabler/icons-react';
 import { useStoreIncidents } from '../../../store/incidentsStore';
 import { useStoreProfiles } from '../../../store/profilesStore';
@@ -27,7 +27,7 @@ const CriminalsRow = () => {
             <IconPlus size={16} />
           </ActionIcon>
         </Tooltip>
-			</Group>
+      </Group>
 
       <Divider my='sm' />
 

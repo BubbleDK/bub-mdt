@@ -1,4 +1,4 @@
-import { ActionIcon, Badge, Button, Center, Divider, Group, Paper, Popover, ScrollArea, Select, Text, TextInput, Tooltip, UnstyledButton, createStyles, rem } from '@mantine/core'
+import { ActionIcon, Avatar, Badge, Button, Center, Divider, Group, Paper, Popover, ScrollArea, Select, Text, TextInput, Tooltip, UnstyledButton, createStyles, rem } from '@mantine/core'
 import { IconDeviceFloppy, IconLinkOff, IconPencilPlus, IconLocation, IconPlus, IconX } from '@tabler/icons-react'
 import React, { useEffect, useState } from 'react'
 import { useStoreIncidents } from '../../../store/incidentsStore';
@@ -200,6 +200,87 @@ const IncidentRow = (props: Props) => {
             <div className={classes.item}>
               <Group position="apart">
                 <Text fz="sm" fw={500} c="white">
+                  Involved Evidence
+                </Text>
+
+                <Tooltip label='Add Evidence' withArrow color='dark' position="top-end">
+                  <ActionIcon className={classes.action} onClick={() => { }}>
+                    <IconPlus size={16} />
+                  </ActionIcon>
+                </Tooltip>
+              </Group>
+            </div>
+          </div>
+
+          <div className={classes.user}>
+            <div className={classes.item}>
+              <Group position="apart">
+                <Text fz="sm" fw={500} c="white">
+                  Involved Officers
+                </Text>
+
+                <Tooltip label='Add Officer' withArrow color='dark' position="top-end">
+                  <ActionIcon className={classes.action} onClick={() => { }}>
+                    <IconPlus size={16} />
+                  </ActionIcon>
+                </Tooltip>
+              </Group>
+
+              <div>
+                {selectedIncident?.involvedOfficers.map((officer) => (
+                  <Badge 
+                    radius="xs" 
+                    variant="filled"
+                    style={{backgroundColor: 'rgb(42, 42, 42)', marginRight: 5, marginBottom: 5, paddingTop: 10, paddingBottom: 10}}
+                    rightSection={
+                      <ActionIcon size="xs" radius="xs" variant="transparent">
+                        <IconX size={rem(14)} />
+                      </ActionIcon>
+                    }
+                  >
+                    ({officer.callsign}) {officer.firstname} {officer.lastname}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className={classes.user}>
+            <div className={classes.item}>
+              <Group position="apart">
+                <Text fz="sm" fw={500} c="white">
+                  Involved Citizens
+                </Text>
+
+                <Tooltip label='Add Citizen' withArrow color='dark' position="top-end">
+                  <ActionIcon className={classes.action} onClick={() => { }}>
+                    <IconPlus size={16} />
+                  </ActionIcon>
+                </Tooltip>
+              </Group>
+            </div>
+          </div>
+          
+          <div className={classes.user}>
+            <div className={classes.item}>
+              <Group position="apart">
+                <Text fz="sm" fw={500} c="white">
+                  Involved Vehicles
+                </Text>
+
+                <Tooltip label='Add Vehicle' withArrow color='dark' position="top-end">
+                  <ActionIcon className={classes.action} onClick={() => { }}>
+                    <IconPlus size={16} />
+                  </ActionIcon>
+                </Tooltip>
+              </Group>
+            </div>
+          </div>
+
+          <div className={classes.user}>
+            <div className={classes.item}>
+              <Group position="apart">
+                <Text fz="sm" fw={500} c="white">
                   Tags
                 </Text>
 
@@ -237,10 +318,9 @@ const IncidentRow = (props: Props) => {
                   <Badge 
                     color={tag.backgroundcolor}
                     radius="xs" 
-                    variant="light"
-                    pl={3}
-                    style={{margin: 2.5}}
-                    leftSection={
+                    variant="filled"
+                    style={{marginRight: 5, marginBottom: 5,}}
+                    rightSection={
                       <ActionIcon size="xs" radius="xs" variant="transparent">
                         <IconX size={rem(14)} />
                       </ActionIcon>
@@ -250,70 +330,6 @@ const IncidentRow = (props: Props) => {
                   </Badge>
                 ))}
               </div>
-            </div>
-          </div>
-
-          <div className={classes.user}>
-            <div className={classes.item}>
-              <Group position="apart">
-                <Text fz="sm" fw={500} c="white">
-                  Involved Officers
-                </Text>
-
-                <Tooltip label='Add Officer' withArrow color='dark' position="top-end">
-                  <ActionIcon className={classes.action} onClick={() => { }}>
-                    <IconPlus size={16} />
-                  </ActionIcon>
-                </Tooltip>
-              </Group>
-            </div>
-          </div>
-
-          <div className={classes.user}>
-            <div className={classes.item}>
-              <Group position="apart">
-                <Text fz="sm" fw={500} c="white">
-                  Involved Citizens
-                </Text>
-
-                <Tooltip label='Add Citizen' withArrow color='dark' position="top-end">
-                  <ActionIcon className={classes.action} onClick={() => { }}>
-                    <IconPlus size={16} />
-                  </ActionIcon>
-                </Tooltip>
-              </Group>
-            </div>
-          </div>
-
-          <div className={classes.user}>
-            <div className={classes.item}>
-              <Group position="apart">
-                <Text fz="sm" fw={500} c="white">
-                  Involved Evidence
-                </Text>
-
-                <Tooltip label='Add Evidence' withArrow color='dark' position="top-end">
-                  <ActionIcon className={classes.action} onClick={() => { }}>
-                    <IconPlus size={16} />
-                  </ActionIcon>
-                </Tooltip>
-              </Group>
-            </div>
-          </div>
-          
-          <div className={classes.user}>
-            <div className={classes.item}>
-              <Group position="apart">
-                <Text fz="sm" fw={500} c="white">
-                  Involved Vehicles
-                </Text>
-
-                <Tooltip label='Add Vehicle' withArrow color='dark' position="top-end">
-                  <ActionIcon className={classes.action} onClick={() => { }}>
-                    <IconPlus size={16} />
-                  </ActionIcon>
-                </Tooltip>
-              </Group>
             </div>
           </div>
         </div>
