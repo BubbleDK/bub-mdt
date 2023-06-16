@@ -7,7 +7,7 @@ import Dispatch from './pages/dispatch';
 import { IconLayoutDashboard, IconUserCircle, IconBuildingBank, IconSlice, IconVideo, IconCar, IconScript, IconFileDescription, IconBriefcase, IconZoomExclamation, IconMap2, IconUsers, IconPointFilled, IconBuildingSkyscraper, IconChartHistogram, IconSettings, IconChevronRight, IconChevronLeft, IconCode, IconFileEuro, IconDotsVertical, IconDoorExit } from '@tabler/icons-react';
 import LSPDLogo from './assets/lspd.png';
 import { useNuiEvent } from './hooks/useNuiEvent';
-import { AlertData, IncidentData, OfficerData, ProfileData, UnitData } from './typings';
+import { AlertData, IncidentData, OfficerData, ProfileData, ReportData, UnitData } from './typings';
 import { useStoreOfficers } from './store/officersStore';
 import { useStoreDispatch } from './store/dispatchStore';
 import { useStoreUnit } from './store/unitStore';
@@ -17,6 +17,8 @@ import { useStoreProfiles } from './store/profilesStore';
 import Incidents from './pages/incidents';
 import { useStoreIncidents } from './store/incidentsStore';
 import PenalCodes from './pages/penalcodes';
+import Reports from './pages/reports';
+import { useStoreReports } from './store/reportsStore';
 
 const useStyles = createStyles((theme) => ({
   control: {
@@ -115,6 +117,7 @@ interface SetupMdtData {
   announcements: AnnouncementData[];
   profiles: ProfileData[];
   incidents: IncidentData[];
+  reports: ReportData[];
 }
 
 const homeData = [
@@ -153,6 +156,7 @@ function App() {
   const [visible, setVisible] = useState(false);
   const [activeLink, setActiveLink] = useState('');
   const location = useLocation();
+  const { setReports } = useStoreReports();
   const { setOfficers } = useStoreOfficers();
   const { setAlerts } = useStoreDispatch();
   const { setUnits } = useStoreUnit();
@@ -171,6 +175,7 @@ function App() {
     setAnnouncements(data.announcements);
     setProfiles(data.profiles);
     setIncidents(data.incidents);
+    setReports(data.reports);
   });
 
   useEffect(() => {
@@ -357,6 +362,7 @@ function App() {
                 <Route path='/' element={<Dashboard />} />
                 <Route path="/profiles" element={<Profiles />} />
                 <Route path="/incidents" element={<Incidents />} />
+                <Route path='/reports' element={<Reports />} />
                 <Route path="/dispatch" element={<Dispatch />} />
                 <Route path="/penalcodes" element={<PenalCodes />} />
               </Routes>

@@ -120,6 +120,16 @@ debugData([{
       }
     ],
 
+    reports: [
+      {
+        id: 1,
+        title: 'Bubble Stolen firearms',
+        category: 'Investigative Reports',
+        timeCreated: new Date().valueOf(),
+        createdBy: {citizenId: "CITI12345", firstname: 'Bubble', lastname: 'Test'},
+      }
+    ],
+
     personalInformation: {
       citizenid: 1, 
       firstname: 'Bubble', 

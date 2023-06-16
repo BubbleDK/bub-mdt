@@ -268,7 +268,7 @@ const InvolvedCriminals = (props: Props) => {
                         variant="filled"
                         style={{backgroundColor: 'rgb(42, 42, 42)', color: 'white', fontSize: 10, padding: 12.5, margin: 5, fontWeight: 500}}
                       >
-                        {charge.jailtime} months
+                        {charge.jailtime} month(s)
                       </Badge>
 
                       <Badge 
@@ -374,7 +374,7 @@ const InvolvedCriminals = (props: Props) => {
                           variant="filled"
                           style={{backgroundColor: 'rgb(42, 42, 42)', color: 'white', fontSize: 10, padding: 12.5, margin: 5, fontWeight: 500}}
                         >
-                          {charge.jailtime} months
+                          {charge.jailtime} month(s)
                         </Badge>
 
                         <Badge 
