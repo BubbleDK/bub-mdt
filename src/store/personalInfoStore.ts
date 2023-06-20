@@ -6,18 +6,19 @@ export type PersonalActions = {
 }
 
 const initialState: OfficerData = {
-  citizenid: 0,
+  citizenid: '',
   firstname: '',
   lastname: '',
   role: '',
   callsign: '',
   phone: '',
+  image: '',
 }
 
 export const useStorePersonal = create<OfficerData & PersonalActions>((set) => ({
   ...initialState,
 
   setPersonalData: (data: OfficerData) => {
-    set({ citizenid: data.citizenid, firstname: data.firstname, lastname: data.lastname, role: data.role, callsign: data.callsign, phone: data.phone })
+    set({ citizenid: data.citizenid, firstname: data.firstname, lastname: data.lastname, role: data.role, callsign: data.callsign, phone: data.phone, image: data.image })
   },
 }))

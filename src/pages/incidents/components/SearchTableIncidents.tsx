@@ -58,7 +58,7 @@ const SearchTableIncidents = (props: {onClick: (data: IncidentData | null) => vo
         </Button>
       </Flex>
       <ScrollArea style={{ height: 820 }}>
-        {incidents.map((incident) => (
+        {incidents.slice().sort((a, b) => b.id - a.id).map((incident) => (
           <UnstyledButton className={classes.user} onClick={() => { props.onClick(incident); }} key={incident.id}>
             <div className={classes.item}>
               <Group position="apart">
@@ -77,7 +77,7 @@ const SearchTableIncidents = (props: {onClick: (data: IncidentData | null) => vo
                 </Text>
 
                 <Text fz="xs" fw={500} className={classes.name}>
-                  {incident.createdBy.firstname} {incident.createdBy.lastname} - {dayjs(incident.timeStamp).fromNow().charAt(0).toUpperCase() + dayjs(incident.timeStamp).fromNow().slice(1)}
+                  {incident.createdBy?.firstname} {incident.createdBy?.lastname} - {dayjs(incident.timeStamp).fromNow().charAt(0).toUpperCase() + dayjs(incident.timeStamp).fromNow().slice(1)}
                 </Text>
               </Group>
             </div>

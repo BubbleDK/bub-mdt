@@ -1,5 +1,5 @@
 export type OfficerData = {
-  citizenid: number,
+  citizenid: string,
   firstname: string,
   lastname: string,
   role: string,

@@ -78,7 +78,7 @@ debugData([{
           amountOfAddedCharges: 2
         }], isWarrantForArrestActive: false, final: '0% / 0 months / $300 fine / 2 points', pleadedGuilty: true, processed: true }],
         timeStamp: new Date().valueOf(),
-        createdBy: { citizenid: 1, firstname: 'Bubble', lastname: 'Test', role: 'Cheif', callsign: 'C-01', phone: '0000000'},
+        createdBy: { citizenid: "CITI12345", firstname: 'Bubble', lastname: 'Test', role: 'Cheif', callsign: 'C-01', phone: '0000000'},
       },
       {
         id: 2,
@@ -90,7 +90,7 @@ debugData([{
         evidence: 'evidence',
         involvedCriminals: [],
         timeStamp: new Date().valueOf(),
-        createdBy: { citizenid: 1, firstname: 'Bubble', lastname: 'Test', role: 'Cheif', callsign: 'C-01', phone: '0000000'},
+        createdBy: { citizenid: "CITI12345", firstname: 'Bubble', lastname: 'Test', role: 'Cheif', callsign: 'C-01', phone: '0000000'},
       },
     ],
 
@@ -102,14 +102,14 @@ debugData([{
         title: 'A nice title', 
         time: new Date().valueOf(),
         content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex dolor in esse numquam? Ratione ut impedit officia nemo, pariatur voluptatem quas culpa distinctio excepturi? Dolorum minima blanditiis neque natus dolor?', 
-        postedBy: {citizenid: 1, firstname: 'Bubble', lastname: 'Test', role: 'Cheif', callsign: 'C-01', phone: '0000000'}
+        postedBy: {citizenid: "CITI12345", firstname: 'Bubble', lastname: 'Test', role: 'Cheif', callsign: 'C-01', phone: '0000000'}
       }, 
       {
         id: 2, 
         title: 'A nice title', 
         time: 1686002400000, 
         content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex dolor in esse numquam? Ratione ut impedit officia nemo, pariatur voluptatem quas culpa distinctio excepturi? Dolorum minima blanditiis neque natus dolor?', 
-        postedBy: {citizenid: 1, firstname: 'Bubble', lastname: 'Test', role: 'Cheif', callsign: 'C-01', phone: '0000000'}
+        postedBy: {citizenid: "CITI12345", firstname: 'Bubble', lastname: 'Test', role: 'Cheif', callsign: 'C-01', phone: '0000000'}
       }, 
       {
         id: 3, 
@@ -131,12 +131,13 @@ debugData([{
     ],
 
     personalInformation: {
-      citizenid: 1, 
+      citizenid: "CITI12345", 
       firstname: 'Bubble', 
       lastname: 'Test', 
       role: 'Cheif', 
       callsign: 'C-01', 
-      phone: '0000000'
+      phone: '0000000',
+      image: 'https://www.gamersheroes.com/wp-content/uploads/2021/12/How-To-Fix-Invisibility-Bug-In-Agencies-In-GTA-Online.jpg', 
     }
   }
 }])

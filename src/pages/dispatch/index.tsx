@@ -162,7 +162,6 @@ const Dispatch = () => {
   }
 
   const handleSubmit = (props: UnitData) => {
-    console.log(form.values.unitOfficers.length)
     addUnit(props);
     setPopoverOpened(false);
     form.reset();

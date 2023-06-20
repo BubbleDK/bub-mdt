@@ -169,7 +169,7 @@ const charges: ChargesData[]  = [
   },
 ]
 
-const InvolvedCriminals = (props: Props) => {
+const InvolvedCriminal = (props: Props) => {
   const { classes, theme } = useStyles();
   const { getProfile } = useStoreProfiles();
   const [isWarrantForArrest, setIsWarrantForArrest] = useState(false);
@@ -511,4 +511,4 @@ const InvolvedCriminals = (props: Props) => {
   )
 }
 
-export default InvolvedCriminals
+export default InvolvedCriminal

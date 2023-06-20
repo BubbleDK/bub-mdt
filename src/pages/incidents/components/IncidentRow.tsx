@@ -14,6 +14,9 @@ import Superscript from "@tiptap/extension-superscript";
 import SubScript from "@tiptap/extension-subscript";
 import { Color } from "@tiptap/extension-color";
 import TextStyle from "@tiptap/extension-text-style";
+import { useRecentActivityStore } from '../../../store/recentActivity';
+import { useStorePersonal } from '../../../store/personalInfoStore';
+import { useDisclosure } from '@mantine/hooks';
 
 const useStyles = createStyles((theme) => ({
 	action: {
@@ -37,12 +40,18 @@ const useStyles = createStyles((theme) => ({
 
 interface Props {
   handleUnlink: (data: IncidentData | null) => void;
+  handleCreateNewIncident: () => void;
+  handleSaveIncident: () => void;
 }
 
 const IncidentRow = (props: Props) => {
   const { classes, theme } = useStyles();
-  const { selectedIncident } = useStoreIncidents();
+  const { selectedIncident, createNewIncident } = useStoreIncidents();
   const [openedTagPopover, setOpenedTagPopover] = useState(false);
+  const [titleSet, setTitleSet] = useState(true);
+  const { addToRecentActivity } = useRecentActivityStore();
+  const { firstname, lastname } = useStorePersonal();
+  const [opened, { toggle, close }] = useDisclosure(false);
   const form = useForm({
     initialValues: {
       title: '',
@@ -70,18 +79,40 @@ const IncidentRow = (props: Props) => {
   useEffect(() => {
     if (selectedIncident) {
       form.setValues({
-        title: selectedIncident.title
+        title: selectedIncident.title,
+        location: selectedIncident.location,
       })
+
+      editor?.commands.setContent(selectedIncident.details);
     } else {
       form.setValues({
         title: '',
         location: '',
       })
+
+      editor?.commands.setContent('Incident description...');
     }
   }, [selectedIncident]);
 
   function handleSubmit(): void {
     throw new Error('Function not implemented.');
+  }
+
+  function handleCreateClick() {
+    if (form.values.title === '') {
+      setTitleSet(false);
+    } else {
+      const newIncidentId = createNewIncident(form.values.title, editor ? editor.getHTML() : 'Incident description...', form.values.location);
+      console.log(newIncidentId)
+      form.reset();
+      addToRecentActivity({ category: 'Incidents', type: 'Created', doneBy: firstname + ' ' + lastname, timeAgo: new Date().valueOf(), timeAgotext: '', activityID: newIncidentId.toString() });
+      props.handleCreateNewIncident();
+    }
+  }
+
+  const handleSaveClick = () => {
+    addToRecentActivity({ category: 'Incidents', type: 'Updated', doneBy: firstname + ' ' + lastname, timeAgo: new Date().valueOf(), timeAgotext: '', activityID: '3' });
+    props.handleSaveIncident();
   }
 
   return (
@@ -91,19 +122,19 @@ const IncidentRow = (props: Props) => {
 				<Group spacing={8} mr={0}>
           {selectedIncident ? (
             <Tooltip label='Save' withArrow color='dark' position='bottom'>
-              <ActionIcon className={classes.action} onClick={() => { }}>
+              <ActionIcon className={classes.action} onClick={() => { handleSaveClick(); }}>
                 <IconDeviceFloppy size={16} color={theme.colors.green[6]} />
               </ActionIcon>
             </Tooltip>
           ) : (
             <Tooltip label='Create' withArrow color='dark' position='bottom'>
-              <ActionIcon className={classes.action} onClick={() => { }}>
+              <ActionIcon className={classes.action} onClick={() => { handleCreateClick(); }}>
                 <IconPencilPlus size={16} color={theme.colors.green[6]} />
               </ActionIcon>
 					  </Tooltip>
           )}
 					<Tooltip label='Unlink' withArrow color='dark' position='bottom'>
-						<ActionIcon className={classes.action} onClick={() => { props.handleUnlink(null); }}>
+						<ActionIcon className={classes.action} onClick={() => { props.handleUnlink(null); form.reset(); editor?.commands.setContent('Incident description...'); }}>
 							<IconLinkOff size={16} color={theme.colors.gray[5]} />
 						</ActionIcon>
 					</Tooltip>
@@ -114,7 +145,7 @@ const IncidentRow = (props: Props) => {
 
       <ScrollArea h={800} scrollbarSize={4} type="never">
         <div style={{display: 'flex', flexDirection: 'column', gap: 10}}>
-          <TextInput radius='xs' variant="filled" placeholder="Place title here..." {...form.getInputProps('title')} />
+          <TextInput radius='xs' variant="filled" placeholder="Place title here..." {...form.getInputProps('title')} error={!titleSet ? 'Fill in a title' : false} />
 
           <RichTextEditor editor={editor} styles={{ content: { backgroundColor: 'rgb(34, 35, 37)' }, toolbar: { backgroundColor: '#252628', zIndex: 999 }}} style={{borderRadius: 2}}>
             <RichTextEditor.Toolbar>
