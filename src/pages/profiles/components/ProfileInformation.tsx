@@ -45,6 +45,7 @@ import TextStyle from "@tiptap/extension-text-style";
 import React, { useEffect, useState } from "react";
 import { useStoreProfiles } from "../../../store/profilesStore";
 import { ProfileData, TagData } from "../../../typings";
+import TextEditor from "../../../components/TextEditor";
 
 const useStyles = createStyles((theme) => ({
 	action: {
@@ -58,31 +59,13 @@ const useStyles = createStyles((theme) => ({
 const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void, saveProfile: (data: ProfileData | null) => void}) => {
   const { selectedProfile } = useStoreProfiles();
 	const { classes, theme } = useStyles();
-  const editor = useEditor(
-    {
-      extensions: [
-        StarterKit,
-        Underline,
-        Link,
-        Superscript,
-        SubScript,
-        Highlight,
-        Color,
-        TextStyle,
-        TextAlign.configure({ types: ["heading", "paragraph"] }),
-      ],
-      editable: selectedProfile ? true : false,
-      content: 'Place user information here...',
-    }
-  );
+  
   const [availableTags, setAvailableTags] = useState<TagData[]>([]);
   const [selectedTagValues, setSelectedTagValues] = useState<string[]>([]);
+  const [editorContent,setEditorContent] = useState(selectedProfile?.notes ? selectedProfile.notes : 'Place user information here...')
 
 
   useEffect(() => {
-    editor?.commands.setContent(selectedProfile?.notes || 'Place user information here...');
-    editor?.setEditable(selectedProfile ? true : false);
-
     const profileTags = selectedProfile ? selectedProfile.tags : [];
     const initialTagData = [{ value: "dangerous", label: "Dangerous", backgroundcolor: "#C92A2A" }, { value: "whatever", label: "Whatever", backgroundcolor: "#141517" }]
     setAvailableTags([...initialTagData, ...profileTags.filter((profileTag) => !initialTagData.some((initialTag) => initialTag.value === profileTag.value))]);
@@ -145,7 +128,7 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void,
 				<Text weight={500}>Citizen</Text>
 				<Group spacing={8} mr={0}>
 					<Tooltip label='Save' withArrow color='dark' position='bottom'>
-						<ActionIcon className={classes.action} onClick={() => { props.saveProfile(selectedProfile ? { ...selectedProfile, notes: editor ? editor.getHTML() : selectedProfile.notes, tags: availableTags.filter((tag) => selectedTagValues.includes(tag.value)) } : null) }} disabled={!selectedProfile}>
+						<ActionIcon className={classes.action} onClick={() => { props.saveProfile(selectedProfile ? { ...selectedProfile, notes: editorContent, tags: availableTags.filter((tag) => selectedTagValues.includes(tag.value)) } : null) }} disabled={!selectedProfile}>
 							<IconDeviceFloppy size={16} color={theme.colors.green[6]} />
 						</ActionIcon>
 					</Tooltip>
@@ -199,62 +182,13 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void,
 							disabled
 						/>
 					</Stack>
-					<RichTextEditor editor={editor} styles={{ content: { backgroundColor: 'rgb(34, 35, 37)' }, toolbar: { backgroundColor: '#252628' }, controlsGroup: { pointerEvents: selectedProfile ? 'auto' : 'none', backgroundColor: selectedProfile ? '#1A1B1E' : '#282828' }}}>
-						<RichTextEditor.Toolbar sticky>
-							<RichTextEditor.ControlsGroup>
-								<RichTextEditor.Bold />
-								<RichTextEditor.Italic />
-								<RichTextEditor.Underline />
-								<RichTextEditor.Strikethrough />
-								<RichTextEditor.ClearFormatting />
-								<RichTextEditor.Highlight />
-							</RichTextEditor.ControlsGroup>
-
-							<RichTextEditor.ControlsGroup>
-								<RichTextEditor.Blockquote />
-								<RichTextEditor.Hr />
-								<RichTextEditor.BulletList />
-								<RichTextEditor.OrderedList />
-							</RichTextEditor.ControlsGroup>
-
-							<RichTextEditor.ControlsGroup>
-								<RichTextEditor.Link />
-								<RichTextEditor.Unlink />
-							</RichTextEditor.ControlsGroup>
-
-							<RichTextEditor.ControlsGroup>
-								<RichTextEditor.AlignLeft />
-								<RichTextEditor.AlignCenter />
-								<RichTextEditor.AlignJustify />
-								<RichTextEditor.AlignRight />
-							</RichTextEditor.ControlsGroup>
-
-							<RichTextEditor.ControlsGroup>
-								<RichTextEditor.ColorPicker
-									colors={[
-										"#25262b",
-										"#868e96",
-										"#fa5252",
-										"#e64980",
-										"#be4bdb",
-										"#7950f2",
-										"#4c6ef5",
-										"#228be6",
-										"#15aabf",
-										"#12b886",
-										"#40c057",
-										"#82c91e",
-										"#fab005",
-										"#fd7e14",
-									]}
-								/>
-							</RichTextEditor.ControlsGroup>
-						</RichTextEditor.Toolbar>
-
-						<ScrollArea style={{ height: 170, width: 625, padding: 0 }}>
-							<RichTextEditor.Content style={{ lineHeight: 0.8, padding: 0 }} />
-						</ScrollArea>
-					</RichTextEditor>
+					<TextEditor 
+						key={selectedProfile?.citizenid} 
+						initialContent={selectedProfile?.notes ? selectedProfile.notes : ''} 
+						onChange={(value) => setEditorContent(value)} 
+						styles={{ content: { backgroundColor: 'rgb(34, 35, 37)' }, toolbar: { backgroundColor: '#252628' }, controlsGroup: { pointerEvents: selectedProfile ? 'auto' : 'none', backgroundColor: selectedProfile ? '#1A1B1E' : '#282828' }}}
+						contentAreaStyle={{ height: 170, width: 625, padding: 0 }}
+					/>
 				</Flex>
         <ScrollArea h={370}>
 				  <Stack spacing={5} w={400}>

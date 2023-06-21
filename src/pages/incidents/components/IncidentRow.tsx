@@ -125,7 +125,13 @@ const IncidentRow = (props: Props) => {
         <div style={{display: 'flex', flexDirection: 'column', gap: 10}}>
           <TextInput radius='xs' variant="filled" placeholder="Place title here..." {...form.getInputProps('title')} error={!titleSet ? 'Fill in a title' : false} />
 
-          <TextEditor key={selectedIncident?.id} onChange={(value) => setEditorContent(value)} initialContent={selectedIncident?.details ? selectedIncident.details : ''} styles={{ content: { backgroundColor: 'rgb(34, 35, 37)' }, toolbar: { backgroundColor: '#252628', zIndex: 999 }}} />
+          <TextEditor 
+            key={selectedIncident?.id} 
+            onChange={(value) => setEditorContent(value)} 
+            initialContent={selectedIncident?.details ? selectedIncident.details : ''} 
+            styles={{ content: { backgroundColor: 'rgb(34, 35, 37)' }, toolbar: { backgroundColor: '#252628', zIndex: 999 }}} 
+            contentAreaStyle={{ height: 300, width: 510 }}
+          />
 
           <TextInput
             {...form.getInputProps('location')}
