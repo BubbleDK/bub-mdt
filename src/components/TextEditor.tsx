@@ -11,13 +11,14 @@ import Image from '@tiptap/extension-image'
 import { Color } from '@tiptap/extension-color';
 import TextStyle from '@tiptap/extension-text-style';
 import { IconPhoto } from '@tabler/icons-react';
-import { Button, Popover, ScrollArea, Space, Styles, TextInput } from '@mantine/core';
+import { Button, Popover, ScrollArea, ScrollAreaStylesNames, ScrollAreaStylesParams, Space, Styles, TextInput } from '@mantine/core';
 
 interface TextEditorProps {
     tiptapExtensions?: Extensions,
     initialContent: string,
     onChange: (newContent:string) => void,
     styles? : Styles<RichTextEditorStylesNames, Record<string, any>>
+    contentAreaStyle?: React.CSSProperties
 }
 
 const DEFAULT_EXTENSIONS: Extensions = [
@@ -33,7 +34,7 @@ const DEFAULT_EXTENSIONS: Extensions = [
     TextAlign.configure({ types: ["heading", "paragraph"] }),
 ]
 
-const TextEditor : React.FC<TextEditorProps> = ({tiptapExtensions,initialContent,onChange,styles}) => {
+const TextEditor : React.FC<TextEditorProps> = ({tiptapExtensions,initialContent,onChange,styles,contentAreaStyle}) => {
     const [addingImage,setAddingImage] = useState<boolean>(false)
     const [imageURLInput,setImageURLInput] = useState<string>('')
 
@@ -123,7 +124,7 @@ const TextEditor : React.FC<TextEditorProps> = ({tiptapExtensions,initialContent
               </RichTextEditor.ControlsGroup>
             
             </RichTextEditor.Toolbar>
-            <ScrollArea style={{ height: 300, width: 510 }}>
+            <ScrollArea style={contentAreaStyle}>
                 <RichTextEditor.Content />
             </ScrollArea>
         </RichTextEditor>
