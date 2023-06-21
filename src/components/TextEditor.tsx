@@ -11,7 +11,7 @@ import Image from '@tiptap/extension-image'
 import { Color } from '@tiptap/extension-color';
 import TextStyle from '@tiptap/extension-text-style';
 import { IconPhoto } from '@tabler/icons-react';
-import { Button, Popover, ScrollArea, ScrollAreaStylesNames, ScrollAreaStylesParams, Space, Styles, TextInput } from '@mantine/core';
+import { Button, Popover, ScrollArea, Space, Styles, TextInput } from '@mantine/core';
 
 interface TextEditorProps {
     tiptapExtensions?: Extensions,
