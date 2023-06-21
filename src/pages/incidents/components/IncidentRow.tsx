@@ -1,22 +1,13 @@
-import { ActionIcon, Avatar, Badge, Button, Center, Divider, Group, Paper, Popover, ScrollArea, Select, Text, TextInput, Tooltip, UnstyledButton, createStyles, rem } from '@mantine/core'
+import { ActionIcon, Badge, Button, Center, Divider, Group, Paper, Popover, ScrollArea, Select, Text, TextInput, Tooltip, createStyles, rem } from '@mantine/core'
 import { IconDeviceFloppy, IconLinkOff, IconPencilPlus, IconLocation, IconPlus, IconX } from '@tabler/icons-react'
 import React, { useEffect, useState } from 'react'
 import { useStoreIncidents } from '../../../store/incidentsStore';
 import { IncidentData } from '../../../typings';
 import { useForm } from '@mantine/form';
-import { RichTextEditor, Link } from "@mantine/tiptap";
-import { useEditor } from "@tiptap/react";
-import Highlight from "@tiptap/extension-highlight";
-import StarterKit from "@tiptap/starter-kit";
-import Underline from "@tiptap/extension-underline";
-import TextAlign from "@tiptap/extension-text-align";
-import Superscript from "@tiptap/extension-superscript";
-import SubScript from "@tiptap/extension-subscript";
-import { Color } from "@tiptap/extension-color";
-import TextStyle from "@tiptap/extension-text-style";
 import { useRecentActivityStore } from '../../../store/recentActivity';
 import { useStorePersonal } from '../../../store/personalInfoStore';
 import { useDisclosure } from '@mantine/hooks';
+import TextEditor from '../../../components/TextEditor';
 
 const useStyles = createStyles((theme) => ({
 	action: {
@@ -52,29 +43,15 @@ const IncidentRow = (props: Props) => {
   const { addToRecentActivity } = useRecentActivityStore();
   const { firstname, lastname } = useStorePersonal();
   const [opened, { toggle, close }] = useDisclosure(false);
+  const [editorContent,setEditorContent] = useState(selectedIncident?.details ? selectedIncident.details : '') 
+
   const form = useForm({
     initialValues: {
       title: '',
       location: '',
+      details: '',
     },
   });
-  const editor = useEditor(
-    {
-      extensions: [
-        StarterKit,
-        Underline,
-        Link,
-        Superscript,
-        SubScript,
-        Highlight,
-        Color,
-        TextStyle,
-        TextAlign.configure({ types: ["heading", "paragraph"] }),
-      ],
-      editable: true,
-      content: 'Incident description...',
-    }
-  );
 
   useEffect(() => {
     if (selectedIncident) {
@@ -83,14 +60,15 @@ const IncidentRow = (props: Props) => {
         location: selectedIncident.location,
       })
 
-      editor?.commands.setContent(selectedIncident.details);
+      setEditorContent(selectedIncident.details)
+
     } else {
       form.setValues({
         title: '',
         location: '',
       })
 
-      editor?.commands.setContent('Incident description...');
+      setEditorContent('')
     }
   }, [selectedIncident]);
 
@@ -102,9 +80,9 @@ const IncidentRow = (props: Props) => {
     if (form.values.title === '') {
       setTitleSet(false);
     } else {
-      const newIncidentId = createNewIncident(form.values.title, editor ? editor.getHTML() : 'Incident description...', form.values.location);
-      console.log(newIncidentId)
+      const newIncidentId = createNewIncident(form.values.title, editorContent, form.values.location);
       form.reset();
+      setEditorContent('')
       addToRecentActivity({ category: 'Incidents', type: 'Created', doneBy: firstname + ' ' + lastname, timeAgo: new Date().valueOf(), timeAgotext: '', activityID: newIncidentId.toString() });
       props.handleCreateNewIncident();
     }
@@ -134,7 +112,7 @@ const IncidentRow = (props: Props) => {
 					  </Tooltip>
           )}
 					<Tooltip label='Unlink' withArrow color='dark' position='bottom'>
-						<ActionIcon className={classes.action} onClick={() => { props.handleUnlink(null); form.reset(); editor?.commands.setContent('Incident description...'); }}>
+						<ActionIcon className={classes.action} onClick={() => { props.handleUnlink(null); form.reset(); }}>
 							<IconLinkOff size={16} color={theme.colors.gray[5]} />
 						</ActionIcon>
 					</Tooltip>
@@ -147,61 +125,7 @@ const IncidentRow = (props: Props) => {
         <div style={{display: 'flex', flexDirection: 'column', gap: 10}}>
           <TextInput radius='xs' variant="filled" placeholder="Place title here..." {...form.getInputProps('title')} error={!titleSet ? 'Fill in a title' : false} />
 
-          <RichTextEditor editor={editor} styles={{ content: { backgroundColor: 'rgb(34, 35, 37)' }, toolbar: { backgroundColor: '#252628', zIndex: 999 }}} style={{borderRadius: 2}}>
-            <RichTextEditor.Toolbar>
-              <RichTextEditor.ControlsGroup>
-                <RichTextEditor.Bold />
-                <RichTextEditor.Italic />
-                <RichTextEditor.Underline />
-                <RichTextEditor.Strikethrough />
-                <RichTextEditor.ClearFormatting />
-                <RichTextEditor.Highlight />
-              </RichTextEditor.ControlsGroup>
-
-              <RichTextEditor.ControlsGroup>
-                <RichTextEditor.Hr />
-                <RichTextEditor.BulletList />
-                <RichTextEditor.OrderedList />
-              </RichTextEditor.ControlsGroup>
-
-              <RichTextEditor.ControlsGroup>
-                <RichTextEditor.Link />
-                <RichTextEditor.Unlink />
-              </RichTextEditor.ControlsGroup>
-
-              <RichTextEditor.ControlsGroup>
-                <RichTextEditor.AlignLeft />
-                <RichTextEditor.AlignCenter />
-                <RichTextEditor.AlignJustify />
-                <RichTextEditor.AlignRight />
-              </RichTextEditor.ControlsGroup>
-
-              <RichTextEditor.ControlsGroup>
-                <RichTextEditor.ColorPicker
-                  colors={[
-                    "#25262b",
-                    "#868e96",
-                    "#fa5252",
-                    "#e64980",
-                    "#be4bdb",
-                    "#7950f2",
-                    "#4c6ef5",
-                    "#228be6",
-                    "#15aabf",
-                    "#12b886",
-                    "#40c057",
-                    "#82c91e",
-                    "#fab005",
-                    "#fd7e14",
-                  ]}
-                />
-              </RichTextEditor.ControlsGroup>
-            </RichTextEditor.Toolbar>
-
-            <ScrollArea style={{ height: 300, width: 510 }}>
-              <RichTextEditor.Content />
-            </ScrollArea>
-          </RichTextEditor>
+          <TextEditor key={selectedIncident?.id} onChange={(value) => setEditorContent(value)} initialContent={selectedIncident?.details ? selectedIncident.details : ''} styles={{ content: { backgroundColor: 'rgb(34, 35, 37)' }, toolbar: { backgroundColor: '#252628', zIndex: 999 }}} />
 
           <TextInput
             {...form.getInputProps('location')}
