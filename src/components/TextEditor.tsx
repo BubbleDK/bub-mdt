@@ -16,6 +16,7 @@ import { Button, Popover, ScrollArea, Space, Styles, TextInput } from '@mantine/
 interface TextEditorProps {
     tiptapExtensions?: Extensions,
     initialContent: string,
+    editable? : boolean
     onChange: (newContent:string) => void,
     styles? : Styles<RichTextEditorStylesNames, Record<string, any>>
     contentAreaStyle?: React.CSSProperties
@@ -34,13 +35,14 @@ const DEFAULT_EXTENSIONS: Extensions = [
     TextAlign.configure({ types: ["heading", "paragraph"] }),
 ]
 
-const TextEditor : React.FC<TextEditorProps> = ({tiptapExtensions,initialContent,onChange,styles,contentAreaStyle}) => {
+const TextEditor : React.FC<TextEditorProps> = ({tiptapExtensions,initialContent,editable,onChange,styles,contentAreaStyle}) => {
     const [addingImage,setAddingImage] = useState<boolean>(false)
     const [imageURLInput,setImageURLInput] = useState<string>('')
 
     const editor = useEditor({
         extensions: tiptapExtensions ? tiptapExtensions : DEFAULT_EXTENSIONS,
         content: initialContent,
+        editable: editable,
         onUpdate({editor}) {
             onChange(editor.getHTML())
         }

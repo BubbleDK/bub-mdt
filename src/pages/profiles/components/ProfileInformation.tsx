@@ -174,7 +174,8 @@ const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void,
 					</Stack>
 					<TextEditor 
 						key={selectedProfile?.citizenid} 
-						initialContent={selectedProfile?.notes ? selectedProfile.notes : ''} 
+						initialContent={selectedProfile?.notes ? selectedProfile.notes : ''}
+            editable={selectedProfile ? true : false}
 						onChange={(value) => setEditorContent(value)} 
 						styles={{ content: { backgroundColor: 'rgb(34, 35, 37)' }, toolbar: { backgroundColor: '#252628' }, controlsGroup: { pointerEvents: selectedProfile ? 'auto' : 'none', backgroundColor: selectedProfile ? '#1A1B1E' : '#282828' }}}
 						contentAreaStyle={{ height: 170, width: 625, padding: 0 }}
