@@ -67,6 +67,20 @@ export const useStoreIncidents = create<Incidents>((set, get) => ({
     }));
   },
 
+  removeCriminal: (citizenId: string) => {
+    set(state => produce(state, draft => {
+      if (state.selectedIncident) {
+        const selectedIncidentIndex = draft.incidents.findIndex(incident => state.selectedIncident && incident.id === state.selectedIncident.id);
+        if (selectedIncidentIndex !== -1) {
+          draft.incidents[selectedIncidentIndex].involvedCriminals = draft.incidents[selectedIncidentIndex].involvedCriminals.filter(c => c.citizenId !== citizenId);
+          draft.selectedIncident = draft.incidents[selectedIncidentIndex];
+        }
+      } else {
+        draft.newIncident.involvedCriminals = draft.newIncident.involvedCriminals.filter(c => c.citizenId !== citizenId);
+      }
+    }));
+  },
+
   createNewIncident: (title: string, details: string, location: string) => {
     let newIncidentId = -1;
     set(state =>

@@ -5,6 +5,7 @@ import { IconTrash, IconX, IconChevronDown, IconDeviceFloppy, IconInfoCircle, Ic
 import { useStoreProfiles } from '../../../store/profilesStore';
 import { ChargesData } from '../../../typings/charges';
 import { useDisclosure } from '@mantine/hooks';
+import { useStoreIncidents } from '../../../store/incidentsStore';
 
 interface Props {
   criminal: involvedCriminalsType
@@ -172,6 +173,7 @@ const charges: ChargesData[]  = [
 const InvolvedCriminal = (props: Props) => {
   const { classes, theme } = useStyles();
   const { getProfile } = useStoreProfiles();
+  const { removeCriminal } = useStoreIncidents();
   const [isWarrantForArrest, setIsWarrantForArrest] = useState(false);
   const [isPleadedGuilty, setIsPleadedGuilty] = useState(false);
   const [isProcessed, setIsProcessed] = useState(false);
@@ -424,19 +426,11 @@ const InvolvedCriminal = (props: Props) => {
               {getProfile(props.criminal.citizenId)?.firstname} {getProfile(props.criminal.citizenId)?.lastname} (#{getProfile(props.criminal.citizenId)?.citizenid})
             </Text>
 
-            <Group style={{gap: 5}}>
-              <Tooltip label='Save Changes' withArrow color='dark'>
-                <ActionIcon className={classes.action} onClick={() => { }}>
-                  <IconDeviceFloppy size={16} color={theme.colors.green[6]} />
-                </ActionIcon>
-              </Tooltip>
-
-              <Tooltip label='Remove criminal' withArrow color='dark'>
-                <ActionIcon className={classes.action} onClick={() => { }}>
-                  <IconTrash size={16} />
-                </ActionIcon>
-              </Tooltip>
-            </Group>
+            <Tooltip label='Remove criminal' withArrow color='dark'>
+              <ActionIcon className={classes.action} onClick={() => { removeCriminal(props.criminal.citizenId) }}>
+                <IconTrash size={16} />
+              </ActionIcon>
+            </Tooltip>
           </Group>
 
           <div style={{marginTop: 7.5}}>

@@ -35,4 +35,5 @@ export type Incidents = {
   getIncident: (id: number) => IncidentData | null;
   addCriminal: (criminal: involvedCriminalsType) => void;
   createNewIncident: (title: string, details: string, location: string) => number;
+  removeCriminal: (citizenId: string) => void;
 }
