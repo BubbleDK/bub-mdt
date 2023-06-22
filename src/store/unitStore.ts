@@ -36,7 +36,7 @@ export const useStoreUnit = create<Units>((set, get) => ({
     const unit = get().units.find(u => u.id === unitId);
     return unit?.unitMembers.length ?? 0;
   },
-  removeUnitMember: (unitId: number, citizenid: number) => 
+  removeUnitMember: (unitId: number, citizenid: string) => 
     set(
       produce((state) => {
         const unit = state.units.find((el: UnitData) => el.id === unitId);
@@ -52,7 +52,7 @@ export const useStoreUnit = create<Units>((set, get) => ({
         }
       })
     ),
-  getUnitByOfficer: (officerCitizenid: number) => {
+  getUnitByOfficer: (officerCitizenid: string) => {
     const foundUnit = get().units.find(unit => {
       return unit.unitMembers.some(member => member.citizenid === officerCitizenid);
     });
