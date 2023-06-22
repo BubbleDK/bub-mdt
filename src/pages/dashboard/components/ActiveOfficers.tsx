@@ -24,7 +24,7 @@ const ActiveOfficers = () => {
   
   return (
     <div style={{flexGrow: 0.5}}>
-      <div style={{backgroundColor: '#222325', height: 840, padding: 15, borderRadius: 5, borderStyle: 'solid', borderColor: '#303236', borderWidth: '0.5px'}}>
+      <div style={{backgroundColor: '#222325', height: 845, padding: 15, borderRadius: 5, borderStyle: 'solid', borderColor: '#303236', borderWidth: '0.5px'}}>
         <div style={{display: 'flex', gap: 10}}>
           <IconUsers stroke={1.5} size='1.5rem' color='white' />  
           <Text style={{fontSize: 18, color: 'white'}} weight={500}>
