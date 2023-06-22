@@ -28,20 +28,6 @@ const useStyles = createStyles((theme) => ({
     backgroundColor: '#1d1e20',
     border: `0.1px solid rgb(42, 42, 42, 1)`,
   },
-  charge: {
-    display: 'block',
-    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
-  },
-  chargeItem: {
-    padding: 10,
-    backgroundColor: '#1d1e20',
-    border: `0.1px solid rgb(42, 42, 42, 1)`,
-    height: 150,
-    width: 305,
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 5,
-  },
   wrapper: {
     width: 105,
     display: 'flex',
@@ -82,6 +68,20 @@ const useStyles = createStyles((theme) => ({
       cursor: 'auto',
       color: '#C1C2C5',
     },
+  },
+  charge: {
+    display: 'block',
+    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
+  },
+  chargeItem: {
+    padding: 10,
+    backgroundColor: '#1d1e20',
+    border: `0.1px solid rgb(42, 42, 42, 1)`,
+    height: 150,
+    width: 305,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 5,
   },
   addedCharge: {
     display: 'block',
@@ -242,13 +242,13 @@ const InvolvedCriminal = (props: Props) => {
 
         <div style={{display: 'flex', gap: 20, width: '100%'}}>
           <ScrollArea h={700} scrollbarSize={4} offsetScrollbars scrollHideDelay={300}>
-            <div style={{flex: 1}}>
+            <div style={{width: 348}}>
               <Text fz="sm" fw={500} c="white" mb={5}>
                 Current Charges
               </Text>
 
               {props.criminal.charges.map((charge) => (
-                <div className={classes.addedCharge} key={props.criminal.citizenId}>
+                <div className={classes.addedCharge} key={charge.id}>
                   <div className={classes.addedChargeItem}>
                     <Text fz="sm" fw={500} c="white" style={{textAlign: 'center'}}>
                       {charge.title}
@@ -354,7 +354,7 @@ const InvolvedCriminal = (props: Props) => {
             <ScrollArea h={700} scrollbarSize={4} offsetScrollbars scrollHideDelay={300}>
               <div style={{display: 'flex', gap: 5, flexWrap: 'wrap'}}>
                 {charges.map(charge => (
-                  <div className={classes.charge} key={props.criminal.citizenId}>
+                  <div className={classes.charge} key={charge.id}>
                     <div className={classes.chargeItem}>
                       <Text fz="sm" fw={500} c="white" style={{textAlign: 'center'}}>
                         {charge.title}
