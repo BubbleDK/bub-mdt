@@ -260,6 +260,7 @@ const IncidentRow = (props: Props) => {
               <div>
                 {selectedIncident?.involvedOfficers.map((officer) => (
                   <Badge 
+                    key={officer.citizenid}
                     radius="xs" 
                     variant="filled"
                     style={{backgroundColor: 'rgb(42, 42, 42)', marginRight: 5, marginBottom: 5, paddingTop: 10, paddingBottom: 10}}
@@ -347,6 +348,7 @@ const IncidentRow = (props: Props) => {
               <div>
                 {selectedIncident?.tags.map((tag) => (
                   <Badge 
+                    key={tag.value}
                     color={tag.backgroundcolor}
                     radius="xs" 
                     variant="filled"

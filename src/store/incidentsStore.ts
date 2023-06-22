@@ -48,12 +48,6 @@ export const useStoreIncidents = create<Incidents>((set, get) => ({
   addCriminal: (criminal: involvedCriminalsType) => {
     set(state => produce(state, draft => {
       const targetIncident = state.selectedIncident ?? state.newIncident;
-  
-      if (!targetIncident) {
-        console.log("No incident to add criminal to!");
-        return state; // return the unchanged state
-      }
-  
       const isCriminalAlreadyAdded = targetIncident.involvedCriminals.some(c => c.citizenId === criminal.citizenId);
   
       if (isCriminalAlreadyAdded) {
@@ -65,6 +59,7 @@ export const useStoreIncidents = create<Incidents>((set, get) => ({
         const selectedIncidentIndex = draft.incidents.findIndex(incident => state.selectedIncident && incident.id === state.selectedIncident.id);
         if (selectedIncidentIndex !== -1) {
           draft.incidents[selectedIncidentIndex].involvedCriminals.push(criminal);
+          draft.selectedIncident = draft.incidents[selectedIncidentIndex];
         }
       } else {
         draft.newIncident.involvedCriminals.push(criminal);

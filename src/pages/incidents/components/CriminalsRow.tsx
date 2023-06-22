@@ -106,11 +106,11 @@ const CriminalsRow = () => {
 
         {selectedIncident ? (
           selectedIncident.involvedCriminals.map((criminal) => (
-            <InvolvedCriminal criminal={criminal} />
+            <InvolvedCriminal criminal={criminal} key={criminal.citizenId} />
           ))
         ) : (
           newIncident.involvedCriminals.map((criminal) => (
-            <InvolvedCriminal criminal={criminal} />
+            <InvolvedCriminal criminal={criminal} key={criminal.citizenId} />
           ))
         )}
       </Paper>
