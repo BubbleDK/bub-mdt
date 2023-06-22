@@ -173,7 +173,7 @@ const charges: ChargesData[]  = [
 const InvolvedCriminal = (props: Props) => {
   const { classes, theme } = useStyles();
   const { getProfile } = useStoreProfiles();
-  const { removeCriminal } = useStoreIncidents();
+  const { removeCriminal, addChargeToCriminal } = useStoreIncidents();
   const [isWarrantForArrest, setIsWarrantForArrest] = useState(false);
   const [isPleadedGuilty, setIsPleadedGuilty] = useState(false);
   const [isProcessed, setIsProcessed] = useState(false);
@@ -322,7 +322,7 @@ const InvolvedCriminal = (props: Props) => {
                             min={1}
                             max={99}
                             handlersRef={handlers}
-                            value={value}
+                            value={charge.amountOfAddedCharges}
                             onChange={setValue}
                             classNames={{ input: classes.input }}
                             disabled
@@ -405,7 +405,7 @@ const InvolvedCriminal = (props: Props) => {
                         </Badge>
 
                         <Tooltip label='Add Charge' withArrow color='dark'>
-                          <ActionIcon className={classes.action} onClick={() => { }} h={31}>
+                          <ActionIcon className={classes.action} onClick={() => { addChargeToCriminal(props.criminal.citizenId, {...charge, amountOfAddedCharges: 1}) }} h={31}>
                             <IconPlus size={18} />
                           </ActionIcon>
                         </Tooltip>

@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import produce from "immer";
-import { Incidents, IncidentData, involvedCriminalsType } from '../typings';
+import { Incidents, IncidentData, involvedCriminalsType, ChargesData } from '../typings';
 import { useStorePersonal } from './personalInfoStore';
 
 const initialNewIncident = {
@@ -106,5 +106,39 @@ export const useStoreIncidents = create<Incidents>((set, get) => ({
       })
     );
     return newIncidentId;
+  },
+
+  addChargeToCriminal: (citizenId: string, charge: ChargesData) => {
+    set(state => produce(state, draft => {
+      if (state.selectedIncident) {
+        const selectedIncidentIndex = draft.incidents.findIndex(incident => state.selectedIncident && incident.id === state.selectedIncident.id);
+        if (selectedIncidentIndex !== -1) {
+          const involvedCriminal = draft.incidents[selectedIncidentIndex].involvedCriminals.find(c => c.citizenId === citizenId);
+          if (involvedCriminal) {
+            const existingCharge = involvedCriminal.charges.find(c => c.id === charge.id);
+            if (existingCharge) {
+              existingCharge.amountOfAddedCharges += 1;
+            } else {
+              involvedCriminal.charges.push(charge);
+            }
+            draft.selectedIncident = draft.incidents[selectedIncidentIndex];
+          } else {
+            console.log("The criminal is not involved in this incident!");
+          }
+        }
+      } else {
+        const involvedCriminal = draft.newIncident.involvedCriminals.find(c => c.citizenId === citizenId);
+        if (involvedCriminal) {
+          const existingCharge = involvedCriminal.charges.find(c => c.id === charge.id);
+          if (existingCharge) {
+            existingCharge.amountOfAddedCharges += 1;
+          } else {
+            involvedCriminal.charges.push(charge);
+          }
+        } else {
+          console.log("The criminal is not involved in this incident!");
+        }
+      }
+    }));
   },
 }));
