@@ -20,7 +20,7 @@ const useStyles = createStyles((theme) => ({
 
 const Incidents = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const { setIncident, selectedIncident, resetNewIncident } = useStoreIncidents();
+  const { setIncident, selectedIncident, resetNewIncident, saveIncident, getIncident } = useStoreIncidents();
   const { classes, cx } = useStyles();
   const [opened, { toggle, close }] = useDisclosure(false);
   const [alertText, setAlertText] = useState('');
@@ -41,6 +41,8 @@ const Incidents = () => {
   const saveIncidentClick = () => {
     setAlertText('You sucessfully saved the incident report');
     toggle();
+    const savedId = saveIncident();
+    setIncident(getIncident(savedId))
 
     setTimeout(() => {
       close();

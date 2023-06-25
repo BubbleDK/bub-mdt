@@ -171,25 +171,15 @@ const charges: ChargesData[]  = [
 ]
 
 const InvolvedCriminal = (props: Props) => {
-  const { classes, theme } = useStyles();
+  const { classes } = useStyles();
   const { getProfile } = useStoreProfiles();
-  const { removeCriminal, addChargeToCriminal } = useStoreIncidents();
-  const [isWarrantForArrest, setIsWarrantForArrest] = useState(false);
-  const [isPleadedGuilty, setIsPleadedGuilty] = useState(false);
-  const [isProcessed, setIsProcessed] = useState(false);
-  const [selectedReduction, setSelectedReduction] = useState<string | null>();
+  const { removeCriminal, addChargeToCriminal, setCriminalPleadedGuilty, setCriminalProcessed } = useStoreIncidents();
+  const [selectedReduction, setSelectedReduction] = useState<string | null>(props.criminal.final);
   const [selectedReductionIndex, setSelectedReductionIndex] = useState(0);
   const [finalText, setFinalText] = useState<string>();
   const [openedChargesModal, { open, close }] = useDisclosure(false);
   const [value, setValue] = useState<number | ''>(1);
   const handlers = useRef<NumberInputHandlers>(null);
-
-  useEffect(() => {
-    setIsWarrantForArrest(props.criminal.isWarrantForArrestActive)
-    setIsPleadedGuilty(props.criminal.pleadedGuilty)
-    setIsProcessed(props.criminal.processed)
-    setSelectedReduction(props.criminal.final);
-  }, [props.criminal])
 
   useEffect(() => {
     const str = selectedReduction;
@@ -465,7 +455,7 @@ const InvolvedCriminal = (props: Props) => {
           <Divider my={10} />
 
           <div>
-            <Checkbox label="Warrant for arrest" radius="xs" color="rgba(51, 124, 255, 0.2)" checked={isWarrantForArrest} onChange={(event) => setIsWarrantForArrest(event.currentTarget.checked)} />
+            <Checkbox label="Warrant for arrest" radius="xs" color="rgba(51, 124, 255, 0.2)" checked={props.criminal.isWarrantForArrestActive} onChange={(event) => {}} />
           </div>
 
           <Divider my={10} />
@@ -500,8 +490,8 @@ const InvolvedCriminal = (props: Props) => {
           <Divider my={10} />
 
           <div style={{display: 'flex', gap: 15}}>
-            <Checkbox label="Pleaded Guilty" radius="xs" color="rgba(51, 124, 255, 0.2)" checked={isPleadedGuilty} onChange={(event) => setIsPleadedGuilty(event.currentTarget.checked)} />
-            <Checkbox label="Processed" radius="xs" color="rgba(51, 124, 255, 0.2)" checked={isProcessed} onChange={(event) => setIsProcessed(event.currentTarget.checked)} />
+            <Checkbox label="Pleaded Guilty" radius="xs" color="rgba(51, 124, 255, 0.2)" checked={props.criminal.pleadedGuilty} onChange={(event) => setCriminalPleadedGuilty(props.criminal.citizenId, event.currentTarget.checked)} />
+            <Checkbox label="Processed" radius="xs" color="rgba(51, 124, 255, 0.2)" checked={props.criminal.processed} onChange={(event) => setCriminalProcessed(props.criminal.citizenId, event.currentTarget.checked)} />
           </div>
         </div>
       </div>

@@ -37,4 +37,7 @@ export type Incidents = {
   createNewIncident: (title: string, details: string, location: string) => number;
   removeCriminal: (citizenId: string) => void;
   addChargeToCriminal: (citizenId: string, charge: ChargesData) => void;
+  setCriminalPleadedGuilty: (citizenId: string, pleadedGuilty: boolean) => void;
+  setCriminalProcessed: (citizenId: string, processed: boolean) => void;
+  saveIncident: () => number;
 }

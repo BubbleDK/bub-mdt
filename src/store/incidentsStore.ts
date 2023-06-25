@@ -45,42 +45,6 @@ export const useStoreIncidents = create<Incidents>((set, get) => ({
     return incidents.find(incident => incident.id === id) || null;
   },
 
-  addCriminal: (criminal: involvedCriminalsType) => {
-    set(state => produce(state, draft => {
-      const targetIncident = state.selectedIncident ?? state.newIncident;
-      const isCriminalAlreadyAdded = targetIncident.involvedCriminals.some(c => c.citizenId === criminal.citizenId);
-  
-      if (isCriminalAlreadyAdded) {
-        console.log("The criminal is already added!");
-        return state;
-      }
-  
-      if (state.selectedIncident) {
-        const selectedIncidentIndex = draft.incidents.findIndex(incident => state.selectedIncident && incident.id === state.selectedIncident.id);
-        if (selectedIncidentIndex !== -1) {
-          draft.incidents[selectedIncidentIndex].involvedCriminals.push(criminal);
-          draft.selectedIncident = draft.incidents[selectedIncidentIndex];
-        }
-      } else {
-        draft.newIncident.involvedCriminals.push(criminal);
-      }
-    }));
-  },
-
-  removeCriminal: (citizenId: string) => {
-    set(state => produce(state, draft => {
-      if (state.selectedIncident) {
-        const selectedIncidentIndex = draft.incidents.findIndex(incident => state.selectedIncident && incident.id === state.selectedIncident.id);
-        if (selectedIncidentIndex !== -1) {
-          draft.incidents[selectedIncidentIndex].involvedCriminals = draft.incidents[selectedIncidentIndex].involvedCriminals.filter(c => c.citizenId !== citizenId);
-          draft.selectedIncident = draft.incidents[selectedIncidentIndex];
-        }
-      } else {
-        draft.newIncident.involvedCriminals = draft.newIncident.involvedCriminals.filter(c => c.citizenId !== citizenId);
-      }
-    }));
-  },
-
   createNewIncident: (title: string, details: string, location: string) => {
     let newIncidentId = -1;
     set(state =>
@@ -108,37 +72,95 @@ export const useStoreIncidents = create<Incidents>((set, get) => ({
     return newIncidentId;
   },
 
-  addChargeToCriminal: (citizenId: string, charge: ChargesData) => {
+  addCriminal: (criminal: involvedCriminalsType) => {
     set(state => produce(state, draft => {
-      if (state.selectedIncident) {
-        const selectedIncidentIndex = draft.incidents.findIndex(incident => state.selectedIncident && incident.id === state.selectedIncident.id);
-        if (selectedIncidentIndex !== -1) {
-          const involvedCriminal = draft.incidents[selectedIncidentIndex].involvedCriminals.find(c => c.citizenId === citizenId);
-          if (involvedCriminal) {
-            const existingCharge = involvedCriminal.charges.find(c => c.id === charge.id);
-            if (existingCharge) {
-              existingCharge.amountOfAddedCharges += 1;
-            } else {
-              involvedCriminal.charges.push(charge);
-            }
-            draft.selectedIncident = draft.incidents[selectedIncidentIndex];
-          } else {
-            console.log("The criminal is not involved in this incident!");
-          }
-        }
+      const incidentToUpdate = draft.selectedIncident ? draft.selectedIncident : draft.newIncident;
+
+      const isCriminalAlreadyAdded = incidentToUpdate.involvedCriminals.some(c => c.citizenId === criminal.citizenId);
+      if (!isCriminalAlreadyAdded) {
+        incidentToUpdate.involvedCriminals.push(criminal);
       } else {
-        const involvedCriminal = draft.newIncident.involvedCriminals.find(c => c.citizenId === citizenId);
-        if (involvedCriminal) {
-          const existingCharge = involvedCriminal.charges.find(c => c.id === charge.id);
-          if (existingCharge) {
-            existingCharge.amountOfAddedCharges += 1;
-          } else {
-            involvedCriminal.charges.push(charge);
-          }
-        } else {
-          console.log("The criminal is not involved in this incident!");
-        }
+        console.log("The criminal is already added!");
       }
     }));
+  },
+  
+  removeCriminal: (citizenId: string) => {
+    set(state => produce(state, draft => {
+      const incidentToUpdate = draft.selectedIncident ? draft.selectedIncident : draft.newIncident;
+      
+      const criminalIndex = incidentToUpdate.involvedCriminals.findIndex(c => c.citizenId === citizenId);
+      if (criminalIndex !== -1) {
+        incidentToUpdate.involvedCriminals.splice(criminalIndex, 1);
+      } else {
+        console.log("Criminal not found!");
+      }
+    }));
+  },
+  
+  addChargeToCriminal: (citizenId: string, charge: ChargesData) => {
+    set(state => produce(state, draft => {
+      const incidentToUpdate = draft.selectedIncident ? draft.selectedIncident : draft.newIncident;
+      const involvedCriminal = incidentToUpdate.involvedCriminals.find(c => c.citizenId === citizenId);
+
+      if (involvedCriminal) {
+        const existingCharge = involvedCriminal.charges.find(c => c.id === charge.id);
+        if (existingCharge) {
+          existingCharge.amountOfAddedCharges += 1;
+        } else {
+          involvedCriminal.charges.push(charge);
+        }
+      } else {
+        console.log("The criminal is not involved in this incident!");
+      }
+    }));
+  },
+  
+  setCriminalPleadedGuilty: (citizenId: string, pleadedGuilty: boolean) => {
+    set(state => produce(state, draft => {
+      const incidentToUpdate = draft.selectedIncident ? draft.selectedIncident : draft.newIncident;
+      const involvedCriminal = incidentToUpdate.involvedCriminals.find(c => c.citizenId === citizenId);
+
+      if (involvedCriminal) {
+        involvedCriminal.pleadedGuilty = pleadedGuilty;
+      } else {
+        console.log("The criminal is not involved in this incident!");
+      }
+    }));
+  },
+  
+  setCriminalProcessed: (citizenId: string, processed: boolean) => {
+    set(state => produce(state, draft => {
+      const incidentToUpdate = draft.selectedIncident ? draft.selectedIncident : draft.newIncident;
+      const involvedCriminal = incidentToUpdate.involvedCriminals.find(c => c.citizenId === citizenId);
+
+      if (involvedCriminal) {
+        involvedCriminal.processed = processed;
+      } else {
+        console.log("The criminal is not involved in this incident!");
+      }
+    }));
+  },
+
+  saveIncident: () => {
+    let savedIncidentId: number = -1;
+  
+    set(state => produce(state, draft => {
+      if (state.selectedIncident) {
+        const existingIncidentIndex = draft.incidents.findIndex(incident => incident.id === state.selectedIncident?.id);
+        if (existingIncidentIndex !== -1) {
+          draft.incidents[existingIncidentIndex] = state.selectedIncident;
+          savedIncidentId = draft.incidents[existingIncidentIndex].id;
+        }
+      } else {
+        draft.incidents.push(state.newIncident);
+        savedIncidentId = draft.incidents[draft.incidents.length - 1].id;
+      }
+
+      draft.newIncident = initialNewIncident;
+      draft.selectedIncident = null;
+    }));
+  
+    return savedIncidentId;
   },
 }));

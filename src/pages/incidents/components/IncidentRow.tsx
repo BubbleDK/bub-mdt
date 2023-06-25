@@ -46,7 +46,7 @@ interface Props {
 
 const IncidentRow = (props: Props) => {
   const { classes, theme } = useStyles();
-  const { selectedIncident, createNewIncident } = useStoreIncidents();
+  const { selectedIncident, createNewIncident, setIncident, getIncident } = useStoreIncidents();
   const [openedTagPopover, setOpenedTagPopover] = useState(false);
   const [titleSet, setTitleSet] = useState(true);
   const { addToRecentActivity } = useRecentActivityStore();
@@ -103,9 +103,9 @@ const IncidentRow = (props: Props) => {
       setTitleSet(false);
     } else {
       const newIncidentId = createNewIncident(form.values.title, editor ? editor.getHTML() : 'Incident description...', form.values.location);
-      console.log(newIncidentId)
       form.reset();
       addToRecentActivity({ category: 'Incidents', type: 'Created', doneBy: firstname + ' ' + lastname, timeAgo: new Date().valueOf(), timeAgotext: '', activityID: newIncidentId.toString() });
+      setIncident(getIncident(newIncidentId))
       props.handleCreateNewIncident();
     }
   }
