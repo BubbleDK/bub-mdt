@@ -46,35 +46,32 @@ interface Props {
 
 const IncidentRow = (props: Props) => {
   const { classes, theme } = useStyles();
-  const { selectedIncident, createNewIncident, setIncident, getIncident } = useStoreIncidents();
+  const { selectedIncident, createNewIncident, setIncident, getIncident, newIncident } = useStoreIncidents();
   const [openedTagPopover, setOpenedTagPopover] = useState(false);
   const [titleSet, setTitleSet] = useState(true);
   const { addToRecentActivity } = useRecentActivityStore();
   const { firstname, lastname } = useStorePersonal();
-  const [opened, { toggle, close }] = useDisclosure(false);
   const form = useForm({
     initialValues: {
       title: '',
       location: '',
     },
   });
-  const editor = useEditor(
-    {
-      extensions: [
-        StarterKit,
-        Underline,
-        Link,
-        Superscript,
-        SubScript,
-        Highlight,
-        Color,
-        TextStyle,
-        TextAlign.configure({ types: ["heading", "paragraph"] }),
-      ],
-      editable: true,
-      content: 'Incident description...',
-    }
-  );
+  const editor = useEditor({
+    extensions: [
+      StarterKit,
+      Underline,
+      Link,
+      Superscript,
+      SubScript,
+      Highlight,
+      Color,
+      TextStyle,
+      TextAlign.configure({ types: ["heading", "paragraph"] }),
+    ],
+    editable: true,
+    content: 'Incident description...',
+  });
 
   useEffect(() => {
     if (selectedIncident) {
@@ -86,8 +83,8 @@ const IncidentRow = (props: Props) => {
       editor?.commands.setContent(selectedIncident.details);
     } else {
       form.setValues({
-        title: '',
-        location: '',
+        title: newIncident.title,
+        location: newIncident.location,
       })
 
       editor?.commands.setContent('Incident description...');

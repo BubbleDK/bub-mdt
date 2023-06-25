@@ -6,7 +6,7 @@ import { useStorePersonal } from './personalInfoStore';
 const initialNewIncident = {
   id: 0,
   title: "",
-  details: "",
+  details: 'Incident description...',
   location: '',
   tags: [],
   involvedOfficers: [],

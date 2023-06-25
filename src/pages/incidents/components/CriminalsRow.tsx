@@ -42,7 +42,7 @@ const CriminalsRow = () => {
   const { classes } = useStyles();
   const { selectedIncident, addCriminal, newIncident } = useStoreIncidents();
   const [openedInvolvedCriminalsModal, { open, close }] = useDisclosure(false);
-  const { profiles, setProfile } = useStoreProfiles();
+  const { profiles } = useStoreProfiles();
 
   const addCriminalToCurrentIncident = (profileCitizenID: string) => {
     addCriminal({ 
