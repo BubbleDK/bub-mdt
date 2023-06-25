@@ -178,6 +178,7 @@ const InvolvedCriminal = (props: Props) => {
   const [isPleadedGuilty, setIsPleadedGuilty] = useState(false);
   const [isProcessed, setIsProcessed] = useState(false);
   const [selectedReduction, setSelectedReduction] = useState<string | null>();
+  const [selectedReductionIndex, setSelectedReductionIndex] = useState(0);
   const [finalText, setFinalText] = useState<string>();
   const [openedChargesModal, { open, close }] = useDisclosure(false);
   const [value, setValue] = useState<number | ''>(1);
@@ -195,10 +196,12 @@ const InvolvedCriminal = (props: Props) => {
     let arr = str?.split('/');
     arr?.shift();
     setFinalText(arr?.join('/'));
+    setSelectedReductionIndex(calculateReductions(props.criminal.charges).findIndex(item => item === selectedReduction))
   }, [selectedReduction])
 
   useEffect(() => {
     calculateReductions(props.criminal.charges)
+    setSelectedReduction(calculateReductions(props.criminal.charges)[selectedReductionIndex])
   }, [props.criminal.charges])
 
   function calculateReductions(charges: ChargesData[]): string[] {
