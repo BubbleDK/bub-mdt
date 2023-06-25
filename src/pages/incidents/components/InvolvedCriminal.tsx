@@ -358,7 +358,7 @@ const InvolvedCriminal = (props: Props) => {
 
             <ScrollArea h={700} scrollbarSize={4} offsetScrollbars scrollHideDelay={300}>
               <div style={{display: 'flex', gap: 5, flexWrap: 'wrap'}}>
-                {charges.map(charge => (
+                {charges.map((charge) => (
                   <div className={classes.charge} key={charge.id}>
                     <div className={classes.chargeItem}>
                       <Text fz="sm" fw={500} c="white" style={{textAlign: 'center'}}>
@@ -422,7 +422,7 @@ const InvolvedCriminal = (props: Props) => {
         </div>
       </Modal>
       
-      <div className={classes.user} key={props.criminal.citizenId}>
+      <div className={classes.user}>
         <div className={classes.item}>
           <Group position="apart">
             <Text fz="sm" fw={500} c="white">
@@ -448,6 +448,7 @@ const InvolvedCriminal = (props: Props) => {
 
             {props.criminal.charges.map((charge) => (
               <Badge 
+                key={charge.id}
                 radius="xs" 
                 variant="filled"
                 color={charge.color}
