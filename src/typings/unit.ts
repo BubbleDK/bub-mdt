@@ -5,7 +5,7 @@ export type UnitData = {
   unitName: string,
   unitMembers: OfficerData[],
   carModel: string,
-  isOwner: number,
+  isOwner: string,
 }
 
 export type Units = {

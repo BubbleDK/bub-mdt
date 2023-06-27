@@ -51,6 +51,7 @@ const ActiveUnits = (props: UnitData) => {
     let isFound = false;
     for (let i = 0; i < props.unitMembers.length; i++) {
       const element = props.unitMembers[i];
+      console.log(props.unitMembers, citizenid)
       if (element.citizenid === citizenid) {
         setIsMember(true);
         isFound = true;
