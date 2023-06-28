@@ -10,6 +10,7 @@ specifiers:
   '@mantine/hooks': ^6.0.4
   '@mantine/modals': ^6.0.4
   '@mantine/tiptap': ^6.0.7
+  '@mantine/utils': ^6.0.15
   '@tabler/icons-react': ^2.11.0
   '@tiptap/core': ^2.0.2
   '@tiptap/extension-color': ^2.0.2
@@ -52,6 +53,7 @@ dependencies:
   '@mantine/hooks': 6.0.4_react@18.2.0
   '@mantine/modals': 6.0.4_xkkz3h5s7432k6kvalmmiicqja
   '@mantine/tiptap': 6.0.7_7d33i7oerm2vu4er2ot4qbexlq
+  '@mantine/utils': 6.0.15_react@18.2.0
   '@tabler/icons-react': 2.11.0_react@18.2.0
   '@tiptap/core': 2.0.2_@tiptap+pm@2.0.2
   '@tiptap/extension-color': 2.0.2_zaslzi56tr3sgfhu66od3rtbbi
@@ -807,6 +809,14 @@ packages:
       '@tabler/icons-react': 2.11.0_react@18.2.0
       '@tiptap/extension-link': 2.0.2_xucnagsy5wg47squ34lrzzgray
       '@tiptap/react': 2.0.2_5qsqxtgrvdydajrobuba465tkm
+      react: 18.2.0
+    dev: false
+
+  /@mantine/utils/6.0.15_react@18.2.0:
+    resolution: {integrity: sha512-iVaobFQTCQWG6SRi3im0/nONKCtGRPobG7bXn9GiIT96E4t7uTPglQpo/ZktDrF1XCL8CO/HoQmks4A2iXuMFw==}
+    peerDependencies:
+      react: '>=16.8.0'
+    dependencies:
       react: 18.2.0
     dev: false
 

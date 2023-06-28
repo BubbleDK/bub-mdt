@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { useStoreOfficers } from '../../../store/officersStore';
 import { IconPencil, IconUserOff } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
+import { OfficerData } from '../../../typings';
 
 const useStyles = createStyles((theme) => ({
   checkboxInput: {
@@ -13,8 +14,8 @@ const useStyles = createStyles((theme) => ({
 }));
 const rolesData = ['Chief', 'Captain', 'Lieutenant', 'Sergeant', 'Corporal', 'Officer', 'Cadet'];
 
-const RosterTable = () => {
-  const { officers, removeOfficer } = useStoreOfficers();
+const RosterTable = ({officers}: {officers: OfficerData[]}) => {
+  const { removeOfficer } = useStoreOfficers();
   const { classes } = useStyles();
   const [fireModalOpened, setFireModalOpened] = useState(false);
   const [selectedOfficer, setSelectedOfficer] = useState('');
