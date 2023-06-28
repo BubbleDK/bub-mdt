@@ -8,7 +8,7 @@
   <h2>NOT READY FOR PRODUCTION YET</h2>
 </div>
 
-### Features
+## Features
 
 - `Dashboard:` A dashboard with broad overview of some usefull data.
 - `Profiles:` Lookup on profiles.
