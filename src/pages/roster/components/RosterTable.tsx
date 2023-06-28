@@ -24,7 +24,7 @@ const RosterTable = ({officers}: {officers: OfficerData[]}) => {
     <tr key={officer.citizenid}>
       <td>
         <Group spacing="sm">
-          <Avatar size={40} src={officer.image} radius={5} />
+          <Avatar size={55} src={officer.image} radius={5} />
           <div>
             <Text fz="sm" fw={500}>
               {officer.firstname} {officer.lastname}
