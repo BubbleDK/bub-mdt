@@ -7,7 +7,6 @@ import { IconUsers } from '@tabler/icons-react';
 const useStyles = createStyles((theme) => ({
   user: {
     display: 'block',
-    width: '92.5%',
     padding: theme.spacing.md,
     color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
 
@@ -23,7 +22,7 @@ const ActiveOfficers = () => {
   const { classes } = useStyles();
   
   return (
-    <div style={{flexGrow: 0.5}}>
+    <div style={{width: 400}}>
       <div style={{backgroundColor: '#222325', height: 845, padding: 15, borderRadius: 5, borderStyle: 'solid', borderColor: '#303236', borderWidth: '0.5px'}}>
         <div style={{display: 'flex', gap: 10}}>
           <IconUsers stroke={1.5} size='1.5rem' color='white' />  
@@ -32,13 +31,13 @@ const ActiveOfficers = () => {
           </Text>
         </div>
 
-        <Divider style={{marginTop: 10, marginBottom: 10}} />
+        <Divider style={{marginTop: 10, marginBottom: 5}} />
 
         {officers.map((officer, index) => (
           <div key={index}>
             <div className={classes.user}>
               <Group>
-                <Avatar src={officer.image} radius="md" />
+                <Avatar src={officer.image} radius="md" size={40} />
 
                 <div style={{ flex: 1 }}>
                   <Text size="sm" weight={500}>
