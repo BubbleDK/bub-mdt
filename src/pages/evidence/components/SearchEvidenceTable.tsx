@@ -1,8 +1,7 @@
-import { Paper, Flex, TextInput, Button, rem, ScrollArea, UnstyledButton, Group, createStyles, Text, Select } from '@mantine/core';
-import { IconSearch, IconAdjustments } from '@tabler/icons-react';
+import { Paper, Flex, TextInput, ScrollArea, UnstyledButton, Group, createStyles, Text, Select } from '@mantine/core';
+import { IconSearch } from '@tabler/icons-react';
 import dayjs from 'dayjs';
 import React, { useState } from 'react'
-import { useStoreIncidents } from '../../../store/incidentsStore';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useStoreEvidence } from '../../../store/evidenceStore';
 
