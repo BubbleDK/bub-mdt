@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import produce from "immer";
-import { Incidents, IncidentData, involvedCriminalsType, ChargesData } from '../typings';
+import { Incidents, IncidentData, InvolvedCriminalsType, ChargesData } from '../typings';
 import { useStorePersonal } from './personalInfoStore';
 
 const initialNewIncident = {
@@ -11,7 +11,7 @@ const initialNewIncident = {
   tags: [],
   involvedOfficers: [],
   involvedCivilians: [],
-  evidence: "",
+  evidence: [],
   involvedCriminals: [],
   timeStamp: new Date(),
   createdBy: { 
@@ -72,7 +72,7 @@ export const useStoreIncidents = create<Incidents>((set, get) => ({
     return newIncidentId;
   },
 
-  addCriminal: (criminal: involvedCriminalsType) => {
+  addCriminal: (criminal: InvolvedCriminalsType) => {
     set(state => produce(state, draft => {
       const incidentToUpdate = draft.selectedIncident ? draft.selectedIncident : draft.newIncident;
 

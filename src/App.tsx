@@ -20,6 +20,7 @@ import PenalCodes from './pages/penalcodes';
 import Reports from './pages/reports';
 import { useStoreReports } from './store/reportsStore';
 import Roster from './pages/roster';
+import Evidence from './pages/evidence';
 
 const useStyles = createStyles((theme) => ({
   control: {
@@ -365,6 +366,7 @@ function App() {
                 <Route path="/incidents" element={<Incidents />} />
                 <Route path='/reports' element={<Reports />} />
                 <Route path="/dispatch" element={<Dispatch />} />
+                <Route path="/evidence" element={<Evidence />} />
                 <Route path="/penalcodes" element={<PenalCodes />} />
                 <Route path="/roster" element={<Roster />} />
               </Routes>

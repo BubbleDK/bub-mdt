@@ -1,4 +1,5 @@
 import { ChargesData } from "./charges";
+import { EvidenceData } from "./evidence";
 import { OfficerData } from "./officers";
 import { ProfileData, TagData } from "./profiles";
 
@@ -10,13 +11,13 @@ export type IncidentData = {
   tags: TagData[];
   involvedOfficers: OfficerData[];
   involvedCivilians: ProfileData[];
-  evidence: string;
-  involvedCriminals: involvedCriminalsType[];
+  evidence: EvidenceData[];
+  involvedCriminals: InvolvedCriminalsType[];
   timeStamp: Date;
-  createdBy?: { citizenid: string; firstname: string; lastname: string; };
+  createdBy: { citizenid: string; firstname: string; lastname: string; };
 }
 
-export type involvedCriminalsType = { 
+export type InvolvedCriminalsType = { 
   citizenId: string;
   charges: ChargesData[];
   isWarrantForArrestActive: boolean;
@@ -33,7 +34,7 @@ export type Incidents = {
   setIncident: (data: IncidentData | null) => void;
   setIncidents: ({}: IncidentData[]) => void;
   getIncident: (id: number) => IncidentData | null;
-  addCriminal: (criminal: involvedCriminalsType) => void;
+  addCriminal: (criminal: InvolvedCriminalsType) => void;
   createNewIncident: (title: string, details: string, location: string) => number;
   removeCriminal: (citizenId: string) => void;
   addChargeToCriminal: (citizenId: string, charge: ChargesData) => void;
