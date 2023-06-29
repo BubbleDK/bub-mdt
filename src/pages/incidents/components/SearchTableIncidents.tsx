@@ -44,14 +44,14 @@ const SearchTableIncidents = (props: {onClick: (data: IncidentData | null) => vo
   const { classes } = useStyles();
 
   return (
-    <Paper p='sm' withBorder style={{width: 450, backgroundColor: 'rgb(34, 35, 37)'}}>
+    <Paper p='sm' withBorder style={{width: 425, backgroundColor: 'rgb(34, 35, 37)'}}>
       <Flex gap="xs" justify="flex-start" align="center" direction="row" wrap="wrap" style={{marginBottom: 10}}>
         <TextInput
           placeholder="Search incidents..."
           icon={<IconSearch size={16} />}
           value={query}
           onChange={(e) => setQuery(e.currentTarget.value)}
-          w={322}
+          w={300}
         />
         <Button variant="default" leftIcon={<IconAdjustments size={rem(14)} />}>
           Filter

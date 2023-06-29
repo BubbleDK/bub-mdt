@@ -93,7 +93,7 @@ const IncidentRow = (props: Props) => {
   }
 
   return (
-    <Paper p='md' withBorder style={{width: 550, backgroundColor: 'rgb(34, 35, 37)'}}>
+    <Paper p='md' withBorder style={{width: 575, backgroundColor: 'rgb(34, 35, 37)'}}>
       <Group position='apart'>
         <Text weight={500} c={'white'}>{selectedIncident ? 'Edit' : 'Create'} Incident {selectedIncident && `(#${selectedIncident.id})`}</Text>
 				<Group spacing={8} mr={0}>
@@ -128,7 +128,7 @@ const IncidentRow = (props: Props) => {
             key={selectedIncident?.id} 
             onChange={(value) => setEditorContent(value)} 
             initialContent={selectedIncident?.details ? selectedIncident.details : ''} 
-            styles={{ content: { backgroundColor: 'rgb(34, 35, 37)' }, toolbar: { backgroundColor: '#252628', zIndex: 999 }}} 
+            styles={{ content: { backgroundColor: 'rgb(34, 35, 37)' }, toolbar: { backgroundColor: '#252628' }}} 
             contentAreaStyle={{ height: 300, width: 510 }}
           />
 

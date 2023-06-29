@@ -73,7 +73,7 @@ const Incidents = () => {
   return (
     <div className={classes.incidents}>
       <SearchTableIncidents onClick={setIncidentClick}  />
-      <LoadingOverlay visible={isLoading} overlayOpacity={0.95} overlayColor={"rgb(34, 35, 37)"} transitionDuration={250} loader={customLoader} style={{left: 785, width: '55.8%', height: '96%', top: 19, borderRadius: '0.25rem'}} />
+      <LoadingOverlay visible={isLoading} overlayOpacity={0.95} overlayColor={"rgb(34, 35, 37)"} transitionDuration={250} loader={customLoader} style={{left: 760, width: 1040, height: '96%', top: 19, borderRadius: '0.25rem'}} />
 
       <IncidentRow handleUnlink={setIncidentClick} handleCreateNewIncident={createIncidentClick} handleSaveIncident={saveIncidentClick} />
       <CriminalsRow />
