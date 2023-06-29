@@ -73,7 +73,7 @@ const SearchEvidenceTable = () => {
                 </Text>
               </Group>
 
-              <Text fz="xs" fw={500} className={classes.name} mt={5} mb={5}>
+              <Text fz="xs" fw={500} className={classes.name} mt={7} mb={7}>
                 Evidence type: {evidence.type}
               </Text>
 
