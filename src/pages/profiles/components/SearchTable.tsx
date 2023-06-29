@@ -35,8 +35,7 @@ const useStyles = createStyles((theme) => ({
 
 const SearchTable = (props: {onClick: (data: ProfileData | null) => void}) => {
   const [query, setQuery] = useState('');
-  const [debouncedQuery] = useDebouncedValue(query, 200);
-  const { profiles, setProfile } = useStoreProfiles();
+  const { profiles } = useStoreProfiles();
   const { classes } = useStyles();
 
   return (

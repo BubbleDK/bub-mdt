@@ -39,7 +39,6 @@ const useStyles = createStyles((theme) => ({
 
 const SearchReports = (props: {onClick: (data: ReportData | null) => void}) => {
   const [query, setQuery] = useState('');
-  const [debouncedQuery] = useDebouncedValue(query, 200);
   const { reports } = useStoreReports();
   const { classes } = useStyles();
 

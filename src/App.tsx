@@ -1,10 +1,10 @@
-import { Box, Transition, createStyles, Navbar, Group, Code, getStylesRef, rem, Image, Center, Button, Text, ChevronIcon, Collapse, UnstyledButton, ThemeIcon, ScrollArea, Divider, Menu } from '@mantine/core';
+import { Box, Transition, createStyles, Navbar, Group, getStylesRef, rem, Image, Center, Button, Text, Collapse, UnstyledButton, ScrollArea, Divider, Menu } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import { Route, Routes, NavLink, useLocation } from 'react-router-dom';
 import Dashboard from './pages/dashboard';
 import Profiles from './pages/profiles';
 import Dispatch from './pages/dispatch';
-import { IconLayoutDashboard, IconUserCircle, IconBuildingBank, IconSlice, IconVideo, IconCar, IconScript, IconFileDescription, IconBriefcase, IconZoomExclamation, IconMap2, IconUsers, IconPointFilled, IconBuildingSkyscraper, IconChartHistogram, IconSettings, IconChevronRight, IconChevronLeft, IconCode, IconFileEuro, IconDotsVertical, IconDoorExit } from '@tabler/icons-react';
+import { IconLayoutDashboard, IconUserCircle, IconBuildingBank, IconSlice, IconVideo, IconCar, IconScript, IconFileDescription, IconBriefcase, IconZoomExclamation, IconMap2, IconUsers, IconPointFilled, IconBuildingSkyscraper, IconChartHistogram, IconSettings, IconChevronRight, IconChevronLeft, IconCode, IconDotsVertical, IconDoorExit } from '@tabler/icons-react';
 import LSPDLogo from './assets/lspd.png';
 import { useNuiEvent } from './hooks/useNuiEvent';
 import { AlertData, IncidentData, OfficerData, ProfileData, ReportData, UnitData } from './typings';

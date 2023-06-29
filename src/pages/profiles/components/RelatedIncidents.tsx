@@ -47,7 +47,7 @@ const RelatedIncidents = () => {
     if (!citizenId) return setRelatedIncidents([]);
     const incidentsByCitizen: IncidentData[] = [];
     incidents.forEach((incident) => {
-      const foundInCriminals = incident.involvedCriminals.some((criminal) => criminal.citizenid === citizenId);
+      const foundInCriminals = incident.involvedCriminals.some((criminal) => criminal.citizenId === citizenId);
       if (foundInCriminals) {
         incidentsByCitizen.push(incident);
       }

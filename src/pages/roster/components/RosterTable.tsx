@@ -2,7 +2,6 @@ import { ActionIcon, Avatar, Badge, Button, Checkbox, Group, Modal, ScrollArea, 
 import React, { useState } from 'react'
 import { useStoreOfficers } from '../../../store/officersStore';
 import { IconPencil, IconUserOff } from '@tabler/icons-react';
-import { useDisclosure } from '@mantine/hooks';
 import { OfficerData } from '../../../typings';
 
 const useStyles = createStyles((theme) => ({

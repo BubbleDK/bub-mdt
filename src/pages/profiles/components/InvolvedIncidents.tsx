@@ -39,23 +39,22 @@ const InvolvedIncidents = () => {
   const { classes } = useStyles();
   const { incidents } = useStoreIncidents();
   const { selectedProfile } = useStoreProfiles();
-  const [relatedIncidents, setRelatedIncidents] = useState<IncidentData[]>([]);
+  const [involvedIncidents, setInvolvedIncidents] = useState<IncidentData[]>([]);
 
-  function findIncidentsByCitizenId(citizenId: string | undefined) {
-    if (!citizenId) return setRelatedIncidents([]);
+  function findInvolvedIncidentsByCitizenId(citizenId: string | undefined) {
+    if (!citizenId) return setInvolvedIncidents([]);
     const InvolvedCivilians: IncidentData[] = [];
     incidents.forEach((incident) => {
       const foundInInvolvedCivilians = incident.involvedCivilians.some((civilian) => civilian.citizenid === citizenId);
-      const foundInCriminals = incident.involvedCriminals.some((criminal) => criminal.citizenid === citizenId);
-      if (foundInInvolvedCivilians && !foundInCriminals) {
+      if (foundInInvolvedCivilians) {
         InvolvedCivilians.push(incident);
       }
     });
-    setRelatedIncidents(InvolvedCivilians);
+    setInvolvedIncidents(InvolvedCivilians);
   }
 
   useEffect(() => {
-    findIncidentsByCitizenId(selectedProfile?.citizenid)
+    findInvolvedIncidentsByCitizenId(selectedProfile?.citizenid)
   }, [selectedProfile])
 
   return (
@@ -68,7 +67,7 @@ const InvolvedIncidents = () => {
 
       <ScrollArea h={300}>
 				<Stack spacing='xs'>
-					{relatedIncidents.map((incident) => (
+					{involvedIncidents.map((incident) => (
 						<UnstyledButton className={classes.user} key={incident.id}>
 							<Menu withArrow>
 								<Menu.Target>

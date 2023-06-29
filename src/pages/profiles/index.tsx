@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {Container, Flex, LoadingOverlay, Stack, DEFAULT_THEME, Alert, Transition, createStyles } from "@mantine/core";
+import { Flex, LoadingOverlay, Stack, Alert, Transition, createStyles } from "@mantine/core";
 import SearchTable from './components/SearchTable';
 import ProfileInformation from './components/ProfileInformation';
 import RelatedIncidents from './components/RelatedIncidents';

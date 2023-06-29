@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStyles, Divider, Text, Group, rem, UnstyledButton } from '@mantine/core';
-import { IconCalendar, IconSearch, IconUsers } from "@tabler/icons-react";
+import { IconCalendar, IconSearch } from "@tabler/icons-react";
 import RecentActivity from './components/RecentActivity';
 import ActiveOfficers from './components/ActiveOfficers';
 import Announcements from './components/Announcements';

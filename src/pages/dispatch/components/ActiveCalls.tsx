@@ -63,12 +63,6 @@ const ActiveCalls = (props: DispatchAlerts) => {
     id: props.alert.id,
   });
   let isOverContainer = isOver ? "#2C2E33" : '#1d1e20';
-  const variantMapping: AlertTypes = {
-    default: <ImLocation color='black' size={25} />,
-    '10-71': <GiPistolGun color='black' size={25} />,
-    '10-60': <MdCarRental color='black' size={25} />,
-    '10-50': <FaCarCrash color='black' size={25} />
-  }
   const carButton = (
     <ActionIcon size="xs" color="blue" radius="xl" variant="transparent">
       <IconCar />

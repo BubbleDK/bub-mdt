@@ -39,7 +39,6 @@ const useStyles = createStyles((theme) => ({
 
 const SearchTableIncidents = (props: {onClick: (data: IncidentData | null) => void}) => {
   const [query, setQuery] = useState('');
-  const [debouncedQuery] = useDebouncedValue(query, 200);
   const { incidents } = useStoreIncidents();
   const { classes } = useStyles();
 

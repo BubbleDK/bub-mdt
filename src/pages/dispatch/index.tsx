@@ -85,8 +85,8 @@ type RefType = {
 const Dispatch = () => {
 	const { classes } = useStyles();
   const { addAlert, removeAlert, addUnitToAlert, alerts } = useStoreDispatch();
-  const { addUnit, deleteUnit, units } = useStoreUnit();
-  const { addOfficer, removeOfficer, officers } = useStoreOfficers();
+  const { addUnit, units } = useStoreUnit();
+  const { addOfficer, officers } = useStoreOfficers();
   const mapRef = useRef<RefType>(null);
   const [activeId, setActiveId] = useState(null);
   const [popoverOpened, setPopoverOpened] = useState(false);

@@ -49,7 +49,6 @@ const useStyles = createStyles((theme) => ({
 const ProfileInformation = (props: {onClick: (data: ProfileData | null) => void, saveProfile: (data: ProfileData | null) => void}) => {
   const { selectedProfile } = useStoreProfiles();
 	const { classes, theme } = useStyles();
-  
   const [availableTags, setAvailableTags] = useState<TagData[]>([]);
   const [selectedTagValues, setSelectedTagValues] = useState<string[]>([]);
   const [editorContent,setEditorContent] = useState(selectedProfile?.notes ? selectedProfile.notes : 'Place user information here...')

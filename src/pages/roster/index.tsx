@@ -29,7 +29,7 @@ function filterData(data: OfficerData[], search: string) {
 }
 
 const Roster = () => {
-  const { classes, cx } = useStyles();
+  const { classes } = useStyles();
   const { officers } = useStoreOfficers();
   const [fireModalOpened, setFireModalOpened] = useState(false);
   const form = useForm({

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Avatar, Box, Divider, Group, Text, createStyles } from '@mantine/core'; 
+import { Avatar, Divider, Group, Text, createStyles } from '@mantine/core'; 
 import { useStoreOfficers } from '../../../store/officersStore';
 import { useStoreUnit } from '../../../store/unitStore';
 import { IconUsers } from '@tabler/icons-react';
