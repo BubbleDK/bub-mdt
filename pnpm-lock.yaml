@@ -101,6 +101,82 @@ dependencies:
   zustand:
     specifier: ^4.3.7
     version: 4.3.7(immer@9.0.21)(react@18.2.0)
+specifiers:
+  '@dnd-kit/core': ^6.0.8
+  '@dnd-kit/modifiers': ^6.0.1
+  '@dnd-kit/utilities': ^3.2.1
+  '@emotion/react': ^11.10.6
+  '@mantine/core': ^6.0.7
+  '@mantine/form': ^6.0.6
+  '@mantine/hooks': ^6.0.4
+  '@mantine/modals': ^6.0.4
+  '@mantine/tiptap': ^6.0.7
+  '@mantine/utils': ^6.0.15
+  '@tabler/icons-react': ^2.11.0
+  '@tiptap/core': ^2.0.2
+  '@tiptap/extension-color': ^2.0.2
+  '@tiptap/extension-highlight': ^2.0.2
+  '@tiptap/extension-link': ^2.0.2
+  '@tiptap/extension-subscript': ^2.0.2
+  '@tiptap/extension-superscript': ^2.0.2
+  '@tiptap/extension-text-align': ^2.0.2
+  '@tiptap/extension-text-style': ^2.0.2
+  '@tiptap/extension-underline': ^2.0.2
+  '@tiptap/pm': ^2.0.2
+  '@tiptap/react': ^2.0.2
+  '@tiptap/starter-kit': ^2.0.2
+  '@types/leaflet': ^1.9.3
+  '@types/react': ^18.0.28
+  '@types/react-dom': ^18.0.11
+  '@vitejs/plugin-react': ^3.1.0
+  autoprefixer: ^10.4.14
+  dayjs: ^1.11.7
+  i: ^0.3.7
+  immer: ^9.0.21
+  leaflet: ^1.9.3
+  mantine-datatable: ^2.3.4
+  react: ^18.2.0
+  react-dom: ^18.2.0
+  react-icons: ^4.8.0
+  react-leaflet: ^4.2.1
+  react-router-dom: ^6.9.0
+  typescript: ^4.9.3
+  vite: ^4.2.0
+  zustand: ^4.3.7
+
+dependencies:
+  '@dnd-kit/core': 6.0.8_biqbaboplfbrettd7655fr4n2y
+  '@dnd-kit/modifiers': 6.0.1_52scne4zmdeyjh2otzkgz2xfvu
+  '@dnd-kit/utilities': 3.2.1_react@18.2.0
+  '@emotion/react': 11.10.6_pmekkgnqduwlme35zpnqhenc34
+  '@mantine/core': 6.0.7_t7jtalnwvyidfaogp2b564lbfq
+  '@mantine/form': 6.0.6_react@18.2.0
+  '@mantine/hooks': 6.0.4_react@18.2.0
+  '@mantine/modals': 6.0.4_xkkz3h5s7432k6kvalmmiicqja
+  '@mantine/tiptap': 6.0.7_7d33i7oerm2vu4er2ot4qbexlq
+  '@mantine/utils': 6.0.15_react@18.2.0
+  '@tabler/icons-react': 2.11.0_react@18.2.0
+  '@tiptap/core': 2.0.2_@tiptap+pm@2.0.2
+  '@tiptap/extension-color': 2.0.2_zaslzi56tr3sgfhu66od3rtbbi
+  '@tiptap/extension-highlight': 2.0.2_@tiptap+core@2.0.2
+  '@tiptap/extension-link': 2.0.2_xucnagsy5wg47squ34lrzzgray
+  '@tiptap/extension-subscript': 2.0.2_@tiptap+core@2.0.2
+  '@tiptap/extension-superscript': 2.0.2_@tiptap+core@2.0.2
+  '@tiptap/extension-text-align': 2.0.2_@tiptap+core@2.0.2
+  '@tiptap/extension-text-style': 2.0.2_@tiptap+core@2.0.2
+  '@tiptap/extension-underline': 2.0.2_@tiptap+core@2.0.2
+  '@tiptap/pm': 2.0.2_@tiptap+core@2.0.2
+  '@tiptap/react': 2.0.2_5qsqxtgrvdydajrobuba465tkm
+  '@tiptap/starter-kit': 2.0.2_@tiptap+pm@2.0.2
+  dayjs: 1.11.7
+  immer: 9.0.21
+  leaflet: 1.9.3
+  mantine-datatable: 2.3.4_dpa7ppba5crm4wln64btsic2gm
+  react: 18.2.0
+  react-dom: 18.2.0_react@18.2.0
+  react-icons: 4.8.0_react@18.2.0
+  react-leaflet: 4.2.1_yydtlhsdonbqao6vgvkwhv2zki
+  zustand: 4.3.7_immer@9.0.21+react@18.2.0
 
 devDependencies:
   '@types/leaflet':
@@ -855,7 +931,15 @@ packages:
       react: 18.2.0
     dev: false
 
-  /@mantine/utils@6.0.4(react@18.2.0):
+  /@mantine/utils/6.0.15_react@18.2.0:
+    resolution: {integrity: sha512-iVaobFQTCQWG6SRi3im0/nONKCtGRPobG7bXn9GiIT96E4t7uTPglQpo/ZktDrF1XCL8CO/HoQmks4A2iXuMFw==}
+    peerDependencies:
+      react: '>=16.8.0'
+    dependencies:
+      react: 18.2.0
+    dev: false
+
+  /@mantine/utils/6.0.4_react@18.2.0:
     resolution: {integrity: sha512-oggRX3fC/tsoxEaxJ+3DhFpb4D4YeCg5XvueGsX3AuoHY87bypaI3JyvFbSIV8oLMW6B/heHNu6VPHVSnrim9A==}
     peerDependencies:
       react: '>=16.8.0'

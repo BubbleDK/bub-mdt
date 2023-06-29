@@ -5,6 +5,7 @@ import { IconTrash, IconX, IconChevronDown, IconDeviceFloppy, IconInfoCircle, Ic
 import { useStoreProfiles } from '../../../store/profilesStore';
 import { ChargesData } from '../../../typings/charges';
 import { useDisclosure } from '@mantine/hooks';
+import { useStoreIncidents } from '../../../store/incidentsStore';
 
 interface Props {
   criminal: involvedCriminalsType
@@ -27,20 +28,6 @@ const useStyles = createStyles((theme) => ({
     padding: 10,
     backgroundColor: '#1d1e20',
     border: `0.1px solid rgb(42, 42, 42, 1)`,
-  },
-  charge: {
-    display: 'block',
-    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
-  },
-  chargeItem: {
-    padding: 10,
-    backgroundColor: '#1d1e20',
-    border: `0.1px solid rgb(42, 42, 42, 1)`,
-    height: 150,
-    width: 305,
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 5,
   },
   wrapper: {
     width: 105,
@@ -82,6 +69,20 @@ const useStyles = createStyles((theme) => ({
       cursor: 'auto',
       color: '#C1C2C5',
     },
+  },
+  charge: {
+    display: 'block',
+    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
+  },
+  chargeItem: {
+    padding: 10,
+    backgroundColor: '#1d1e20',
+    border: `0.1px solid rgb(42, 42, 42, 1)`,
+    height: 150,
+    width: 305,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 5,
   },
   addedCharge: {
     display: 'block',
@@ -170,33 +171,27 @@ const charges: ChargesData[]  = [
 ]
 
 const InvolvedCriminal = (props: Props) => {
-  const { classes, theme } = useStyles();
+  const { classes } = useStyles();
   const { getProfile } = useStoreProfiles();
-  const [isWarrantForArrest, setIsWarrantForArrest] = useState(false);
-  const [isPleadedGuilty, setIsPleadedGuilty] = useState(false);
-  const [isProcessed, setIsProcessed] = useState(false);
-  const [selectedReduction, setSelectedReduction] = useState<string | null>();
+  const { removeCriminal, addChargeToCriminal, setCriminalPleadedGuilty, setCriminalProcessed } = useStoreIncidents();
+  const [selectedReduction, setSelectedReduction] = useState<string | null>(props.criminal.final);
+  const [selectedReductionIndex, setSelectedReductionIndex] = useState(0);
   const [finalText, setFinalText] = useState<string>();
   const [openedChargesModal, { open, close }] = useDisclosure(false);
   const [value, setValue] = useState<number | ''>(1);
   const handlers = useRef<NumberInputHandlers>(null);
 
   useEffect(() => {
-    setIsWarrantForArrest(props.criminal.isWarrantForArrestActive)
-    setIsPleadedGuilty(props.criminal.pleadedGuilty)
-    setIsProcessed(props.criminal.processed)
-    setSelectedReduction(props.criminal.final);
-  }, [props.criminal])
-
-  useEffect(() => {
     const str = selectedReduction;
     let arr = str?.split('/');
     arr?.shift();
     setFinalText(arr?.join('/'));
+    setSelectedReductionIndex(calculateReductions(props.criminal.charges).findIndex(item => item === selectedReduction))
   }, [selectedReduction])
 
   useEffect(() => {
     calculateReductions(props.criminal.charges)
+    setSelectedReduction(calculateReductions(props.criminal.charges)[selectedReductionIndex])
   }, [props.criminal.charges])
 
   function calculateReductions(charges: ChargesData[]): string[] {
@@ -242,13 +237,13 @@ const InvolvedCriminal = (props: Props) => {
 
         <div style={{display: 'flex', gap: 20, width: '100%'}}>
           <ScrollArea h={700} scrollbarSize={4} offsetScrollbars scrollHideDelay={300}>
-            <div style={{flex: 1}}>
+            <div style={{width: 348}}>
               <Text fz="sm" fw={500} c="white" mb={5}>
                 Current Charges
               </Text>
 
               {props.criminal.charges.map((charge) => (
-                <div className={classes.addedCharge} key={props.criminal.citizenId}>
+                <div className={classes.addedCharge} key={charge.id}>
                   <div className={classes.addedChargeItem}>
                     <Text fz="sm" fw={500} c="white" style={{textAlign: 'center'}}>
                       {charge.title}
@@ -320,7 +315,7 @@ const InvolvedCriminal = (props: Props) => {
                             min={1}
                             max={99}
                             handlersRef={handlers}
-                            value={value}
+                            value={charge.amountOfAddedCharges}
                             onChange={setValue}
                             classNames={{ input: classes.input }}
                             disabled
@@ -353,8 +348,8 @@ const InvolvedCriminal = (props: Props) => {
 
             <ScrollArea h={700} scrollbarSize={4} offsetScrollbars scrollHideDelay={300}>
               <div style={{display: 'flex', gap: 5, flexWrap: 'wrap'}}>
-                {charges.map(charge => (
-                  <div className={classes.charge} key={props.criminal.citizenId}>
+                {charges.map((charge) => (
+                  <div className={classes.charge} key={charge.id}>
                     <div className={classes.chargeItem}>
                       <Text fz="sm" fw={500} c="white" style={{textAlign: 'center'}}>
                         {charge.title}
@@ -403,7 +398,7 @@ const InvolvedCriminal = (props: Props) => {
                         </Badge>
 
                         <Tooltip label='Add Charge' withArrow color='dark'>
-                          <ActionIcon className={classes.action} onClick={() => { }} h={31}>
+                          <ActionIcon className={classes.action} onClick={() => { addChargeToCriminal(props.criminal.citizenId, {...charge, amountOfAddedCharges: 1}) }} h={31}>
                             <IconPlus size={18} />
                           </ActionIcon>
                         </Tooltip>
@@ -417,26 +412,18 @@ const InvolvedCriminal = (props: Props) => {
         </div>
       </Modal>
       
-      <div className={classes.user} key={props.criminal.citizenId}>
+      <div className={classes.user}>
         <div className={classes.item}>
           <Group position="apart">
             <Text fz="sm" fw={500} c="white">
               {getProfile(props.criminal.citizenId)?.firstname} {getProfile(props.criminal.citizenId)?.lastname} (#{getProfile(props.criminal.citizenId)?.citizenid})
             </Text>
 
-            <Group style={{gap: 5}}>
-              <Tooltip label='Save Changes' withArrow color='dark'>
-                <ActionIcon className={classes.action} onClick={() => { }}>
-                  <IconDeviceFloppy size={16} color={theme.colors.green[6]} />
-                </ActionIcon>
-              </Tooltip>
-
-              <Tooltip label='Remove criminal' withArrow color='dark'>
-                <ActionIcon className={classes.action} onClick={() => { }}>
-                  <IconTrash size={16} />
-                </ActionIcon>
-              </Tooltip>
-            </Group>
+            <Tooltip label='Remove criminal' withArrow color='dark'>
+              <ActionIcon className={classes.action} onClick={() => { removeCriminal(props.criminal.citizenId) }}>
+                <IconTrash size={16} />
+              </ActionIcon>
+            </Tooltip>
           </Group>
 
           <div style={{marginTop: 7.5}}>
@@ -451,6 +438,7 @@ const InvolvedCriminal = (props: Props) => {
 
             {props.criminal.charges.map((charge) => (
               <Badge 
+                key={charge.id}
                 radius="xs" 
                 variant="filled"
                 color={charge.color}
@@ -467,7 +455,7 @@ const InvolvedCriminal = (props: Props) => {
           <Divider my={10} />
 
           <div>
-            <Checkbox label="Warrant for arrest" radius="xs" color="rgba(51, 124, 255, 0.2)" checked={isWarrantForArrest} onChange={(event) => setIsWarrantForArrest(event.currentTarget.checked)} />
+            <Checkbox label="Warrant for arrest" radius="xs" color="rgba(51, 124, 255, 0.2)" checked={props.criminal.isWarrantForArrestActive} onChange={(event) => {}} />
           </div>
 
           <Divider my={10} />
@@ -502,8 +490,8 @@ const InvolvedCriminal = (props: Props) => {
           <Divider my={10} />
 
           <div style={{display: 'flex', gap: 15}}>
-            <Checkbox label="Pleaded Guilty" radius="xs" color="rgba(51, 124, 255, 0.2)" checked={isPleadedGuilty} onChange={(event) => setIsPleadedGuilty(event.currentTarget.checked)} />
-            <Checkbox label="Processed" radius="xs" color="rgba(51, 124, 255, 0.2)" checked={isProcessed} onChange={(event) => setIsProcessed(event.currentTarget.checked)} />
+            <Checkbox label="Pleaded Guilty" radius="xs" color="rgba(51, 124, 255, 0.2)" checked={props.criminal.pleadedGuilty} onChange={(event) => setCriminalPleadedGuilty(props.criminal.citizenId, event.currentTarget.checked)} />
+            <Checkbox label="Processed" radius="xs" color="rgba(51, 124, 255, 0.2)" checked={props.criminal.processed} onChange={(event) => setCriminalProcessed(props.criminal.citizenId, event.currentTarget.checked)} />
           </div>
         </div>
       </div>

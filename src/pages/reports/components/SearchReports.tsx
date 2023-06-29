@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { Button, Flex, TextInput, Avatar, UnstyledButton, Group, Text, createStyles, ScrollArea, Paper, rem } from '@mantine/core';
 import { useDebouncedValue } from '@mantine/hooks';
 import { IconSearch, IconAdjustments } from '@tabler/icons-react';
-import { IncidentData } from '../../../typings';
-import { useStoreIncidents } from '../../../store/incidentsStore';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { ReportData } from '../../../typings/reports';

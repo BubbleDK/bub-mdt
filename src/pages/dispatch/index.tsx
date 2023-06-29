@@ -96,7 +96,7 @@ const Dispatch = () => {
   useEffect(() => {
     const newArray = officers.map(el => ({value: el.citizenid, label: '(' +  el.callsign + ') | ' + el.firstname + ' ' + el.lastname, disabled: isOfficerAlreadyInAUnit(el.citizenid)}));
     setOfficersSelector(newArray)
-  }, [officers])
+  }, [officers, units])
 
   const removeAlertFunction = (id: number) => {
     setTimeout(() => {
@@ -162,12 +162,14 @@ const Dispatch = () => {
   }
 
   const handleSubmit = (props: UnitData) => {
+    console.log(props)
+    if (props.unitMembers.length === 0) return;
     addUnit(props);
     setPopoverOpened(false);
     form.reset();
   }
   
-  const findUnitMembers = (ids: number[]) => {
+  const findUnitMembers = (ids: string[]) => {
     const res = [];
     for (let i = 0; i < ids.length; i++) {
       for (let j = 0; j < officers.length; j++) {
@@ -180,12 +182,13 @@ const Dispatch = () => {
     return res;
   }
 
-  const isOfficerAlreadyInAUnit = (citizenid: number) => {
+  const isOfficerAlreadyInAUnit = (citizenid: string) => {
     for (let i = 0; i < units.length; i++) {
-      if (units[i].unitMembers.findIndex(x => x.citizenid === citizenid) !== -1) return true
+      console.log(units[i].unitMembers.findIndex(x => x.citizenid === citizenid))
+      if (units[i].unitMembers.findIndex(x => x.citizenid === citizenid) !== -1) return true;
     }
 
-    return false
+    return false;
   }
 
 	return (

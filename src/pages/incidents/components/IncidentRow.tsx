@@ -6,7 +6,6 @@ import { IncidentData } from '../../../typings';
 import { useForm } from '@mantine/form';
 import { useRecentActivityStore } from '../../../store/recentActivity';
 import { useStorePersonal } from '../../../store/personalInfoStore';
-import { useDisclosure } from '@mantine/hooks';
 import TextEditor from '../../../components/TextEditor';
 
 const useStyles = createStyles((theme) => ({
@@ -37,12 +36,11 @@ interface Props {
 
 const IncidentRow = (props: Props) => {
   const { classes, theme } = useStyles();
-  const { selectedIncident, createNewIncident } = useStoreIncidents();
+  const { selectedIncident, createNewIncident, setIncident, getIncident, newIncident } = useStoreIncidents();
   const [openedTagPopover, setOpenedTagPopover] = useState(false);
   const [titleSet, setTitleSet] = useState(true);
   const { addToRecentActivity } = useRecentActivityStore();
   const { firstname, lastname } = useStorePersonal();
-  const [opened, { toggle, close }] = useDisclosure(false);
   const [editorContent,setEditorContent] = useState(selectedIncident?.details ? selectedIncident.details : '') 
 
   const form = useForm({
@@ -64,8 +62,8 @@ const IncidentRow = (props: Props) => {
 
     } else {
       form.setValues({
-        title: '',
-        location: '',
+        title: newIncident.title,
+        location: newIncident.location,
       })
 
       setEditorContent('')
@@ -84,6 +82,7 @@ const IncidentRow = (props: Props) => {
       form.reset();
       setEditorContent('')
       addToRecentActivity({ category: 'Incidents', type: 'Created', doneBy: firstname + ' ' + lastname, timeAgo: new Date().valueOf(), timeAgotext: '', activityID: newIncidentId.toString() });
+      setIncident(getIncident(newIncidentId))
       props.handleCreateNewIncident();
     }
   }
@@ -190,6 +189,7 @@ const IncidentRow = (props: Props) => {
               <div>
                 {selectedIncident?.involvedOfficers.map((officer) => (
                   <Badge 
+                    key={officer.citizenid}
                     radius="xs" 
                     variant="filled"
                     style={{backgroundColor: 'rgb(42, 42, 42)', marginRight: 5, marginBottom: 5, paddingTop: 10, paddingBottom: 10}}
@@ -277,6 +277,7 @@ const IncidentRow = (props: Props) => {
               <div>
                 {selectedIncident?.tags.map((tag) => (
                   <Badge 
+                    key={tag.value}
                     color={tag.backgroundcolor}
                     radius="xs" 
                     variant="filled"
