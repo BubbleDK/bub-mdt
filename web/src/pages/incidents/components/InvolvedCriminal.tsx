@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { involvedCriminalsType } from '../../../typings';
+import { InvolvedCriminalsType } from '../../../typings';
 import { createStyles, Group, ActionIcon, Badge, rem, Divider, Checkbox, Select, Tooltip, Text, Modal, TextInput, ScrollArea, NumberInputHandlers, NumberInput } from '@mantine/core';
-import { IconTrash, IconX, IconChevronDown, IconDeviceFloppy, IconInfoCircle, IconPlus, IconMinus } from '@tabler/icons-react';
+import { IconTrash, IconX, IconChevronDown, IconPlus, IconMinus } from '@tabler/icons-react';
 import { useStoreProfiles } from '../../../store/profilesStore';
 import { ChargesData } from '../../../typings/charges';
 import { useDisclosure } from '@mantine/hooks';
 import { useStoreIncidents } from '../../../store/incidentsStore';
 
 interface Props {
-  criminal: involvedCriminalsType
+  criminal: InvolvedCriminalsType
 }
 
 const useStyles = createStyles((theme) => ({
