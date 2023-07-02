@@ -29,7 +29,9 @@ local function openMdt()
   SetNuiFocus(true, true)
   SendNuiMessage({
     action = 'setupMdt',
-    data = {}
+    data = {
+      locale = uiLocales,
+    }
   })
 end
 
