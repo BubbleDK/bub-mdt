@@ -24,6 +24,7 @@ client_scripts {
 server_scripts {
 	'@oxmysql/lib/MySQL.lua',
 	'server/main.lua',
+  'server/framework/*.lua',
 }
 
 ui_page 'web/dist/index.html'
