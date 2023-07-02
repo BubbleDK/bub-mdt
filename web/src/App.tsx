@@ -21,6 +21,8 @@ import Reports from './pages/reports';
 import { useStoreReports } from './store/reportsStore';
 import Roster from './pages/roster';
 import Evidence from './pages/evidence';
+import { Locale } from './store/locale';
+import { isEnvBrowser } from './utils/misc';
 
 const useStyles = createStyles((theme) => ({
   control: {
@@ -111,17 +113,6 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-interface SetupMdtData {
-  alerts?: AlertData[];
-  officers: OfficerData[];
-  units?: UnitData[];
-  personalInformation: OfficerData;
-  announcements: AnnouncementData[];
-  profiles: ProfileData[];
-  incidents: IncidentData[];
-  reports: ReportData[];
-}
-
 const homeData = [
   {link: '', label: 'Dashboard', icon: IconLayoutDashboard},
 ]
@@ -169,7 +160,18 @@ function App() {
   const [opened, setOpened] = useState(false);
   const ChevronIcon = theme.dir === 'ltr' ? IconChevronRight : IconChevronLeft;
 
-  useNuiEvent<SetupMdtData>('setupMdt', (data) => {
+  useNuiEvent<{
+    locale: { [key: string]: string };
+    alerts?: AlertData[];
+    officers: OfficerData[];
+    units?: UnitData[];
+    personalInformation: OfficerData;
+    announcements: AnnouncementData[];
+    profiles: ProfileData[];
+    incidents: IncidentData[];
+    reports: ReportData[];
+  }>('setupMdt', (data) => {
+    for (const name in data.locale) Locale[name] = data.locale[name];
     setOfficers(data.officers);
     if (data.alerts !== undefined) setAlerts(data.alerts);
     if (data.units !== undefined) setUnits(data.units);
@@ -352,7 +354,7 @@ function App() {
                           <span>Configuration</span>
                         </NavLink>
                       </Menu.Item>
-                      <Menu.Item icon={<IconDoorExit size={14} />} onClick={() => { setVisible(false) }}>Logout</Menu.Item>
+                      <Menu.Item icon={<IconDoorExit size={14} />} onClick={() => { setVisible(false) }}>{Locale.ui_logout}</Menu.Item>
                     </Menu.Dropdown>
                   </Menu>
                 </Box>
@@ -374,7 +376,7 @@ function App() {
           </div>
         )}
       </Transition>
-      {!visible &&
+      {(!visible && isEnvBrowser()) &&
         <Button style={{color: 'black', position: 'absolute'}} variant="default" onClick={() => { setVisible(true) }}>Open</Button>
       }
     </div>

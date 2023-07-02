@@ -1,4 +1,4 @@
-lib.locale()
+if not lib then return end
 
 local obj = nil
 
@@ -16,6 +16,15 @@ local function openMdt()
       
   lib.requestAnimDict('amb@world_human_seat_wall_tablet@female@base')    
   TaskPlayAnim(cache.ped, "amb@world_human_seat_wall_tablet@female@base", "generic_radio_enter", 8.0, 2.0, -1, 50, 2.0, 0, 0, 0)
+
+  local uiLocales = {}
+  local locales = lib.getLocales()
+
+  for k, v in pairs(locales) do
+    if k:find('^ui_')then
+      uiLocales[k] = v
+    end
+  end
 
   SetNuiFocus(true, true)
   SendNuiMessage({
