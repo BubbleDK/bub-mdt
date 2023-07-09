@@ -9,7 +9,7 @@ import { HashRouter } from 'react-router-dom';
 import { debugData } from './utils/debugData';
 
 debugData([{
-  action: 'setupMdt',
+  action: 'setupMdtDebug',
   data: {
     alerts: [
       { id: 1, CoordsY: -3058.53, CoordsX: -1960.06, displayCode: '10-71', alertName: 'Shots Fired', location: 'Mirror Park Blvd, North Vinewoord', time: new Date().valueOf(), gender: 'Male', attachedUnits: [], weapon: "CLASS 1: Pistol"}, 
@@ -101,21 +101,21 @@ debugData([{
         id: 1, 
         title: 'A nice title', 
         time: new Date().valueOf(),
-        content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex dolor in esse numquam? Ratione ut impedit officia nemo, pariatur voluptatem quas culpa distinctio excepturi? Dolorum minima blanditiis neque natus dolor?', 
+        message: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex dolor in esse numquam? Ratione ut impedit officia nemo, pariatur voluptatem quas culpa distinctio excepturi? Dolorum minima blanditiis neque natus dolor?', 
         postedBy: {citizenid: "CITI12345", firstname: 'Bubble', lastname: 'Test', role: 'Cheif', callsign: 'C-01', phone: '0000000'}
       }, 
       {
         id: 2, 
         title: 'A nice title', 
         time: 1686002400000, 
-        content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex dolor in esse numquam? Ratione ut impedit officia nemo, pariatur voluptatem quas culpa distinctio excepturi? Dolorum minima blanditiis neque natus dolor?', 
+        message: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex dolor in esse numquam? Ratione ut impedit officia nemo, pariatur voluptatem quas culpa distinctio excepturi? Dolorum minima blanditiis neque natus dolor?', 
         postedBy: {citizenid: "CITI12345", firstname: 'Bubble', lastname: 'Test', role: 'Cheif', callsign: 'C-01', phone: '0000000'}
       }, 
       {
         id: 3, 
         title: 'A nice title', 
         time: 1685570400000, 
-        content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex dolor in esse numquam? Ratione ut impedit officia nemo, pariatur voluptatem quas culpa distinctio excepturi? Dolorum minima blanditiis neque natus dolor?', 
+        message: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex dolor in esse numquam? Ratione ut impedit officia nemo, pariatur voluptatem quas culpa distinctio excepturi? Dolorum minima blanditiis neque natus dolor?', 
         postedBy: {citizenid: 2, firstname: 'John', lastname: 'Doe', role: 'Captain', callsign: 'C-02', phone: '1000000', image: 'https://img.gta5-mods.com/q75/images/pepe-jean-s-for-male-mp-fivem/8ac75d-13825a080b7c4e241e3628811c3fd470.png'}
       }
     ],

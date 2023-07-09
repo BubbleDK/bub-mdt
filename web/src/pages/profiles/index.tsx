@@ -52,7 +52,7 @@ const Profiles = () => {
 
   const saveProfileClick = (props: ProfileData | null) => {
     toggle();
-    addToRecentActivity({ category: 'Profiles', type: 'Updated', doneBy: firstname + ' ' + lastname, timeAgo: new Date().valueOf(), timeAgotext: '', activityID: props?.citizenid });
+    addToRecentActivity({ category: 'Profiles', type: 'Updated', doneBy: firstname + ' ' + lastname, timeAgo: new Date().valueOf(), timeAgotext: '', activityID: props?.citizenid ?? '' });
     replaceProfile(props ? props : {} as ProfileData);
 
     setTimeout(() => {

@@ -6,12 +6,13 @@ export type Activity = {
   doneBy: string,
   timeAgo: number,
   timeAgotext: string,
-  activityID?: string,
+  activityID: string,
 };
 
 type RecentActivityState = { 
   recentActivity: Activity[];
   addToRecentActivity: (activity: Activity) => void;
+  setActivities: ({}: Activity[]) => void;
 };
 
 export const useRecentActivityStore = create<RecentActivityState>((set) => ({
@@ -25,5 +26,11 @@ export const useRecentActivityStore = create<RecentActivityState>((set) => ({
       }
       return { recentActivity: newRecentActivity };
     });
+  },
+
+  setActivities: (activities: Activity[]) => {
+    set(() => ({
+      recentActivity: [...activities],
+    }));
   },
 }));

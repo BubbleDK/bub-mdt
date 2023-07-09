@@ -1,5 +1,5 @@
 import {MutableRefObject, useEffect, useRef} from "react";
-import {noop} from "../utils/misc";
+import { noop } from "../utils/misc";
 
 interface NuiMessageData<T = unknown> {
   action: string;
@@ -33,7 +33,7 @@ export const useNuiEvent = <T = any>(
 
   useEffect(() => {
     const eventListener = (event: MessageEvent<NuiMessageData<T>>) => {
-      const {action: eventAction, data} = event.data;
+      const { action: eventAction, data } = event.data;
 
       if (savedHandler.current) {
         if (eventAction === action) {

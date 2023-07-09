@@ -5,7 +5,7 @@ export type AnnouncementData = {
   id: number,
   title: string,
   time: number,
-  content: string,
+  message: string,
   postedBy: OfficerData,
 }
 
@@ -17,10 +17,8 @@ export type AnnouncementsActions = {
 }
 
 export const useStoreAnnouncements = create<AnnouncementsActions>((set) => ({
-  // Initial State
   announcements: [],
-  // Methods for manipulating state
-  addAnnouncement: ({id, title, time, content, postedBy}: AnnouncementData) => {
+  addAnnouncement: ({id, title, time, message, postedBy}: AnnouncementData) => {
     set((state) => ({
       announcements: [
         ...state.announcements,
@@ -28,7 +26,7 @@ export const useStoreAnnouncements = create<AnnouncementsActions>((set) => ({
           id,
           title,
           time,
-          content,
+          message,
           postedBy
         } as AnnouncementData,
       ],

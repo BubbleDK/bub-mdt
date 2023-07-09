@@ -23,6 +23,10 @@ import Roster from './pages/roster';
 import Evidence from './pages/evidence';
 import { Locale } from './store/locale';
 import { isEnvBrowser } from './utils/misc';
+import { useVisibility } from './store/visibilityStore';
+import { fetchNui } from './utils/fetchNui';
+import { Activity, useRecentActivityStore } from './store/recentActivity';
+import { useExitListener } from './hooks/useExitListener';
 
 const useStyles = createStyles((theme) => ({
   control: {
@@ -146,7 +150,7 @@ const staffData = [
 
 function App() {
   const { classes, cx, theme } = useStyles();
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useVisibility((state) => [state.visible, state.setVisible]);
   const [activeLink, setActiveLink] = useState('');
   const location = useLocation();
   const { setReports } = useStoreReports();
@@ -157,8 +161,26 @@ function App() {
   const { setAnnouncements } = useStoreAnnouncements();
   const { setProfiles } = useStoreProfiles();
   const { setIncidents } = useStoreIncidents();
+  const { setActivities } = useRecentActivityStore();
   const [opened, setOpened] = useState(false);
   const ChevronIcon = theme.dir === 'ltr' ? IconChevronRight : IconChevronLeft;
+
+  useNuiEvent<{locale: { [key: string]: string }; personalInformation: OfficerData;}>('init', (data) => {
+    for (const name in data.locale) Locale[name] = data.locale[name];
+    setPersonalData(data.personalInformation);
+  });
+
+  useNuiEvent<{
+    announcements: AnnouncementData[];
+    officers: OfficerData[];
+    recentActivity: Activity[];
+  }>('setupMdt', (data) => {
+    setAnnouncements(data.announcements);
+    setOfficers(data.officers);
+    setActivities(data.recentActivity);
+
+    setVisible(true);
+  });
 
   useNuiEvent<{
     locale: { [key: string]: string };
@@ -170,7 +192,7 @@ function App() {
     profiles: ProfileData[];
     incidents: IncidentData[];
     reports: ReportData[];
-  }>('setupMdt', (data) => {
+  }>('setupMdtDebug', (data) => {
     for (const name in data.locale) Locale[name] = data.locale[name];
     setOfficers(data.officers);
     if (data.alerts !== undefined) setAlerts(data.alerts);
@@ -185,6 +207,8 @@ function App() {
   useEffect(() => {
     setActiveLink(location.pathname.split('/')[1]);
   }, [location]);
+
+  useExitListener(setVisible);
 
   const homeLinks = homeData.map((item) => (
     <NavLink
@@ -293,7 +317,7 @@ function App() {
     <div className={classes.container}>
       <Transition transition='slide-up' mounted={visible}>
         {(style) => (
-          <div style={{...style, display: 'flex', width: '100%', margin: 50, height: '95%'}}>
+          <div style={{...style, display: 'flex', width: '100%', margin: 50, height: 920}}>
             <div>
               <Navbar height={"100%"} width={{ sm: 300 }} p='xs' style={{backgroundColor: '#242527', borderTopLeftRadius: 5, borderBottomLeftRadius: 5}}>
                 <Navbar.Section grow>
@@ -354,7 +378,7 @@ function App() {
                           <span>Configuration</span>
                         </NavLink>
                       </Menu.Item>
-                      <Menu.Item icon={<IconDoorExit size={14} />} onClick={() => { setVisible(false) }}>{Locale.ui_logout}</Menu.Item>
+                      <Menu.Item icon={<IconDoorExit size={14} />} onClick={() => { setVisible(false); fetchNui('exit'); }}>{Locale.ui_logout}</Menu.Item>
                     </Menu.Dropdown>
                   </Menu>
                 </Box>

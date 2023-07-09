@@ -14,6 +14,7 @@ repository   'https://github.com/BubbleDK/bub-mdt'
 --[[ Manifest ]]--
 shared_scripts {
 	'@ox_lib/init.lua',
+  "init.lua",
 	'config.lua',
 }
 
@@ -27,11 +28,11 @@ server_scripts {
   'server/framework/*.lua',
 }
 
-ui_page 'web/dist/index.html'
+ui_page 'web/build/index.html'
 
 files {
-	'web/dist/index.html',
-	'web/dist/**/*',
+	'web/build/index.html',
+	'web/build/**/*',
 	'locales/*.json'
 }
 

@@ -27,7 +27,7 @@ const Announcements = () => {
               </Text>
               <Badge size="sm" radius='sm' style={{backgroundColor: 'rgba(51, 124, 255, 0.2)', color: 'rgba(159, 194, 255, 0.8)'}}>{dayjs(announcement.time).fromNow()}</Badge>
             </Group>
-            <Text fz={13} style={{marginTop: 10, marginBottom: 10, height: '75%'}}>{announcement.content}</Text>
+            <Text fz={13} style={{marginTop: 10, marginBottom: 10, height: '75%'}}>{announcement.message}</Text>
             <Group position="apart" mt="md">
               <Text fz={12}>Posted by: <Text span inherit fz={12} fw={500}>{announcement.postedBy.firstname} {announcement.postedBy.lastname}</Text></Text>
             </Group>
