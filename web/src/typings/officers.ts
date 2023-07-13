@@ -10,7 +10,9 @@ export type OfficerData = {
 
 export type Officers = {
   officers: OfficerData[],
+  activeOfficers: OfficerData[],
   addOfficer: ({}: OfficerData) => void;
   removeOfficer: (citizenid: string) => void;
   setOfficers: (officers: OfficerData[]) => void;
+  setActiveOfficers: (activeOfficers: OfficerData[]) => void;
 }

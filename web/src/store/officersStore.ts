@@ -3,6 +3,7 @@ import { OfficerData, Officers } from '../typings'
 
 export const useStoreOfficers = create<Officers>((set) => ({
   officers: [],
+  activeOfficers: [],
   addOfficer: ({citizenid, firstname, lastname, role, callsign, phone}: OfficerData) => {
     set((state) => ({
       officers: [
@@ -27,6 +28,13 @@ export const useStoreOfficers = create<Officers>((set) => ({
     set(() => ({
       officers: [
         ...officers,
+      ],
+    }));
+  },
+  setActiveOfficers: (activeOfficers: OfficerData[]) => {
+    set(() => ({
+      activeOfficers: [
+        ...activeOfficers,
       ],
     }));
   },

@@ -154,7 +154,7 @@ function App() {
   const [activeLink, setActiveLink] = useState('');
   const location = useLocation();
   const { setReports } = useStoreReports();
-  const { setOfficers } = useStoreOfficers();
+  const { setOfficers, setActiveOfficers } = useStoreOfficers();
   const { setAlerts } = useStoreDispatch();
   const { setUnits } = useStoreUnit();
   const { setPersonalData, firstname, lastname, callsign, role } = useStorePersonal();
@@ -172,14 +172,16 @@ function App() {
 
   useNuiEvent<{
     announcements: AnnouncementData[];
-    officers: OfficerData[];
     recentActivity: Activity[];
   }>('setupMdt', (data) => {
     setAnnouncements(data.announcements);
-    setOfficers(data.officers);
     setActivities(data.recentActivity);
 
     setVisible(true);
+  });
+
+  useNuiEvent<{ activeOfficers: OfficerData[]; }>('updateActiveOfficers', (data) => {
+    setActiveOfficers(data.activeOfficers);
   });
 
   useNuiEvent<{

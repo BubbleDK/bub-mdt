@@ -6,6 +6,7 @@ import { useStoreOfficers } from '../../store/officersStore';
 import RosterTable from './components/RosterTable';
 import { useForm } from '@mantine/form';
 import { OfficerData } from '../../typings';
+import { useNuiEvent } from '../../hooks/useNuiEvent';
 
 const useStyles = createStyles((theme) => ({
   roster: {
@@ -30,7 +31,7 @@ function filterData(data: OfficerData[], search: string) {
 
 const Roster = () => {
   const { classes } = useStyles();
-  const { officers } = useStoreOfficers();
+  const { officers, setOfficers } = useStoreOfficers();
   const [fireModalOpened, setFireModalOpened] = useState(false);
   const form = useForm({
     initialValues: {
@@ -51,6 +52,12 @@ const Roster = () => {
     setSearch(value);
     setSortedData(filterData(officers, value ));
   };
+
+  useNuiEvent<{ officers: OfficerData[]; }>('updateOfficers', (data) => {
+    setOfficers(data.officers);
+  });
+
+  
 
   return (
     <>

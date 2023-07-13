@@ -1,5 +1,15 @@
+local QBCore = exports['qb-core']:GetCoreObject()
+
 local obj = nil
 local firstTimeOpening = true
+
+local function fetchActiveOfficers()
+  lib.callback('bub-mdt:server:getActiveOfficers', false, function(officers)
+    if officers then
+      SendNUIMessage({ action = 'updateActiveOfficers', data = { activeOfficers = officers }})
+    end
+  end)
+end
 
 local function openMdt()
   if obj ~= nil then
@@ -16,9 +26,33 @@ local function openMdt()
   lib.requestAnimDict('amb@world_human_seat_wall_tablet@female@base')    
   TaskPlayAnim(cache.ped, "amb@world_human_seat_wall_tablet@female@base", "generic_radio_enter", 8.0, 2.0, -1, 50, 2.0, 0, 0, 0)
 
-  if firstTimeOpening then
-    print('first time opening')
+  SetNuiFocus(true, true)
+  SendNUIMessage({
+    action = 'setupMdt',
+    data = {
+      announcements = {},
+      activeOfficers = {},
+      recentActivity = {},
+    }
+  })
+end
 
+RegisterNetEvent('bub_mdt:client:openMDT', function()
+  openMdt()
+end)
+
+RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
+  local player = QBCore.Functions.GetPlayerData()
+
+  if player.job.name == 'police' then
+    TriggerServerEvent('bub-mdt:server:removeActiveOfficer')
+  end
+end)
+
+RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
+  local player = QBCore.Functions.GetPlayerData()
+
+  if player.job.name == 'police' then
     local uiLocales = {}
     local locales = lib.getLocales()
 
@@ -30,33 +64,16 @@ local function openMdt()
 
     local personalInformation = lib.callback.await('bub-mdt:server:getPersonalInformation', false)
 
-    SendNUIMessage({
-      action = 'init',
-      data = {
-        locale = uiLocales,
-        personalInformation = personalInformation,
-      }
-    })
-
-    firstTimeOpening = false
+    SendNUIMessage({ action = 'init', data = { locale = uiLocales, personalInformation = personalInformation }})
+    TriggerServerEvent('bub-mdt:server:addActiveOfficer')
+    Wait(500)
+    fetchActiveOfficers()
   end
-
-  SetNuiFocus(true, true)
-  SendNUIMessage({
-    action = 'setupMdt',
-    data = {
-      announcements = {},
-      officers = {},
-      recentActivity = {},
-    }
-  })
-end
-
-RegisterNetEvent('bub_mdt:client:openMDT', function()
-  openMdt()
 end)
 
-RegisterCommand('resetNUI', function()
+RegisterCommand('restart', function()
+  TriggerEvent('QBCore:Client:OnPlayerLoaded')
+
   if obj ~= nil then
     DeleteEntity(obj)
     obj = nil
