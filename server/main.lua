@@ -1,4 +1,10 @@
-local QBCore = exports['qb-core']:GetCoreObject()
+local framework = string.lower(Config.Framework)
+
+if framework == 'qb' then
+  local QBCore = exports['qb-core']:GetCoreObject()
+else
+  ESX = exports["es_extended"]:getSharedObject()
+end
 
 local officersCache = {}
 local activeOfficersCache = {}
@@ -66,7 +72,12 @@ end)
 
 RegisterNetEvent('bub-mdt:server:removeActiveOfficer', function()
   local src = source
-  local Player = QBCore.Functions.GetPlayer(src)
+  local Player = nil
+  if framework == 'qb' then
+    Player = QBCore.Functions.GetPlayer(src)
+  else
+    Player = ESX.GetPlayerFromId(src)
+  end
 
   if not Player then return end
   local CID = Player.PlayerData.citizenid
@@ -76,7 +87,12 @@ end)
 
 RegisterNetEvent('bub-mdt:server:addActiveOfficer', function()
   local src = source
-  local Player = QBCore.Functions.GetPlayer(src)
+  local Player = nil
+  if framework == 'qb' then
+    Player = QBCore.Functions.GetPlayer(src)
+  else
+    Player = ESX.GetPlayerFromId(src)
+  end
 
   if not Player then return end
   local CID = Player.PlayerData.citizenid
