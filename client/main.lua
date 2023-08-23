@@ -23,11 +23,12 @@ local function openMdt()
     obj = nil
   end
 
-	-- local object = RequestModel(`prop_cs_tablet`)
-	obj = CreateObject(`prop_cs_tablet`, GetEntityCoords(PlayerPedId()), 1, 1, 1)
-	AttachEntityToEntity(obj, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 28422), 0.0, 0.0, 0.03, 0.0, 0.0, 0.0, 1, 1, 0, 1, 0, 1)
+	local object = RequestModel(`prop_cs_tablet`)
+  obj = CreateObject(object, GetEntityCoords(cache.ped), 1, 1, 1)
+  AttachEntityToEntity(obj, cache.ped, GetPedBoneIndex(cache.ped, 28422), 0.0, 0.0, 0.03, 0.0, 0.0, 0.0, 1, 1, 0, 1, 0, 1)
 
-	TaskPlayAnim(PlayerPedId(), "amb@code_human_in_bus_passenger_idles@female@tablet@idle_a", "idle_a", 2.0, 1.0, 2000, 16,0,false,false,false)
+  lib.requestAnimDict('amb@world_human_seat_wall_tablet@female@base')    
+  TaskPlayAnim(cache.ped, "amb@world_human_seat_wall_tablet@female@base", "generic_radio_enter", 8.0, 2.0, -1, 50, 2.0, 0, 0, 0)
 
   SetNuiFocus(true, true)
   SendNUIMessage({
