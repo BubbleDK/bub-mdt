@@ -1,0 +1,26 @@
+:root {
+  --main-bg-color: #1c1d1f;
+  --main-text-color: #fff;
+}
+
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  user-select: none;
+  background: none !important;
+  overflow: hidden;
+  height: 100vh;
+}
+
+#root {
+  height: 100%;
+}
+
+.leaflet-container img.leaflet-tile {
+  mix-blend-mode: initial;
+}

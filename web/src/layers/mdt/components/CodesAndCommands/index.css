@@ -1,0 +1,34 @@
+.codes-and-command {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin: 20px 30px;
+  width: 100%;
+}
+
+.codes-and-command-background {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: #242527;
+  border-radius: 5px;
+  padding: 15px;
+  flex: 1;
+}
+
+.codes-and-command-extra {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.command-background {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: #242527;
+  border-radius: 5px;
+  padding: 15px;
+  height: 300px;
+}

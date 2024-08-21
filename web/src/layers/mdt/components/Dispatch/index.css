@@ -1,0 +1,47 @@
+.dispatch {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  margin: 20px;
+  width: 100%;
+}
+
+.map-wrapper {
+  width: 600px;
+}
+
+.active-calls {
+  padding: 20px;
+  width: 385px;
+  background-color: #242527;
+  border-radius: 0.25rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.active-units {
+  padding: 20px;
+  width: 385px;
+  background-color: #242527;
+  border-radius: 0.25rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.calls-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.unit-members {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}

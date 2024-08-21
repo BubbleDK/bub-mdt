@@ -1,0 +1,228 @@
+.reports {
+  width: 100%;
+  margin: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.incident-content-width {
+  width: 456.6px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.reports-cards-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  height: 680px;
+}
+
+.reports-content-width {
+  width: 456.6px;
+}
+
+.report-card { 
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 80px;
+  border-radius: 0.25rem;
+  padding-right: 15px;
+  padding-left: 15px;
+  background-color: #2C2E33;
+  border: 0.0625rem solid transparent;
+  box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%);
+}
+
+.report-card:hover { 
+  cursor: pointer;
+  border: 0.0625rem solid #4D4F54;
+}
+
+.incident-card-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.incident-card-dimmed-text {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.incident-middle-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  background-color: #242527;
+  border-radius: 0.2rem;
+  padding: 20px;
+}
+
+.incident-middle-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.incident-info-badge {
+  padding: 11px;
+}
+
+.incident-info-badge-main {
+  padding: 11px;
+}
+
+.incident-info-badge-main:hover {
+  border: 0.0625rem solid #4D4F54;
+  cursor: pointer;
+}
+
+.incident-criminals-content-width {
+  width: 456.6px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.incident-criminals {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.incident-criminal-card-background {
+  padding: 1rem;
+  background-color: #242527;
+}
+
+.incident-criminal-card-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.incident-criminal-card-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.incident-criminal-content {
+  margin-top: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 12.5px;
+}
+
+.incident-criminal-edit-charges-badges {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.edit-charges-modal {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  gap: 10px;
+}
+
+.edit-charges-modal-content {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  gap: 20px;
+}
+
+.edit-charges-modal-charges-content {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.edit-charges-modal-current-charges {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 340px;
+}
+
+.edit-charges-modal-added-charges {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.edit-charges-modal-charge-card {
+  display: flex;
+  flex-direction: column;
+  gap: 7.5px;
+  background-color: #1d1e20;
+  border: 0.1px solid rgb(42, 42, 42, 1);;
+  padding: 15px;
+  border-radius: 0.2rem;
+  width: 334px;
+}
+
+.edit-charges-number-input-wrapper {
+  width: 105px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.5rem;
+  border-radius: 0.25rem;
+  border: 0.0625rem solid transparent;
+}
+
+.number-input-control {
+  background-color: #4D4F54;
+  border: 1rem solid transparent;
+}
+
+.number-input-control:disabled {
+  border-color: transparent;
+  opacity: 0.8;
+  background-color: transparent;
+}
+
+.action-icon {
+  background-color: #2C2E33;
+}
+
+.edit-charges-modal-all-charges {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 1032px;
+}
+
+.edit-charges-modal-all-charges-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.edit-charges-modal-all-charges-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}

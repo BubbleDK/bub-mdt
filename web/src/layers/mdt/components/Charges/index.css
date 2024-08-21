@@ -1,0 +1,80 @@
+.charges {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 20px;
+  padding: 35px 50px;
+}
+
+.top-side-create-charges {
+  display: flex; 
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+}
+
+.charges-create {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  border-radius: 0.25rem;
+  padding: 15px;
+  background-color: #242527;
+  border: 0.0625rem solid transparent;
+  box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%);
+}
+
+.charges-create-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9.5px;
+  width: 100%;
+}
+
+.charges-create-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  width: 100%;
+}
+
+.charges-all-charges {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.charges-charge-card {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 333.5px;
+  height: 165px;
+  background-color: #242527;
+  padding: 15px;
+}
+
+.charges-category {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  width: 100%;
+}
+
+.charges-cards-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+  flex-wrap: wrap;
+}

@@ -1,0 +1,100 @@
+.vehicles {
+  width: 100%;
+  margin: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.vehicle-content-list-width {
+  width: 500px;
+}
+
+.vehicle-content-width {
+  width: 890px;
+}
+
+.Vehicles-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  height: 725px;
+}
+
+.Vehicles-card-content-flex {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.vehicles-card { 
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  height: 50px;
+  border-radius: 0.25rem;
+  padding-right: 15px;
+  padding-left: 15px;
+  background-color: #2C2E33;
+  border: 0.0625rem solid transparent;
+  box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%);
+}
+
+.vehicles-card:hover { 
+  cursor: pointer;
+  border: 0.0625rem solid #4D4F54;
+}
+
+.vehicle-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  height: 100%;
+}
+
+.vehicle-card-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.vehicle-card-header-buttons {
+  display: flex;
+  gap: 5px;
+}
+
+.vehicle-card-information {
+  width: 100%;
+  display: flex;
+  gap: 20px;
+}
+
+.vehicle-card-information-inputs {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.vehicle-card-image {
+  position: relative;
+}
+
+.vehicle-card-extra-information {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 10px;
+}
+
+.vehicle-card-notes {
+  width: 100%;
+  height: auto;
+}

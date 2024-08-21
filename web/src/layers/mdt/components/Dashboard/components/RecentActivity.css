@@ -1,0 +1,13 @@
+.recent-activity-content {
+  width: 100%;
+}
+
+.recent-activity {
+  height: 366px;
+  border: 1px solid #373A40;
+  border-radius: 0.4rem;
+}
+
+.table-header {
+  background-color: #242527;
+}

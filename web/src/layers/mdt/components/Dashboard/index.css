@@ -1,0 +1,161 @@
+.dashboard {
+  width: 100%;
+  margin: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.left-side {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 75%;
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+}
+
+.content-bottom {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  width: 100%;
+  height: 100%;
+}
+
+.card-background {
+  background-color: #242527;
+  border-radius: 0.2rem;
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+}
+
+.card-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.right-side {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 25%;
+}
+
+.right-side-title {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.active-officers-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.active-officer-card {
+  background-color: #2C2E33;
+  border-radius: 0.2rem;
+  padding: 7.5px 17.5px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.active-dispatchcall-card {
+  background-color: #2C2E33;
+  border-radius: 0.2rem;
+  padding: 7.5px 17.5px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.active-dispatchcall-card:hover {
+  border: 0.0625rem solid #4D4F54;
+  cursor: pointer;
+}
+
+.active-officer-card-dimmed-text {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.announcement-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 285px;
+}
+
+.announcement-list-card {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  background-color: #2C2E33;
+  border-radius: 0.2rem;
+  padding: 10px;
+  height: 90px;
+  width: 100%;
+}
+
+.announcement-list-card:hover {
+  border: 0.0625rem solid #4D4F54;
+  cursor: pointer;
+}
+
+.card-title-icons {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.warrants-card {
+  background-color: #2C2E33;
+  border-radius: 0.2rem;
+  padding: 7.5px;
+}
+
+.warrants-card:hover {
+  border: 0.0625rem solid #4D4F54;
+  cursor: pointer;
+}
+
+.warrants-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bolos-card {
+  background-color: #2C2E33;
+  border-radius: 0.2rem;
+  padding: 7.5px 17.5px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.bolos-card:hover {
+  border: 0.0625rem solid #4D4F54;
+  cursor: pointer;
+}

@@ -1,0 +1,39 @@
+.box {
+  background-color: #242527;
+  color: #d5d5d5;
+  position: absolute;
+  cursor: move;
+  width: 300px;
+  height: 125px;
+  border-radius: 6.5px;
+  margin: auto;
+  user-select: none;
+  z-index: 2;
+}
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  height: 30px;
+}
+
+.middle {
+  display: flex;
+  align-items: center;
+  padding-left: 15px;
+  padding-right: 15px;
+  height: 60px;
+}
+
+.bottom-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 25px;
+  padding-right: 25px;
+  height: 35px;
+}

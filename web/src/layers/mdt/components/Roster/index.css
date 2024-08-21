@@ -1,0 +1,19 @@
+.roster {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 20px;
+  padding: 50px;
+}
+
+.roster-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.roster-top-right {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}

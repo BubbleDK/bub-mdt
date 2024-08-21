@@ -1,0 +1,179 @@
+.profiles {
+  width: 100%;
+  margin: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.content-width {
+  width: 456.6px;
+}
+
+.profiles-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  height: 725px;
+}
+
+.profiles-card-content-flex {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.profile-card { 
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 80px;
+  border-radius: 0.25rem;
+  padding-right: 15px;
+  padding-left: 15px;
+  background-color: #2C2E33;
+  border: 0.0625rem solid transparent;
+  box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%);
+}
+
+.profile-card:hover { 
+  cursor: pointer;
+  border: 0.0625rem solid #4D4F54;
+}
+
+.add-officer-card { 
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  height: 50px;
+  border-radius: 0.25rem;
+  padding-right: 15px;
+  padding-left: 15px;
+  background-color: #2C2E33;
+  border: 0.0625rem solid transparent;
+  box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%);
+}
+
+.add-officer-card:hover { 
+  cursor: pointer;
+  border: 0.0625rem solid #4D4F54;
+}
+
+.profile-card-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  height: 100%;
+}
+
+.profile-card-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.profile-card-header-buttons {
+  display: flex;
+  gap: 5px;
+}
+
+.profile-card-profile-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  height: 100%;
+}
+
+.profile-card-wrapper {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.profile-card-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.profile-card-image {
+  position: relative;
+}
+
+.watermark {
+  position: absolute;
+  right: 0px;
+  top: 35px;
+  color: white;
+  border-radius: 5px;
+  pointer-events: none; /* Make sure watermark does not interfere with any clickable areas on the image */
+}
+
+.additional-profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.profile-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.profile-info-badge {
+  padding: 11px;
+}
+
+.related-reports-card { 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0px;
+  height: 55px;
+  border-radius: 0.25rem;
+  padding-right: 15px;
+  padding-left: 15px;
+  background-color: #2C2E33;
+  border: 0.0625rem solid transparent;
+  box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%);
+}
+
+.related-reports-card:hover { 
+  cursor: pointer;
+  border: 0.0625rem solid #4D4F54;
+}
+
+.related-reports-extra-info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.profile-no-selected {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-card-info-badges {
+  display: flex;
+  flex-direction: row;
+  gap: 7.5px;
+  flex-wrap: wrap;
+}

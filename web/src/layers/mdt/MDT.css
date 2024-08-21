@@ -1,0 +1,20 @@
+.app-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.opacity {
+  opacity: 0.5;
+}
+
+.mdt {
+  display: flex;
+  height: 900px;
+  width: 1750px;
+  background-color: var(--main-bg-color);
+  border-radius: 5px;
+  z-index: 5;
+}
