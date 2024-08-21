@@ -51,3 +51,26 @@ Without the creation of the following resources, this MDT would not have seen th
 - A lot of the UI needs to be refactored, more modular and simply be optimized.
 - The drivers license points system needs to be revamped, as of right now it does not function properly.
 - Probably a lot more which i have forgotten about, but i guess it will get mentioned if people end up using this MDT.
+
+# Dispatch usage example
+## Custom alert example
+```lua
+exports['bub-mdt']:CustomAlert({
+    coords = vec3(0, 0, 0),
+    info = {
+        {
+            label = framework.getPlayerGender(),
+            icon = 'gender-bigender',
+        },
+    },
+    code = '10-90',
+    offense = 'A cool offense',
+    blip = 310,
+})
+```
+## Pre configured alert examples
+```lua
+exports['bub-mdt']:Shooting()
+exports['bub-mdt']:VehicleShooting()
+exports['bub-mdt']:OfficerDown()
+```
