@@ -146,7 +146,7 @@ local function respondToCall()
 end
 
 respondKey = lib.addKeybind({
-    deafultKey = 'g',
+    deafultKey = config.defaultRespondKey,
     description = 'Reponds to call',
     name = 'respondToCall',
     onPressed = respondToCall

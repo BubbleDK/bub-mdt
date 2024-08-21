@@ -3,4 +3,5 @@ return {
   framework = 'qb_core',
   defaultAlertsDelay = 10,
   fivemanageAPIKey = '',
+  defaultRespondKey = 'g'
 }
