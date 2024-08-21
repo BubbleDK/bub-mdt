@@ -35,9 +35,9 @@ AddEventHandler('CEventGunShot', function(witnesses, ped)
         if witnesses and not isPedAWitness(witnesses, ped) then return end
 
         if cache.vehicle then
-            exports['x-mdt']:VehicleShooting()
+            exports['bub-mdt']:VehicleShooting()
         else
-            exports['x-mdt']:Shooting()
+            exports['bub-mdt']:Shooting()
         end
     end)
 end)
@@ -47,7 +47,7 @@ AddEventHandler('CEventPedJackingMyVehicle', function(_, ped)
         if cache.ped ~= ped then return end
 
         local vehicle = GetVehiclePedIsUsing(ped, true)
-        exports['x-mdt']:CarJacking(vehicle)
+        exports['bub-mdt']:CarJacking(vehicle)
     end)
 end)
 
@@ -56,7 +56,7 @@ AddEventHandler('CEventShockingCarAlarm', function(_, ped)
         if cache.ped ~= ped then return end
 
         local vehicle = GetVehiclePedIsUsing(ped, true)
-        exports['x-mdt']:VehicleTheft(vehicle)
+        exports['bub-mdt']:VehicleTheft(vehicle)
     end)
 end)
 
@@ -70,7 +70,7 @@ AddEventHandler('gameEventTriggered', function(name, args)
         if not isDead then return end
 
         if framework.isJobPolice() then
-            exports['x-mdt']:OfficerDown()
+            exports['bub-mdt']:OfficerDown()
         end
     end)
 end)
@@ -108,7 +108,7 @@ for i = 1, #SpeedingEvents do
 
             if cache.ped ~= GetPedInVehicleSeat(cache.vehicle, -1) then return end
 
-            exports['x-mdt']:SpeedingVehicle()
+            exports['bub-mdt']:SpeedingVehicle()
             SpeedTrigger = GetGameTimer()
         end)
     end)

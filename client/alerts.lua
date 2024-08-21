@@ -225,26 +225,3 @@ local function OfficerDown()
 end
 exports('OfficerDown', OfficerDown)
 RegisterNetEvent("mdt:client:officerdown", OfficerDown)
-
-RegisterCommand('testcall', function()
-    local random = math.random(1, 3)
-
-    if random == 1 then
-        OfficerDown()
-    elseif random == 2 then
-        Shooting()
-    else
-        CustomAlert({
-            coords = vec3(0, 0, 0),
-            info = {
-                {
-                    label = framework.getPlayerGender(),
-                    icon = 'gender-bigender',
-                },
-            },
-            code = '10-90',
-            offense = 'A cool offense',
-            blip = 310,
-        })
-    end
-end)
