@@ -303,6 +303,18 @@ utils.registerCallback('mdt:setOfficerRoles', function(source, data)
     return db.setOfficerRoles(data)
 end)
 
+utils.registerCallback('mdt:hireOfficer', function(source, data)
+    return framework.hireOfficer(data)
+end)
+
+utils.registerCallback('mdt:fireOfficer', function(source, data)
+    return framework.fireOfficer(data)
+end)
+
+utils.registerCallback('mdt:setOfficerRank', function(source, data)
+    return framework.setOfficerRank(data)
+end)
+
 RegisterServerEvent("mdt:updateProfileImage", function(playerId, image)
     local player = exports.qbx_core:GetPlayer(playerId)
 

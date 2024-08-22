@@ -1,12 +1,11 @@
 local officers = require 'server.officers'
 local utils = require 'server.utils'
 local config = require 'config'
-local QBCore = exports['qb-core']:GetCoreObject()
 
 local function addOfficer(playerId)
     if officers.get(playerId) then return end
 
-    local player = QBCore.Functions.GetPlayer(playerId)
+    local player = exports.qbx_core:GetPlayer(playerId)
     if player and player.PlayerData.job.type == 'leo' then
         officers.add(playerId, player.PlayerData.charinfo.firstname, player.PlayerData.charinfo.lastname, player.PlayerData.citizenid)
         MySQL.prepare.await('INSERT INTO `mdt_profiles` (`citizenid`, `image`, `notes`, `lastActive`) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE `lastActive` = NOW()', { player.PlayerData.citizenid, nil, nil })
@@ -23,18 +22,18 @@ RegisterNetEvent('QBCore:Server:OnPlayerLoaded', function()
     addOfficer(source)
 end)
 
-AddEventHandler("QBCore:Server:OnJobUpdate", function(src, job)
-    local officer = officers.get(src)
+AddEventHandler("qbx_core:server:onGroupUpdate", function(source, groupName)
+    local officer = officers.get(source)
 
     if officer then
-        if job.name ~= 'police' then
-            return officers.remove(src)
+        if groupName ~= 'police' then
+            return officers.remove(source)
         end
 
         return
     end
 
-    addOfficer(src)
+    addOfficer(source)
 end)
 
 RegisterNetEvent('QBCore:Server:OnPlayerUnload', function(playerId)
@@ -45,10 +44,10 @@ RegisterNetEvent('QBCore:Server:OnPlayerUnload', function(playerId)
     end
 end)
 
-local qb = {}
+local qbx = {}
 
 -- Dashboard
-function qb.getAnnouncements()
+function qbx.getAnnouncements()
     local announcements = MySQL.rawExecute.await([[
         SELECT
             a.id,
@@ -105,7 +104,7 @@ local selectWarrants = [[
         c.citizenid = players.citizenid
 ]]
 
-function qb.getWarrants()
+function qbx.getWarrants()
     local queryResult = MySQL.rawExecute.await(selectWarrants, {})
     local warrants = {}
 
@@ -124,7 +123,7 @@ function qb.getWarrants()
     return warrants
 end
 
-function qb.getCharacterProfile(parameters)
+function qbx.getCharacterProfile(parameters)
     local result = MySQL.rawExecute.await([[
         SELECT
             a.charinfo,
@@ -177,7 +176,7 @@ local selectProfiles = [[
         profile.citizenid = players.citizenid
 ]]
 
-function qb.getAllProfiles()
+function qbx.getAllProfiles()
     local profilesResult = MySQL.rawExecute.await(selectProfiles, {})
     local profiles = {}
 
@@ -195,14 +194,14 @@ function qb.getAllProfiles()
     return profiles
 end
 
-function qb.getDriverPoints(citizenid)
+function qbx.getDriverPoints(citizenid)
     local result = MySQL.rawExecute.await('SELECT SUM(COALESCE(points, 0) * COALESCE(count, 1)) AS total_points FROM mdt_incidents_charges WHERE citizenid = ?', { citizenid })?[1]
     if (result.total_points) then return result.total_points end
 
     return 0
 end
 
-function qb.isProfileWanted(citizenid)
+function qbx.isProfileWanted(citizenid)
     local response = MySQL.rawExecute.await('SELECT * FROM `mdt_warrants` WHERE `citizenid` = ?', {
         citizenid
     })
@@ -210,19 +209,20 @@ function qb.isProfileWanted(citizenid)
     return response[1] and true or false
 end
 
-function qb.getVehiclesForProfile(parameters)
+function qbx.getVehiclesForProfile(parameters)
+    local sharedVehicles = exports.qbx_core:GetVehiclesByName()
     local vehicles = MySQL.rawExecute.await('SELECT `plate`, `vehicle` FROM `player_vehicles` WHERE `citizenid` = ?', parameters) or {}
 
     for _, v in pairs(vehicles) do
-        v.label = QBCore.Shared.Vehicles[v.vehicle]?.name or v.vehicle
+        v.label = sharedVehicles[v.vehicle]?.name or v.vehicle
         v.vehicle = nil
     end
 
     return vehicles
 end
 
-function qb.getLicenses(citizenid)
-    local player = QBCore.Functions.GetPlayerByCitizenId(citizenid)
+function qbx.getLicenses(citizenid)
+    local player = exports.qbx_core:GetPlayerByCitizenId(citizenid)
     if not player then 
         local result = MySQL.rawExecute.await([[
         SELECT
@@ -240,7 +240,8 @@ function qb.getLicenses(citizenid)
     return player.PlayerData.metadata.licences
 end
 
-function qb.getJobs(parameters)
+function qbx.getJobs(parameters)
+    local sharedJobs = exports.qbx_core:GetJobs()
     local result = MySQL.rawExecute.await([[
         SELECT
             job,
@@ -258,9 +259,9 @@ function qb.getJobs(parameters)
 
     if metadata.otherjobs then
         for k, v in pairs(metadata.otherjobs) do
-            if not QBCore.Shared.Jobs[k] then goto continue end
+            if not sharedJobs[k] then goto continue end
 
-            table.insert(jobs, { job = k, gradeLabel = QBCore.Shared.Jobs[k].grades['' .. v .. ''].name })
+            table.insert(jobs, { job = k, gradeLabel = sharedJobs[k].grades['' .. v .. ''].name })
             ::continue::
         end
     end
@@ -269,13 +270,13 @@ function qb.getJobs(parameters)
 end
 
 -- Still needs implementation
-function qb.getProperties(parameters)
+function qbx.getProperties(parameters)
     local properties = {}
 
     return properties
 end
 
-function qb.getOfficersInvolved(parameters)
+function qbx.getOfficersInvolved(parameters)
     local queryResult = MySQL.rawExecute.await([[
         SELECT
             players.citizenid,
@@ -310,7 +311,7 @@ function qb.getOfficersInvolved(parameters)
     return officers
 end
 
-function qb.getOfficersInvolvedReport(parameters)
+function qbx.getOfficersInvolvedReport(parameters)
     local queryResult = MySQL.rawExecute.await([[
         SELECT
             players.citizenid,
@@ -345,7 +346,7 @@ function qb.getOfficersInvolvedReport(parameters)
     return officers
 end
 
-function qb.getCitizensInvolvedReport(parameters)
+function qbx.getCitizensInvolvedReport(parameters)
     local queryResult = MySQL.rawExecute.await([[
         SELECT
             players.citizenid,
@@ -379,7 +380,7 @@ function qb.getCitizensInvolvedReport(parameters)
     return citizens
 end
 
-function qb.getCriminalsInvolved(parameters)
+function qbx.getCriminalsInvolved(parameters)
     local queryResult = MySQL.rawExecute.await([[
         SELECT DISTINCT
             criminal.citizenid,
@@ -416,7 +417,7 @@ function qb.getCriminalsInvolved(parameters)
     return involvedCriminals
 end
 
-function qb.getCriminalCharges(parameters)
+function qbx.getCriminalCharges(parameters)
   return MySQL.rawExecute.await([[
       SELECT
           citizenid,
@@ -440,20 +441,25 @@ local selectOfficers = [[
         mdt_profiles.id,
         players.charinfo,
         players.citizenid,
-        players.job,
+        player_groups.group AS `group`,
+        player_groups.grade,
         mdt_profiles.image,
         mdt_profiles.callSign
     FROM
+        player_groups
+    LEFT JOIN
         players
+    ON
+        player_groups.citizenid = players.citizenid
     LEFT JOIN
         mdt_profiles
     ON
         players.citizenid = mdt_profiles.citizenid
     WHERE
-        JSON_EXTRACT(players.job, '$.name') = 'police'
+        player_groups.group IN ("police")
 ]]
 
-function qb.getOfficers()
+function qbx.getOfficers()
     local query = selectOfficers
     local queryResult = MySQL.rawExecute.await(query)
     local officers = {}
@@ -476,7 +482,8 @@ local selectOfficersForRoster = [[
         mdt_profiles.id,
         players.charinfo,
         players.citizenid,
-        players.job,
+        player_groups.group AS `group`,
+        player_groups.grade,
         mdt_profiles.image,
         mdt_profiles.callSign,
         mdt_profiles.apu,
@@ -486,13 +493,17 @@ local selectOfficersForRoster = [[
         mdt_profiles.fto,
         DATE_FORMAT(mdt_profiles.lastActive, "%Y-%m-%d %T") AS formatted_lastActive
     FROM
+        player_groups
+    LEFT JOIN
         players
+    ON
+        player_groups.citizenid = players.citizenid
     LEFT JOIN
         mdt_profiles
     ON
         players.citizenid = mdt_profiles.citizenid
     WHERE
-        JSON_EXTRACT(players.job, '$.name') = 'police'
+        player_groups.group IN ("police")
 ]]
 
 utils.registerCallback('mdt:fetchRoster', function()
@@ -531,7 +542,7 @@ local selectCharacters = [[
         players
 ]]
 
-function qb.getCharacters()
+function qbx.getCharacters()
     local queryResult = MySQL.rawExecute.await(selectCharacters)
     local characters = {}
 
@@ -556,7 +567,7 @@ local selectVehicles = [[
         player_vehicles
 ]]
 
-function qb.getVehicles()
+function qbx.getVehicles()
   return MySQL.rawExecute.await(selectVehicles)
 end
 
@@ -579,7 +590,7 @@ local selectVehicle = [[
         player_vehicles.plate = ?
 ]]
 
-function qb.getVehicle(plate)
+function qbx.getVehicle(plate)
     local response = MySQL.rawExecute.await(selectVehicle, {plate})?[1]
     local player = exports.qbx_core:GetPlayerByCitizenId(response.citizenid)
     local data = {
@@ -595,48 +606,26 @@ function qb.getVehicle(plate)
     return data
 end
 
-function qb.hireOfficer(data)
-    local player
-    
-    if QBCore.Functions.GetPlayerByCitizenId(data.citizenid) then
-        player = QBCore.Functions.GetPlayerByCitizenId(data.citizenid)
-    else
-        player = QBCore.Player.GetOfflinePlayer(data.citizenid)
-    end
-    player.Functions.SetJob('police', 1)
+function qbx.hireOfficer(data)
+    exports.qbx_core:AddPlayerToJob(data.citizenid, 'police', 1)
 
     local success = MySQL.prepare.await('INSERT INTO `mdt_profiles` (`citizenid`, `callsign`, `lastActive`) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE `callsign` = ?, `lastActive` = ?', { data.citizenid, data.callsign, os.date("%Y-%m-%d %H:%M:%S"), data.callsign, os.date("%Y-%m-%d %H:%M:%S") })
 
     return success
 end
 
-function qb.fireOfficer(citizenId)
-    local player
-
-    if QBCore.Functions.GetPlayerByCitizenId(citizenId) then
-        player = QBCore.Functions.GetPlayerByCitizenId(citizenId)
-    else
-        player = QBCore.Player.GetOfflinePlayer(citizenId)
-    end
-
-    player.Functions.SetJob('unemployed', 0)
+function qbx.fireOfficer(citizenId)
+    exports.qbx_core:RemovePlayerFromJob(citizenId, 'police')
     MySQL.prepare.await('UPDATE `mdt_profiles` SET `callsign` = ? WHERE `citizenid` = ?', { nil, citizenId })
 
     return true
 end
 
-function qb.setOfficerRank(data)
-    local player
-    
-    if QBCore.Functions.GetPlayerByCitizenId(data.citizenId) then
-        player = QBCore.Functions.GetPlayerByCitizenId(data.citizenId)
-    else
-        player = QBCore.Player.GetOfflinePlayer(data.citizenId)
-    end
-
-    player.Functions.SetJob('police', data.grade)
+function qbx.setOfficerRank(data)
+    exports.qbx_core:AddPlayerToJob(data.citizenId, 'police', data.grade)
 
     return true
 end
 
-return qb
+
+return qbx

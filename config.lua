@@ -1,6 +1,6 @@
 return {
   debug = true,
-  framework = 'qb_core',
+  framework = 'qbx_core',
   defaultAlertsDelay = 10,
   fivemanageAPIKey = '',
   defaultRespondKey = 'g'
