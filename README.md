@@ -1,10 +1,14 @@
-<h4 style="text-align: center;">This is still relatively untested, and bugs are likely to occur.</h4>
-
 <img src="https://r2.fivemanage.com/s64hZD0G9WtYHbURWCuSc/5106eb971eee6ed4dd8d5e9196ccf9fe.png" alt="bub-mdt-image" />
 
 You can watch a preview [here](https://streamable.com/m91u9u)
 
 # Bubble MDT & Dispatch
+
+<a href='https://ko-fi.com/bubbledk' target='_blank'><img height='35' style='border:0px;height:46px;' src='https://az743702.vo.msecnd.net/cdn/kofi3.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' /><a/>
+
+[Bubble Discord](https://discord.gg/P3RMrbwA8n)
+
+### ⚠️ Warning - This is still relatively untested, and bugs are likely to occur.
 
 A police MDT with built-in dispatch functionalities. The MDT consists of the following pages:
 
@@ -20,6 +24,7 @@ A police MDT with built-in dispatch functionalities. The MDT consists of the fol
 # Frameworks
 
 - [qbx_core](https://github.com/Qbox-project/qbx_core)
+- [qb_core](https://github.com/qbcore-framework/qb-core)
 
 # Dependencies
 
