@@ -500,7 +500,7 @@ utils.registerCallback('mdt:fetchRoster', function()
     local queryResult = MySQL.rawExecute.await(query)
     local rosterOfficers = {}
 
-    local job = exports.qbx_core:GetJob('police')
+    local job = QBCore.Shared.Jobs
 
     for _, v in pairs(queryResult) do
         local charinfo = json.decode(v.charinfo)
@@ -581,7 +581,7 @@ local selectVehicle = [[
 
 function qb.getVehicle(plate)
     local response = MySQL.rawExecute.await(selectVehicle, {plate})?[1]
-    local player = exports.qbx_core:GetPlayerByCitizenId(response.citizenid)
+    local player = QBCore.Functions.GetPlayerByCitizenId(response.citizenid)
     local data = {
         plate = response.plate,
         vehicle = response.vehicle,
