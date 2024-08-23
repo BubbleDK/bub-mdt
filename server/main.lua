@@ -1,6 +1,8 @@
 local utils = require 'server.utils'
 local db = require 'server.db'
 local officers = require 'server.officers'
+local config = require 'config'
+local framework = require(('server.framework.%s'):format(config.framework))
 
 require 'server.commands'
 require 'server.units'
@@ -313,6 +315,10 @@ end)
 
 utils.registerCallback('mdt:setOfficerRank', function(source, data)
     return framework.setOfficerRank(data)
+end)
+
+utils.registerCallback('mdt:fetchRoster', function(source)
+    return framework.fetchRoster()
 end)
 
 RegisterServerEvent("mdt:updateProfileImage", function(playerId, image)

@@ -506,7 +506,7 @@ local selectOfficersForRoster = [[
         player_groups.group IN ("police")
 ]]
 
-utils.registerCallback('mdt:fetchRoster', function()
+function qbx.fetchRoster()
     local query = selectOfficersForRoster
     local queryResult = MySQL.rawExecute.await(query)
     local rosterOfficers = {}
@@ -532,7 +532,7 @@ utils.registerCallback('mdt:fetchRoster', function()
     end
     
     return rosterOfficers
-end)
+end
 
 local selectCharacters = [[
     SELECT

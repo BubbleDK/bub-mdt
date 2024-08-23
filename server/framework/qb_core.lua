@@ -495,22 +495,24 @@ local selectOfficersForRoster = [[
         JSON_EXTRACT(players.job, '$.name') = 'police'
 ]]
 
-utils.registerCallback('mdt:fetchRoster', function()
+function qb.fetchRoster()
     local query = selectOfficersForRoster
     local queryResult = MySQL.rawExecute.await(query)
     local rosterOfficers = {}
 
-    local job = QBCore.Shared.Jobs
+    local job = QBCore.Shared.Jobs['police']
 
     for _, v in pairs(queryResult) do
         local charinfo = json.decode(v.charinfo)
+        local jobInfo = json.decode(v.job)
+        
         rosterOfficers[#rosterOfficers+1] = {
             citizenid = v.citizenid,
             firstname = charinfo.firstname,
             lastname = charinfo.lastname,
             callsign = v.callSign,
             image = v.image,
-            title = job.grades[v.grade].name,
+            title = job.grades[tostring(jobInfo.grade.level)].name,
             apu = v.apu,
             air = v.air,
             mc = v.mc,
@@ -520,8 +522,9 @@ utils.registerCallback('mdt:fetchRoster', function()
         }
     end
     
+    print(json.encode(rosterOfficers))
     return rosterOfficers
-end)
+end
 
 local selectCharacters = [[
     SELECT
