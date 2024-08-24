@@ -6,7 +6,7 @@ You can watch a preview [here](https://streamable.com/m91u9u)
 
 <a href='https://ko-fi.com/bubbledk' target='_blank'><img height='35' style='border:0px;height:46px;' src='https://az743702.vo.msecnd.net/cdn/kofi3.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' /><a/>
 
-[Bubble Discord](https://discord.gg/P3RMrbwA8n)
+[Bubble Discord](https://discord.gg/KcahTuzNRh)
 
 ### ⚠️ Warning - This is still relatively untested, and bugs are likely to occur.
 
