@@ -6,7 +6,7 @@ game         'gta5'
 
 --[[ Resource Information ]]--
 name         'bub-mdt'
-version      '0.0.0'
+version      '0.0.2'
 license      'GPL-3.0-or-later'
 author       'Bubble'
 

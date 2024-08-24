@@ -53,7 +53,6 @@ const MDT: React.FC = () => {
 			setCharges(data.charges);
 			setProfileCards(data.profileCards);
 
-			await import(`../../../node_modules/dayjs/locale/${data.locale}.js`);
 			dayjs.locale(data.locale);
 		}
 	);
