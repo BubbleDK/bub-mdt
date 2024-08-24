@@ -23,7 +23,6 @@ local function removePlayerFromUnit(officer, state)
 
         officers.triggerEvent('mdt:refreshUnits', units)
 
-        return true
     end
 
     for i = 1, #unit.members do
@@ -35,7 +34,12 @@ local function removePlayerFromUnit(officer, state)
 
             if #unit.members == 0 then
                 units[unitId] = nil
-                -- TODO: Remove unit from all calls it's attached to
+                local activeCalls = getActiveCalls()
+                for id, v in pairs(activeCalls) do
+                    if (activeCalls[id].units[unitId]) then
+                        detachFromCall(unitId, id)
+                    end
+                end
             end
 
             officers.triggerEvent('mdt:refreshUnits', units)

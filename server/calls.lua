@@ -39,16 +39,20 @@ end
 exports('updateCallCoords', updateCallCoords)
 
 local function removeExpiredCalls()
-    local currentTime = os.time() * 1000 -- Får nuværende tid i millisekunder
+    local currentTime = os.time() * 1000
     local amountRemoved = 0
     for id, call in pairs(activeCalls) do
-        if currentTime - call.time >= 1800000 then -- 1800000 millisekunder svarer til 30 minutter
+        if currentTime - call.time >= 1800000 then
             activeCalls[id] = nil
             amountRemoved += 1
         end
     end
 
     officers.triggerEvent('mdt:updateCalls', { calls = utils.cleanTable(activeCalls) })
+end
+
+function getActiveCalls()
+    return activeCalls
 end
 
 utils.registerCallback('mdt:getCalls', function(source, data)
@@ -70,6 +74,16 @@ utils.registerCallback('mdt:respondToCall', function(source, id)
 
     return true
 end)
+
+function detachFromCall(unitId, id)
+    if not activeCalls[id].units[unitId] then return false end
+
+    activeCalls[id].units[unitId] = nil
+
+    officers.triggerEvent('mdt:editCallUnits', { id = id, units = activeCalls[id].units })
+
+    return true
+end
 
 utils.registerCallback('mdt:detachFromCall', function(source, id)
     local playerUnitId = Player(source).state.mdtUnitId
