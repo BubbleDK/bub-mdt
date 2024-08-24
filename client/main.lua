@@ -181,15 +181,13 @@ end)
 RegisterNetEvent(framework.logoutEvent, function()
     hasLoadedUi = false
 
-    if player.group then closeMdt(true) end
+    if framework.isJobPolice() then closeMdt(true) end
 end)
 
 RegisterNetEvent(framework.setGroupEvent, function()
-    local lastGroup = player.group
-
     framework.getOfficerData()
 
-    if not player.group and lastGroup or (lastGroup and lastGroup ~= player.group) then
+    if not framework.isJobPolice() then
         closeMdt(true)
     end
 end)

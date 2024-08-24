@@ -520,7 +520,6 @@ function qb.fetchRoster()
         }
     end
     
-    print(json.encode(rosterOfficers))
     return rosterOfficers
 end
 
