@@ -16,7 +16,7 @@ local chargeCategories = {
 local charges = {}
 
 for category in pairs(chargeCategories) do
-  	charges[category] = {}
+	charges[category] = {}
 end
 
 MySQL.ready(function()
@@ -29,5 +29,5 @@ MySQL.ready(function()
 end)
 
 utils.registerCallback('mdt:getAllCharges', function()
-  	return charges
+	return charges
 end)

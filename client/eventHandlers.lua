@@ -12,7 +12,7 @@ local function WaitTimer(name, action, ...)
 end
 
 local function isPedAWitness(witnesses, ped)
-    for k, v in pairs(witnesses) do
+    for _, v in pairs(witnesses) do
         if v == ped then
             return true
         end

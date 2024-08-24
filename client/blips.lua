@@ -1,7 +1,5 @@
 RegisterNetEvent('mdt:addBlip', function(data)
     local street1, street2 = GetStreetNameAtCoord(data.blipCoords.x, data.blipCoords.y, data.blipCoords.z)
-    local street1name = GetStreetNameFromHashKey(street1)
-    local street2name = GetStreetNameFromHashKey(street2)
     local transG = 250
     local blip = AddBlipForCoord(data.blipCoords.x, data.blipCoords.y, data.blipCoords.z)
     local blip2 = AddBlipForCoord(data.blipCoords.x, data.blipCoords.y, data.blipCoords.z)

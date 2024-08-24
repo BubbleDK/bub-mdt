@@ -85,8 +85,6 @@ utils.registerCallback('mdt:detachFromCall', function(source, id)
 end)
 
 utils.registerCallback('mdt:setCallUnits', function(source, data)
-    local officer = officers.get(source)
-
     activeCalls[data.id].units = {}
     for i = 1, #data.units do
         local unitId = data.units[i]

@@ -1,11 +1,7 @@
 local config = require 'config'
-local framework = require(('client.framework.%s'):format(config.framework))
 
 camera = false
 local cameraprop = nil
-local inPrompt = false
-local inTakePicture = false
-local takePicture = false
 
 local FOV_MAX = 80.0
 local FOV_MIN = 5.0 -- max zoom level (smaller fov is more zoom)
@@ -20,7 +16,7 @@ local function hideHUDThisFrame()
     HideHudAndRadarThisFrame()
     HideHudComponentThisFrame(1)
     HideHudComponentThisFrame(2)
-    HideHudComponentThisFrame(3) 
+    HideHudComponentThisFrame(3)
     HideHudComponentThisFrame(4)
     HideHudComponentThisFrame(6)
     HideHudComponentThisFrame(7)
@@ -81,12 +77,12 @@ function CameraLoop(data)
     lib.requestAnimDict("amb@world_human_paparazzi@male@base")
     TaskPlayAnim(cache.ped, "amb@world_human_paparazzi@male@base", 'base', 6.0, 3.0, -1, 49, 1.0, false, false, false)
 
-    local model = lib.requestModel(`prop_pap_camera_01`)
+    local cameraModel = lib.requestModel(`prop_pap_camera_01`)
 
-    if model then
+    if cameraModel then
         local coords = GetEntityCoords(cache.ped)
 
-        cameraprop = CreateObject(model, coords.x, coords.y, coords.z + 0.2, true, true, true)
+        cameraprop = CreateObject(cameraModel, coords.x, coords.y, coords.z + 0.2, true, true, true)
         AttachEntityToEntity(cameraprop, cache.ped, GetPedBoneIndex(cache.ped, 28422), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, true, true, false, true, 1, true)
     end
 
@@ -110,8 +106,8 @@ function CameraLoop(data)
                 ClearPedTasks(cache.ped)
                 DisablePlayerFiring(cache.ped, false)
 
-                if cameraprop then 
-                    DeleteEntity(cameraprop) 
+                if cameraprop then
+                    DeleteEntity(cameraprop)
                 end
             elseif IsControlJustPressed(1, 176) then
                 PlaySoundFrontend(-1, "Camera_Shoot", "Phone_Soundset_Franklin", false)
@@ -120,8 +116,8 @@ function CameraLoop(data)
                     if resp then
                         camera = false
 
-                        if cameraprop then 
-                            DeleteEntity(cameraprop) 
+                        if cameraprop then
+                            DeleteEntity(cameraprop)
                         end
 
                         ClearPedTasks(cache.ped)
@@ -158,12 +154,12 @@ function CameraLoop(data)
                         end
                     
                         if not tablet then
-                            local model = lib.requestModel(`prop_cs_tablet`)
+                            local tabletModel = lib.requestModel(`prop_cs_tablet`)
                         
-                            if not model then return end
+                            if not tabletModel then return end
                         
                             local coords = GetEntityCoords(cache.ped)
-                            tablet = CreateObject(model, coords.x, coords.y, coords.z, true, true, true)
+                            tablet = CreateObject(tabletModel, coords.x, coords.y, coords.z, true, true, true)
                             AttachEntityToEntity(tablet, cache.ped, GetPedBoneIndex(cache.ped, 28422), 0.0, 0.0, 0.03, 0.0, 0.0, 0.0, true, true, false, true, 0, true)
                         end
 

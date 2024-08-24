@@ -1,6 +1,4 @@
 local officers = require 'server.officers'
-local utils = require 'server.utils'
-local config = require 'config'
 local QBCore = exports['qb-core']:GetCoreObject()
 
 local function addOfficer(playerId)
@@ -74,9 +72,9 @@ function qb.getAnnouncements()
         local charinfo = json.decode(announcements[i].charinfo)
         table.insert(result, { 
             id = announcements[i].id, 
-            contents = announcements[i].contents, 
-            citizenid = announcements[i].citizenid, 
-            firstname = charinfo.firstname, 
+            contents = announcements[i].contents,
+            citizenid = announcements[i].citizenid,
+            firstname = charinfo.firstname,
             lastname = charinfo.lastname,
             image = announcements[i].image,
             createdAt = announcements[i].createdAt

@@ -17,7 +17,7 @@ local function CustomAlert(data)
         code = data.code or '10-80',
         offense = data.offense,
         coords = {
-            coords.x, 
+            coords.x,
             coords.y
         },
         info = disptachInfo,
@@ -38,7 +38,7 @@ local function VehicleTheft()
         code = '10-35',
         offense = "Vehicle Theft",
         coords = {
-            coords.x, 
+            coords.x,
             coords.y
         },
         info = {
@@ -71,7 +71,7 @@ local function Shooting()
         code = '10-11',
         offense = "Shooting in progress",
         coords = {
-            coords.x, 
+            coords.x,
             coords.y
         },
         info = {
@@ -100,7 +100,7 @@ local function VehicleShooting()
         code = '10-60',
         offense = "Shots Fired from Vehicle",
         coords = {
-            coords.x, 
+            coords.x,
             coords.y
         },
         info = {
@@ -141,7 +141,7 @@ local function SpeedingVehicle()
         code = '10-11',
         offense = "Reckless driving",
         coords = {
-            coords.x, 
+            coords.x,
             coords.y
         },
         info = {
@@ -174,7 +174,7 @@ local function CarJacking(vehicle)
         code = '10-35',
         offense = "Car Jacking",
         coords = {
-            coords.x, 
+            coords.x,
             coords.y
         },
         info = {
@@ -207,7 +207,7 @@ local function OfficerDown()
         code = '10-99',
         offense = "Officer Down",
         coords = {
-            coords.x, 
+            coords.x,
             coords.y
         },
         info = {

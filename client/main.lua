@@ -194,8 +194,8 @@ RegisterNetEvent(framework.setGroupEvent, function()
     end
 end)
 
-RegisterNetEvent('mdt:OpenMDT', function() 
-    openMdt() 
+RegisterNetEvent('mdt:OpenMDT', function()
+    openMdt()
 end)
 
 RegisterNetEvent('mdt:client:CloseMiniDispatch', function()
@@ -326,9 +326,9 @@ RegisterNUICallback('exit', function(_, cb)
 end)
 
 AddEventHandler('onResourceStop', function(resource)
-    if resource == cache.resource then 
+    if resource == cache.resource then
         player.unit = nil
-        closeMdt() 
+        closeMdt()
     end
 end)
 

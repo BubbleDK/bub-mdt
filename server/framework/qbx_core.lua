@@ -1,6 +1,4 @@
 local officers = require 'server.officers'
-local utils = require 'server.utils'
-local config = require 'config'
 
 local function addOfficer(playerId)
     if officers.get(playerId) then return end
