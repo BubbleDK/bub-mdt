@@ -4,4 +4,5 @@ return {
   defaultAlertsDelay = 10,
   fivemanageAPIKey = '',
   defaultRespondKey = 'g'
+  enableWraithPlateReader = false,
 }

@@ -339,6 +339,12 @@ RegisterServerEvent("mdt:server:AddFingerprintToProfile", function(citizenid, fi
     db.addFingerprintToProfile(citizenid, fingerprint)
 end)
 
+if config.enableWraithPlateReader then
+    RegisterServerEvent("wk:onPlateScanned", function(_, plate)
+        db.isVehicleBOLO(plate)
+    end)
+end
+
 AddEventHandler('onResourceStop', function(resource)
     if resource ~= cache.resource then return end
 
