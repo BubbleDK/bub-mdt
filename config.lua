@@ -5,4 +5,5 @@ return {
   fivemanageAPIKey = '',
   defaultRespondKey = 'g',
   enableWraithPlateReader = false,
+  isDispatchEnabled = false,
 }

@@ -16,8 +16,10 @@ import { fetchNui } from "../../utils/fetchNui";
 import { useCallsStore } from "../../stores/dispatch/calls";
 import { convertUnitsToArray } from "../../helpers";
 import { EditCallResponseData } from "../notifications/DispatchNotifications";
+import useConfigStore from "../../stores/configStore";
 
 const Dispatch: React.FC = () => {
+	const { config } = useConfigStore();
 	const { calls, setCalls } = useCallsStore();
 	const [showMiniDispatch, setShowMiniDispatch] = useState(false);
 	const [currentCall, setCurrentCall] = useState<Call | undefined>();
@@ -93,6 +95,7 @@ const Dispatch: React.FC = () => {
 	});
 
 	if (!showMiniDispatch) return;
+	if (!config.isDispatchEnabled) return;
 
 	return (
 		<div

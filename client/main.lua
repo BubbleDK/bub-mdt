@@ -73,6 +73,15 @@ local function openMdt()
     end
 
     if not hasLoadedUi then
+        SendNUIMessage({
+            action = 'setConfig',
+            data = {
+                config = {
+                    isDispatchEnabled = config.isDispatchEnabled
+                }
+            }
+        })
+        
         local profileCards = lib.callback.await('mdt:getCustomProfileCards')
         local charges = lib.callback.await('mdt:getAllCharges')
 
@@ -109,70 +118,72 @@ lib.addKeybind({
     onPressed = openMdt
 })
 
-local function openMiniDispatch()
-    if isMdtOpen then return end
+if config.isDispatchEnabled then
+    local function openMiniDispatch()
+        if isMdtOpen then return end
 
-    local isAuthorised = lib.callback.await('mdt:openDispatch', 500)
-    
-    if not isAuthorised then return end
+        local isAuthorised = lib.callback.await('mdt:openDispatch', 500)
+        
+        if not isAuthorised then return end
 
-    isMiniDispatchOpen = true
+        isMiniDispatchOpen = true
 
-    SetNuiFocus(true, true)
-    SendNUIMessage({
-        action = 'showMiniDispatch',
-        data = {
-        currentRespondKey = respondKey:getCurrentKey()
-        }
-    })
-end
-
-lib.addKeybind({
-    defaultKey = 'i',
-    description = 'Open the mini dispatch',
-    name = 'openMiniDispatch',
-    onPressed = openMiniDispatch
-})
-
-local function respondToCall()
-    if (not isMiniDispatchOpen) then return end
-
-    SendNUIMessage({
-        action = 'respondToCall',
-        data = {
-        currentRespondKey = respondKey:getCurrentKey()
-        }
-    })
-end
-
-respondKey = lib.addKeybind({
-    deafultKey = config.defaultRespondKey,
-    description = 'Reponds to call',
-    name = 'respondToCall',
-    onPressed = respondToCall
-})
-
-lib.addKeybind({
-    name = 'NextDisptachCall',
-    description = 'Go to the next dispatch call',
-    defaultKey = 'RIGHT',
-    onPressed = function()
+        SetNuiFocus(true, true)
         SendNUIMessage({
-            action = 'handleRightArrowPress'
+            action = 'showMiniDispatch',
+            data = {
+            currentRespondKey = respondKey:getCurrentKey()
+            }
         })
     end
-})
 
-lib.addKeybind({
-    name = 'PreviousDisptachCall',
-    description = 'Go to the previous dispatch call',
-    defaultKey = 'LEFT',
-    onPressed = function()
+    lib.addKeybind({
+        defaultKey = 'i',
+        description = 'Open the mini dispatch',
+        name = 'openMiniDispatch',
+        onPressed = openMiniDispatch
+    })
+
+    local function respondToCall()
+        if (not isMiniDispatchOpen) then return end
+
         SendNUIMessage({
-            action = 'handleLeftArrowPress'
+            action = 'respondToCall',
+            data = {
+            currentRespondKey = respondKey:getCurrentKey()
+            }
         })
     end
-})
+
+    respondKey = lib.addKeybind({
+        deafultKey = config.defaultRespondKey,
+        description = 'Reponds to call',
+        name = 'respondToCall',
+        onPressed = respondToCall
+    })
+
+    lib.addKeybind({
+        name = 'NextDisptachCall',
+        description = 'Go to the next dispatch call',
+        defaultKey = 'RIGHT',
+        onPressed = function()
+            SendNUIMessage({
+                action = 'handleRightArrowPress'
+            })
+        end
+    })
+
+    lib.addKeybind({
+        name = 'PreviousDisptachCall',
+        description = 'Go to the previous dispatch call',
+        defaultKey = 'LEFT',
+        onPressed = function()
+            SendNUIMessage({
+                action = 'handleLeftArrowPress'
+            })
+        end
+    })
+end
 
 RegisterNetEvent(framework.loadedEvent, function()
     player = framework.getOfficerData()

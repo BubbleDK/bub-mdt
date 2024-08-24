@@ -5,6 +5,7 @@ import DispatchNotification from "./components/DispatchNotification";
 import { useNuiEvent } from "../../hooks/useNuiEvent";
 import { convertUnitsToArray } from "../../helpers";
 import { useCallsStore } from "../../stores/dispatch/calls";
+import useConfigStore from "../../stores/configStore";
 
 const useStyles = createStyles((theme) => ({
 	notificationsContainer: {
@@ -26,6 +27,7 @@ export type EditCallResponseData = {
 };
 
 const DispatchNotifications: React.FC = () => {
+	const { config } = useConfigStore();
 	const { classes } = useStyles();
 	const [queue, setQueue] = useState<Call[]>([]);
 	const { addCall, updateCallUnits } = useCallsStore();
@@ -44,6 +46,8 @@ const DispatchNotifications: React.FC = () => {
 		);
 		updateCallUnits(data.id, units);
 	});
+
+	if (!config.isDispatchEnabled) return;
 
 	return (
 		<Stack className={classes.notificationsContainer} spacing={6}>

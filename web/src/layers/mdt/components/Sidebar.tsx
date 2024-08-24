@@ -26,6 +26,7 @@ import {
 } from "@tabler/icons-react";
 import LSPDLogo from "../assets/police-logo.png";
 import { usePersonalDataStore } from "../../../stores";
+import useConfigStore from "../../../stores/configStore";
 
 const useStyles = createStyles((theme) => ({
 	link: {
@@ -93,6 +94,7 @@ const staffData = [
 ];
 
 const Sidebar = () => {
+	const { config } = useConfigStore();
 	const { classes, cx, theme } = useStyles();
 	const [activeLink, setActiveLink] = useState("");
 	const { firstname, lastname, callSign, role } = usePersonalDataStore(
@@ -109,19 +111,25 @@ const Sidebar = () => {
 			>;
 		}[]
 	) => {
-		return data.map((item) => (
-			<NavLink
-				key={item.link}
-				to={`/${item.link}`}
-				onClick={() => setActiveLink(item.link)}
-				className={cx(classes.link, {
-					[classes.linkActive]: activeLink === item.link,
-				})}
-			>
-				<item.icon className={classes.linkIcon} stroke={1.5} />
-				<span>{item.label}</span>
-			</NavLink>
-		));
+		return data.map((item) => {
+			if (item.link === "dispatch" && !config.isDispatchEnabled) {
+				return null;
+			}
+
+			return (
+				<NavLink
+					key={item.link}
+					to={`/${item.link}`}
+					onClick={() => setActiveLink(item.link)}
+					className={cx(classes.link, {
+						[classes.linkActive]: activeLink === item.link,
+					})}
+				>
+					<item.icon className={classes.linkIcon} stroke={1.5} />
+					<span>{item.label}</span>
+				</NavLink>
+			);
+		});
 	};
 
 	useEffect(() => {
