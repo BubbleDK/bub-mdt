@@ -66,7 +66,7 @@ exports['bub-mdt']:CustomAlert({
     coords = vec3(0, 0, 0),
     info = {
         {
-            label = framework.getPlayerGender(),
+            label = 'A custom disptach alert',
             icon = 'gender-bigender',
         },
     },
