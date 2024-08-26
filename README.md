@@ -34,7 +34,7 @@ A police MDT with built-in dispatch functionalities. The MDT consists of the fol
 # Installation
 
 - Install all the dependencies and have them started before bub-mdt
-- Import the SQL provided
+- Import the SQL provided for your framework.
 - Drag and drop the resource into your resources folder
 - Add `start bub-mdt` to your `server.cfg` file
 
