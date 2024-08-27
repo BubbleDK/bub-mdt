@@ -1,3 +1,3 @@
 export interface Config {
-  isDispatchEnabled: boolean;
+	isDispatchEnabled: boolean;
 }
