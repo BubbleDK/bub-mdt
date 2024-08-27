@@ -13,6 +13,7 @@ function qb.getOfficerData()
     officer.firstname = playerData.charinfo.firstname
     officer.lastname = playerData.charinfo.lastname
     officer.role = playerData.job.grade.name
+    officer.grade = playerData.job.grade.level
 
     return officer
 end

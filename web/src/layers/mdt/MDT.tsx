@@ -1,12 +1,5 @@
 import { Transition } from "@mantine/core";
-import {
-	Sidebar,
-	Dashboard,
-	Profiles,
-	Roster,
-	Charges,
-	CodesAndCommands,
-} from "./components";
+import { Sidebar, Dashboard, Profiles, Roster, Charges } from "./components";
 import { Route, Routes } from "react-router-dom";
 import "./MDT.css";
 import { useEffect, useState } from "react";
@@ -133,10 +126,6 @@ const MDT: React.FC = () => {
 								<Route path='/dispatch' element={<Dispatch />} />
 								<Route path='/roster' element={<Roster />} />
 								<Route path='/charges' element={<Charges />} />
-								<Route
-									path='/codesAndCommands'
-									element={<CodesAndCommands />}
-								/>
 							</Routes>
 						</ModalsProvider>
 					</div>

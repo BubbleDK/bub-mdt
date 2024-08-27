@@ -1,11 +1,11 @@
-import { Officer } from './officer';
+import { Officer } from "./officer";
 
 interface AnnouncementCreator extends Officer {
-  image?: string;
+	image?: string;
 }
 
 export interface Announcement extends AnnouncementCreator {
-  id: number;
-  contents: string;
-  createdAt: number;
+	id: number;
+	contents: string;
+	createdAt: number;
 }
