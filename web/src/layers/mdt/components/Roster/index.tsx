@@ -8,6 +8,7 @@ import useRosterStore from "../../../../stores/roster/roster";
 import { modals } from "@mantine/modals";
 import HireOfficerModal from "./components/modals/HireOfficerModal";
 import locales from "../../../../locales";
+import { hasPermission } from "../../../../helpers/hasPermission";
 
 const Roster = () => {
 	const { rosterOfficers, getRosterOfficers } = useRosterStore();
@@ -17,21 +18,7 @@ const Roster = () => {
 	const [debouncedSearchQuery, setDebouncedSearchQuery] = useState(searchQuery);
 	const [timer, setTimer] = useState<number | null>(null);
 	const [isLoading, setIsLoading] = useState(false);
-	const personalRole = usePersonalDataStore((state) => state.personalData.role);
-
-	function checkPermissionForRole(personalRole: string): boolean {
-		if (
-			personalRole === "Chief" ||
-			personalRole === "Assistant Chief" ||
-			personalRole === "Captain" ||
-			personalRole === "Lieutenant" ||
-			personalRole === "Sergeant"
-		) {
-			return false;
-		} else {
-			return true;
-		}
-	}
+	const { personalData } = usePersonalDataStore();
 
 	useEffect(() => {
 		if (timer !== null) {
@@ -130,7 +117,7 @@ const Roster = () => {
 								children: <HireOfficerModal />,
 							})
 						}
-						disabled={checkPermissionForRole(personalRole)}
+						disabled={!hasPermission(personalData, "hire_officer")}
 					>
 						{locales.hire_officer}
 					</Button>
@@ -143,10 +130,7 @@ const Roster = () => {
 						<Loader />
 					</Center>
 				) : (
-					<RosterTable
-						officers={filteredOfficers}
-						hasPermission={checkPermissionForRole(personalRole)}
-					/>
+					<RosterTable officers={filteredOfficers} />
 				)}
 			</div>
 		</div>

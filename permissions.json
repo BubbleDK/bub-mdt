@@ -1,0 +1,10 @@
+{
+	"create_announcement": 4,
+	"create_charge": 4,
+	"delete_charge": 4,
+	"edit_charge": 4,
+	"hire_officer": 4,
+	"set_officer_rank": 4,
+	"set_officer_roles": 4,
+	"fire_officer": 4
+}

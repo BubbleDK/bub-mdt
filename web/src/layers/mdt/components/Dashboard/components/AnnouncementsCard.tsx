@@ -21,6 +21,7 @@ import ViewAllAnnouncements from "./modals/ViewAllAnnouncements";
 import useAnnouncementStore from "../../../../../stores/announcementStore";
 import { usePersonalDataStore } from "../../../../../stores";
 import locales from "../../../../../locales";
+import { hasPermission } from "../../../../../helpers/hasPermission";
 
 const AnnouncementsCard = () => {
 	const { announcements, fetchAnnouncements } = useAnnouncementStore(
@@ -30,21 +31,7 @@ const AnnouncementsCard = () => {
 		})
 	);
 	const [isLoading, setIsLoading] = useState(false);
-	const { role } = usePersonalDataStore((state) => state.personalData);
-
-	function checkPermissionForRole(personalRole: string): boolean {
-		if (
-			personalRole === "Chief" ||
-			personalRole === "Assistant Chief" ||
-			personalRole === "Captain" ||
-			personalRole === "Lieutenant" ||
-			personalRole === "Sergeant"
-		) {
-			return false;
-		} else {
-			return true;
-		}
-	}
+	const { personalData } = usePersonalDataStore();
 
 	const sortedAnnouncements = [...announcements]
 		.sort((a, b) => {
@@ -80,7 +67,7 @@ const AnnouncementsCard = () => {
 						<ActionIcon
 							variant='light'
 							color='dark'
-							disabled={checkPermissionForRole(role)}
+							disabled={!hasPermission(personalData, "create_announcement")}
 							onClick={() => {
 								modals.open({
 									title: (

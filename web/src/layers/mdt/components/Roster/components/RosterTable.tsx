@@ -27,14 +27,11 @@ import SetCallSignModal from "./modals/SetCallSignModal";
 import SetRankModal from "./modals/SetRankModal";
 import SetRolesModal from "./modals/SetRolesModal";
 import locales from "../../../../../locales";
+import { usePersonalDataStore } from "../../../../../stores";
+import { hasPermission } from "../../../../../helpers/hasPermission";
 
-const RosterTable = ({
-	officers,
-	hasPermission,
-}: {
-	officers: RosterOfficer[];
-	hasPermission: boolean;
-}) => {
+const RosterTable = ({ officers }: { officers: RosterOfficer[] }) => {
+	const { personalData } = usePersonalDataStore();
 	const { setRosterOfficers } = useRosterStore();
 
 	const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
@@ -177,7 +174,7 @@ const RosterTable = ({
 								{locales.set_callsign}
 							</Menu.Item>
 							<Menu.Item
-								disabled={hasPermission}
+								disabled={!hasPermission(personalData, "set_officer_rank")}
 								icon={<IconArrowBadgeUp size={20} />}
 								onClick={() =>
 									modals.open({
@@ -198,7 +195,7 @@ const RosterTable = ({
 								{locales.set_rank}
 							</Menu.Item>
 							<Menu.Item
-								disabled={hasPermission}
+								disabled={!hasPermission(personalData, "set_officer_roles")}
 								icon={<IconListDetails size={20} />}
 								onClick={() =>
 									modals.open({
@@ -221,7 +218,7 @@ const RosterTable = ({
 							<Menu.Item
 								icon={<IconUserX size={20} />}
 								color='red'
-								disabled={hasPermission}
+								disabled={!hasPermission(personalData, "fire_officer")}
 								onClick={() =>
 									modals.openConfirmModal({
 										title: (

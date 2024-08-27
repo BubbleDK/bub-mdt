@@ -15,10 +15,11 @@ import { fetchNui } from "../../../../utils/fetchNui";
 import { ChargesObject } from "../../../../stores/chargesStore";
 import { isEnvBrowser } from "../../../../utils/misc";
 import locales from "../../../../locales";
+import { hasPermission } from "../../../../helpers/hasPermission";
 
 const Charges = () => {
 	const { charges, setCharges } = useChargeStore();
-	const personalRole = usePersonalDataStore((state) => state.personalData.role);
+	const { personalData } = usePersonalDataStore();
 	const [chargeLabel, setChargeLabel] = useState("");
 	const [chargeDescription, setChargeDescription] = useState("");
 	const [chargeCategory, setChargeCategory] = useState<string>("");
@@ -28,20 +29,6 @@ const Charges = () => {
 	const [chargeType, setChargeType] = useState<
 		"misdemeanor" | "felony" | "infraction"
 	>("infraction");
-
-	function checkPermissionForRole(personalRole: string): boolean {
-		if (
-			personalRole === "Chief" ||
-			personalRole === "Assistant Chief" ||
-			personalRole === "Captain" ||
-			personalRole === "Lieutenant" ||
-			personalRole === "Sergeant"
-		) {
-			return false;
-		} else {
-			return true;
-		}
-	}
 
 	const sortCharges = (charges: Charge[]): Charge[] => {
 		return charges.sort((a, b) => {
@@ -129,7 +116,7 @@ const Charges = () => {
 							value={chargeLabel}
 							onChange={(e) => setChargeLabel(e.target.value)}
 							w={200}
-							disabled={checkPermissionForRole(personalRole)}
+							disabled={!hasPermission(personalData, "create_charge")}
 						/>
 
 						<TextInput
@@ -140,7 +127,7 @@ const Charges = () => {
 							value={chargeDescription}
 							onChange={(e) => setChargeDescription(e.target.value)}
 							w={250}
-							disabled={checkPermissionForRole(personalRole)}
+							disabled={!hasPermission(personalData, "create_charge")}
 						/>
 
 						<Select
@@ -193,7 +180,7 @@ const Charges = () => {
 							value={chargeCategory}
 							onChange={(val: string) => setChargeCategory(val)}
 							w={275}
-							disabled={checkPermissionForRole(personalRole)}
+							disabled={!hasPermission(personalData, "create_charge")}
 						/>
 
 						<NumberInput
@@ -211,7 +198,7 @@ const Charges = () => {
 									? `$ ${value}`.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")
 									: "$ "
 							}
-							disabled={checkPermissionForRole(personalRole)}
+							disabled={!hasPermission(personalData, "create_charge")}
 						/>
 
 						<NumberInput
@@ -222,7 +209,7 @@ const Charges = () => {
 							placeholder={locales.charge_jailtime}
 							variant='filled'
 							w={115}
-							disabled={checkPermissionForRole(personalRole)}
+							disabled={!hasPermission(personalData, "create_charge")}
 						/>
 
 						<NumberInput
@@ -233,7 +220,7 @@ const Charges = () => {
 							placeholder={locales.charge_points}
 							variant='filled'
 							w={125}
-							disabled={checkPermissionForRole(personalRole)}
+							disabled={!hasPermission(personalData, "create_charge")}
 						/>
 
 						<Select
@@ -247,7 +234,7 @@ const Charges = () => {
 								{ value: "felony", label: "Felony" },
 							]}
 							w={156}
-							disabled={checkPermissionForRole(personalRole)}
+							disabled={!hasPermission(personalData, "create_charge")}
 							value={chargeType}
 							onChange={(val: "misdemeanor" | "felony" | "infraction") =>
 								setChargeType(val)
@@ -258,7 +245,7 @@ const Charges = () => {
 					<div className='charges-create-buttons'>
 						<Button
 							color='green'
-							disabled={checkPermissionForRole(personalRole)}
+							disabled={!hasPermission(personalData, "create_charge")}
 							onClick={handleCreateCharge}
 						>
 							{locales.create}

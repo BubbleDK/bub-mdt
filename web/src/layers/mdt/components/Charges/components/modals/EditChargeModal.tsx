@@ -6,6 +6,7 @@ import { modals } from "@mantine/modals";
 import { useChargeStore, usePersonalDataStore } from "../../../../../../stores";
 import { ChargesObject } from "../../../../../../stores/chargesStore";
 import locales from "../../../../../../locales";
+import { hasPermission } from "../../../../../../helpers/hasPermission";
 
 interface Props {
 	charge: Charge;
@@ -17,21 +18,7 @@ const EditChargeModal: React.FC<Props> = ({ charge }) => {
 	const [chargeFine, setChargeFine] = useState<number | "">(charge.fine);
 	const [chargeTime, setChargeTime] = useState<number | "">(charge.time);
 	const [chargePoints, setChargePoints] = useState<number | "">(charge.points);
-	const personalRole = usePersonalDataStore((state) => state.personalData.role);
-
-	function checkPermissionForRole(personalRole: string): boolean {
-		if (
-			personalRole === "Chief" ||
-			personalRole === "Assistant Chief" ||
-			personalRole === "Captain" ||
-			personalRole === "Lieutenant" ||
-			personalRole === "Sergeant"
-		) {
-			return false;
-		} else {
-			return true;
-		}
-	}
+	const { personalData } = usePersonalDataStore();
 
 	const handleConfirm = async () => {
 		setConfirmLoading(true);
@@ -82,7 +69,7 @@ const EditChargeModal: React.FC<Props> = ({ charge }) => {
 						? `$ ${value}`.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")
 						: "$ "
 				}
-				disabled={checkPermissionForRole(personalRole)}
+				disabled={!hasPermission(personalData, "edit_charge")}
 			/>
 
 			<NumberInput
@@ -92,7 +79,7 @@ const EditChargeModal: React.FC<Props> = ({ charge }) => {
 				min={0}
 				placeholder={locales.charge_jailtime}
 				variant='filled'
-				disabled={checkPermissionForRole(personalRole)}
+				disabled={!hasPermission(personalData, "edit_charge")}
 			/>
 
 			<NumberInput
@@ -102,7 +89,7 @@ const EditChargeModal: React.FC<Props> = ({ charge }) => {
 				min={0}
 				placeholder={locales.charge_points}
 				variant='filled'
-				disabled={checkPermissionForRole(personalRole)}
+				disabled={!hasPermission(personalData, "edit_charge")}
 			/>
 			<Button
 				variant='light'

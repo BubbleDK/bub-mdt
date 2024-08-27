@@ -9,6 +9,7 @@ import { IconTrash } from "@tabler/icons-react";
 import { useChargeStore, usePersonalDataStore } from "../../../../../stores";
 import { ChargesObject } from "../../../../../stores/chargesStore";
 import locales from "../../../../../locales";
+import { hasPermission } from "../../../../../helpers/hasPermission";
 
 interface Props {
 	charge: Charge;
@@ -16,21 +17,7 @@ interface Props {
 
 const ChargeCard = ({ charge }: Props) => {
 	const { setCharges } = useChargeStore();
-	const personalRole = usePersonalDataStore((state) => state.personalData.role);
-
-	function checkPermissionForRole(personalRole: string): boolean {
-		if (
-			personalRole === "Chief" ||
-			personalRole === "Assistant Chief" ||
-			personalRole === "Captain" ||
-			personalRole === "Lieutenant" ||
-			personalRole === "Sergeant"
-		) {
-			return false;
-		} else {
-			return true;
-		}
-	}
+	const { personalData } = usePersonalDataStore();
 
 	return (
 		<div className='charges-charge-card'>
@@ -113,7 +100,7 @@ const ChargeCard = ({ charge }: Props) => {
 				<div style={{ display: "flex", gap: 5, alignItems: "center" }}>
 					<ActionIcon
 						variant='light'
-						disabled={checkPermissionForRole(personalRole)}
+						disabled={!hasPermission(personalData, "delete_charge")}
 						onClick={() => {
 							modals.openConfirmModal({
 								title: (
@@ -157,12 +144,14 @@ const ChargeCard = ({ charge }: Props) => {
 					>
 						<IconTrash
 							size={16}
-							color={!checkPermissionForRole(personalRole) ? "white" : "gray"}
+							color={
+								hasPermission(personalData, "delete_charge") ? "white" : "gray"
+							}
 						/>
 					</ActionIcon>
 
 					<Button
-						disabled={checkPermissionForRole(personalRole)}
+						disabled={!hasPermission(personalData, "edit_charge")}
 						color='gray'
 						compact
 						onClick={() =>
