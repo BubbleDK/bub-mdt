@@ -61,7 +61,6 @@ const CreateBoloModal: React.FC<Props> = (props) => {
 						w={"50%"}
 						icon={<IconCalendar size={18} />}
 						label={locales.bolo_expiration_date}
-						placeholder='2023-03-12'
 						weekendDays={[]}
 						required
 						minDate={new Date()}

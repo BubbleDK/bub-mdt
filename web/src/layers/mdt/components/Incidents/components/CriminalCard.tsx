@@ -258,7 +258,6 @@ const CriminalCard = ({ criminal }: Props) => {
 					<DatePickerInput
 						icon={<IconCalendar size={20} />}
 						label={locales.warrant_expiration_date}
-						placeholder='2023-03-12'
 						weekendDays={[]}
 						minDate={new Date()}
 						value={
