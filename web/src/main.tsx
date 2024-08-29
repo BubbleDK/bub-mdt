@@ -5,6 +5,7 @@ import App from "./App";
 import { isEnvBrowser } from "./utils/misc";
 import { HashRouter } from "react-router-dom";
 import "./index.css";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 if (isEnvBrowser()) {
 	const root = document.getElementById("root");
@@ -15,13 +16,25 @@ if (isEnvBrowser()) {
 	root!.style.backgroundPosition = "center";
 }
 
+export const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			refetchOnWindowFocus: false,
+			refetchOnReconnect: false,
+			refetchOnMount: false,
+		},
+	},
+});
+
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 	<React.StrictMode>
 		<MantineProvider
 			theme={{ colorScheme: "dark", fontFamily: "Nunito, sans-serif" }}
 		>
 			<HashRouter>
-				<App />
+				<QueryClientProvider client={queryClient}>
+					<App />
+				</QueryClientProvider>
 			</HashRouter>
 		</MantineProvider>
 	</React.StrictMode>

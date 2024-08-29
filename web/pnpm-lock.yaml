@@ -32,6 +32,9 @@ dependencies:
   '@tabler/icons-react':
     specifier: ^3.12.0
     version: 3.12.0(react@18.2.0)
+  '@tanstack/react-query':
+    specifier: ^5.52.2
+    version: 5.52.2(react@18.2.0)
   '@tiptap/core':
     specifier: ^2.1.11
     version: 2.1.11(@tiptap/pm@2.1.11)
@@ -1084,6 +1087,19 @@ packages:
 
   /@tabler/icons@3.12.0:
     resolution: {integrity: sha512-Im37ar/mQkqLb6XUXsU7nOc4/66VB9/3KLuZ+6tUsJKHHNLaDUkYfCTNG3pnGDI03laByxVf5+umSNK2yPTx8A==}
+    dev: false
+
+  /@tanstack/query-core@5.52.2:
+    resolution: {integrity: sha512-9vvbFecK4A0nDnrc/ks41e3UHONF1DAnGz8Tgbxkl59QcvKWmc0ewhYuIKRh8NC4ja5LTHT9EH16KHbn2AIYWA==}
+    dev: false
+
+  /@tanstack/react-query@5.52.2(react@18.2.0):
+    resolution: {integrity: sha512-d4OwmobpP+6+SvuAxW1RzAY95Pv87Gu+0GjtErzFOUXo+n0FGcwxKvzhswCsXKxsgnAr3bU2eJ2u+GXQAutkCQ==}
+    peerDependencies:
+      react: ^18 || ^19
+    dependencies:
+      '@tanstack/query-core': 5.52.2
+      react: 18.2.0
     dev: false
 
   /@tiptap/core@2.1.11(@tiptap/pm@2.1.11):
