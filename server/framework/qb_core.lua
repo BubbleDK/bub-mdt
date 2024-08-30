@@ -173,10 +173,54 @@ local selectProfiles = [[
         mdt_profiles profile
     ON
         profile.citizenid = players.citizenid
+    LIMIT 10 OFFSET ?
 ]]
 
 function qb.getAllProfiles()
     local profilesResult = MySQL.rawExecute.await(selectProfiles, {})
+    local profiles = {}
+
+    for _, v in pairs(profilesResult) do
+        local charinfo = json.decode(v.charinfo)
+        profiles[#profiles+1] = {
+            citizenid = v.citizenid,
+            firstname = charinfo.firstname,
+            lastname = charinfo.lastname,
+            dob = charinfo.birthdate,
+            image = v.image,
+        }
+    end
+
+    return profiles
+end
+
+local selectProfilesFilter = selectProfiles:gsub('LIMIT', [[
+    WHERE 
+        players.citizenid LIKE ?
+        OR CONCAT(
+            JSON_UNQUOTE(JSON_EXTRACT(players.charinfo, '$.firstname')),
+            ' ',
+            JSON_UNQUOTE(JSON_EXTRACT(players.charinfo, '$.lastname'))
+        ) LIKE ?
+    GROUP BY
+        players.citizenid
+    LIMIT
+]])
+
+function qb.getProfiles(parameters, filter)
+    local query, params
+    
+    if filter then
+        local searchInput = parameters[1]
+        params = { "%" .. searchInput .. "%", "%" .. searchInput .. "%", parameters[2] }
+        
+        query = selectProfilesFilter
+    else
+        query = selectProfiles
+        params = parameters
+    end
+
+    local profilesResult = MySQL.rawExecute.await(query, params)
     local profiles = {}
 
     for _, v in pairs(profilesResult) do
