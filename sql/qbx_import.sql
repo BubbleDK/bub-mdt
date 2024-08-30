@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `mdt_offenses` (
     `fine` int UNSIGNED NOT NULL DEFAULT 0,
     `points` int UNSIGNED NOT NULL DEFAULT 0,
     PRIMARY KEY (`label`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `mdt_incidents` (
     `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `mdt_incidents` (
     `author` varchar(50) DEFAULT NULL,
     `date` datetime DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `mdt_incidents_criminals` (
     `incidentid` INT UNSIGNED NOT NULL,
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `mdt_incidents_criminals` (
     INDEX `incidentid` (`incidentid`),
     INDEX `FK_mdt_incidents_incidents_players` (`citizenid`),
     CONSTRAINT `mdt_incidents_criminals_ibfk_2` FOREIGN KEY (`incidentid`) REFERENCES `mdt_incidents` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `mdt_incidents_officers` (
     `incidentid` int UNSIGNED NOT NULL,
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `mdt_incidents_officers` (
     KEY `FK_mdt_incidents_officers_players` (`citizenid`),
     KEY `incidentid` (`incidentid`),
     CONSTRAINT `FK_mdt_incidents_officers_mdt_incidents` FOREIGN KEY (`incidentid`) REFERENCES `mdt_incidents` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `mdt_incidents_charges` (
     `incidentid` int UNSIGNED NOT NULL,
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `mdt_incidents_charges` (
     KEY `FK_mdt_incidents_charges_mdt_offenses` (`charge`),
     CONSTRAINT `FK_mdt_incidents_charges_mdt_offenses` FOREIGN KEY (`charge`) REFERENCES `mdt_offenses` (`label`) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT `FK_mdt_incidents_charges_mdt_incidents_criminals_2` FOREIGN KEY (`citizenid`) REFERENCES `mdt_incidents_criminals` (`citizenid`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `mdt_incidents_evidence` (
     `incidentid` INT UNSIGNED NOT NULL,
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `mdt_incidents_evidence` (
     `image` VARCHAR(90) NOT NULL DEFAULT '',
     INDEX `incidentid` (`incidentid`),
     CONSTRAINT `FK_mdt_incidents_evidence_mdt_incidents` FOREIGN KEY (`incidentid`) REFERENCES `mdt_incidents` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `mdt_announcements` (
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -79,14 +79,14 @@ CREATE TABLE IF NOT EXISTS `mdt_announcements` (
     `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
     INDEX `FK_mdt_announcements_players` (`creator`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `mdt_warrants` (
     `incidentid` INT UNSIGNED NOT NULL,
     `citizenid` VARCHAR(50) NOT NULL,
     `expiresAt` DATETIME NOT NULL,
     CONSTRAINT `mdt_warrants_mdt_incidents_id_fk` FOREIGN KEY (`incidentid`) REFERENCES `mdt_incidents` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `mdt_profiles` (
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -103,7 +103,7 @@ CREATE TABLE IF NOT EXISTS `mdt_profiles` (
     `lastActive` DATETIME DEFAULT NULL,
     CONSTRAINT `mdt_profiles_pk` UNIQUE (`callsign`),
     CONSTRAINT `mdt_profiles_pk2` UNIQUE (`citizenid`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `mdt_recent_activity` (
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -112,7 +112,7 @@ CREATE TABLE IF NOT EXISTS `mdt_recent_activity` (
     `type` ENUM('created', 'updated', 'deleted') NOT NULL,
     `date` datetime DEFAULT CURRENT_TIMESTAMP,
     `activityid` INT UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `mdt_reports` (
     `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -121,7 +121,7 @@ CREATE TABLE IF NOT EXISTS `mdt_reports` (
     `author` varchar(50) DEFAULT NULL,
     `date` datetime DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `mdt_reports_officers` (
     `reportid` int UNSIGNED NOT NULL,
@@ -129,7 +129,7 @@ CREATE TABLE IF NOT EXISTS `mdt_reports_officers` (
     KEY `FK_mdt_reports_officers_players` (`citizenid`),
     KEY `reportid` (`reportid`),
     CONSTRAINT `FK_mdt_reports_officers_mdt_reports` FOREIGN KEY (`reportid`) REFERENCES `mdt_reports` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `mdt_reports_citizens` (
     `reportid` int UNSIGNED NOT NULL,
@@ -137,7 +137,7 @@ CREATE TABLE IF NOT EXISTS `mdt_reports_citizens` (
     KEY `FK_mdt_reports_players` (`citizenid`),
     KEY `reportid` (`reportid`),
     CONSTRAINT `FK_mdt_reports_players_mdt_reports` FOREIGN KEY (`reportid`) REFERENCES `mdt_reports` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `mdt_reports_evidence` (
     `reportid` INT UNSIGNED NOT NULL,
@@ -145,7 +145,7 @@ CREATE TABLE IF NOT EXISTS `mdt_reports_evidence` (
     `image` VARCHAR(90) NOT NULL DEFAULT '',
     INDEX `reportid` (`reportid`),
     CONSTRAINT `FK_mdt_reports_evidence_mdt_reports` FOREIGN KEY (`reportid`) REFERENCES `mdt_reports` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1 ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `mdt_vehicles` (
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -154,11 +154,11 @@ CREATE TABLE IF NOT EXISTS `mdt_vehicles` (
     `notes`    TEXT        NULL,
     `known_information` JSON NULL,
     UNIQUE (`plate`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `mdt_bolos` (
     `plate` VARCHAR(50) NOT NULL,
     `reason` TEXT NOT NULL,
     `expiresAt` DATETIME NOT NULL,
     UNIQUE (`plate`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
