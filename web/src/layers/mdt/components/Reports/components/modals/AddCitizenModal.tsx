@@ -12,7 +12,7 @@ const AddCitizenModal: React.FC = () => {
 	const { report, setCitizensInvolved } = useReportStore();
 	const [searchQuery, setSearchQuery] = useState("");
 	const [profiles, setProfiles] = useState<PartialProfileData[]>([]);
-	const { getPlayers } = useProfilesStore();
+	const { getProfiles } = useProfilesStore();
 	const [filteredProfiles, setFilteredProfiles] = useState(profiles);
 	const DEBOUNCE_DELAY = 500;
 	const [debouncedSearchQuery, setDebouncedSearchQuery] = useState(searchQuery);
@@ -64,7 +64,7 @@ const AddCitizenModal: React.FC = () => {
 	useEffect(() => {
 		setIsLoading(true);
 		const fetchData = async () => {
-			return await getPlayers();
+			return await getProfiles();
 		};
 
 		fetchData().then((data) => {

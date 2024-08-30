@@ -51,6 +51,15 @@ utils.registerCallback('mdt:getAllProfiles', function(source, data)
     }
 end)
 
+utils.registerCallback('mdt:getProfiles', function(source, data)
+    local profiles = db.selectProfiles(data.page, data.search)
+
+    return {
+        hasMore = #profiles == 10 or false,
+        profiles = profiles
+    }
+end)
+
 utils.registerCallback('mdt:getProfile', function(source, data)
     return db.selectCharacterProfile(data)
 end)

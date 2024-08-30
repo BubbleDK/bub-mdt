@@ -1,66 +1,22 @@
-import {
-	rem,
-	Input,
-	Divider,
-	Text,
-	Image,
-	ScrollArea,
-	Center,
-	Loader,
-} from "@mantine/core";
+import { rem, Input, Divider, Text, ScrollArea, Loader } from "@mantine/core";
 import { IconUsers, IconSearch } from "@tabler/icons-react";
 import "../index.css";
-import { useState, useEffect } from "react";
-import dayjs from "dayjs";
-import { PartialProfileData } from "../../../../../typings";
-import { useProfilesStore } from "../../../../../stores";
+import { useState, useMemo } from "react";
 import locales from "../../../../../locales";
+import { useInfiniteScroll } from "../../../../../hooks/useInfiniteScroll";
+import PartialProfile from "./PartialProfile";
+import { useProfilesQuery } from "../../../../../stores/profilesStore";
 
-interface ProfileListProps {
-	handleProfileClick: (profile: PartialProfileData) => void;
-}
-
-const ProfileList = (props: ProfileListProps) => {
+const ProfileList = () => {
 	const [searchQuery, setSearchQuery] = useState("");
-	const getProfiles = useProfilesStore((state) => state.getPlayers);
-	const [profiles, setProfiles] = useState<PartialProfileData[]>([]);
-	const [filteredProfiles, setFilteredProfiles] =
-		useState<PartialProfileData[]>(profiles);
-	const [isLoading, setIsLoading] = useState(false);
+	const { data, fetchNextPage, isFetching, isDebouncing } =
+		useProfilesQuery(searchQuery);
+	const { ref } = useInfiniteScroll(() => fetchNextPage());
 
-	useEffect(() => {
-		setIsLoading(true);
-		const fetchData = async () => {
-			return await getProfiles();
-		};
-
-		fetchData().then((data) => {
-			setProfiles(data.profiles);
-			setFilteredProfiles(data.profiles);
-			setIsLoading(false);
-		});
-	}, []);
-
-	useEffect(() => {
-		if (searchQuery.trim() === "") {
-			setFilteredProfiles(profiles);
-		} else {
-			const results = profiles.filter(
-				(profile) =>
-					(profile.citizenid || "").includes(searchQuery) ||
-					(profile.firstname || "")
-						.toLowerCase()
-						.includes(searchQuery.toLowerCase()) ||
-					(profile.lastname || "")
-						.toLowerCase()
-						.includes(searchQuery.toLowerCase()) ||
-					(profile.firstname + " " + profile.lastname || "")
-						.toLowerCase()
-						.includes(searchQuery.toLowerCase())
-			);
-			setFilteredProfiles(results);
-		}
-	}, [searchQuery, filteredProfiles]);
+	const pages = useMemo(() => {
+		if (!data) return [];
+		return data.pages.flatMap((page) => page.profiles);
+	}, [data]);
 
 	return (
 		<div className='content-width'>
@@ -88,46 +44,23 @@ const ProfileList = (props: ProfileListProps) => {
 				<div className='profiles-card-content'>
 					<ScrollArea h={860}>
 						<div className='profiles-card-content-flex'>
-							{isLoading ? (
-								<Center h={"100%"}>
+							{isDebouncing || isFetching ? (
+								<div
+									style={{
+										display: "flex",
+										justifyContent: "center",
+										alignItems: "center",
+									}}
+								>
 									<Loader />
-								</Center>
-							) : filteredProfiles.length > 0 ? (
-								filteredProfiles.map((profile) => (
-									<div
-										className='profile-card'
-										onClick={() => props.handleProfileClick(profile)}
+								</div>
+							) : pages.length > 0 ? (
+								pages.map((profile, i) => (
+									<PartialProfile
 										key={profile.citizenid}
-									>
-										<Image
-											width={65}
-											height={65}
-											src={
-												profile.image ??
-												"https://cdn.vectorstock.com/i/preview-1x/97/68/account-avatar-dark-mode-glyph-ui-icon-vector-44429768.jpg"
-											}
-											radius={"lg"}
-											alt='With default placeholder'
-											withPlaceholder
-										/>
-
-										<div>
-											<Text
-												weight={600}
-												style={{ fontSize: 13, color: "white" }}
-											>
-												{profile.firstname} {profile.lastname}
-											</Text>
-
-											<Text style={{ fontSize: 12, color: "white" }}>
-												{locales.dob}: {dayjs(profile.dob).format("DD/MM/YYYY")}
-											</Text>
-
-											<Text style={{ fontSize: 12, color: "white" }}>
-												{locales.citizen_id}: {profile.citizenid}
-											</Text>
-										</div>
-									</div>
+										profile={profile}
+										ref={i === pages.length - 2 ? ref : null}
+									/>
 								))
 							) : (
 								<Text color='dimmed' size='xs'>

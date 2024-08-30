@@ -19,4 +19,12 @@ function utils.cleanTable(tab)
     return newTable
 end
 
+function utils.dbSearch(fn, search, offset)
+    if not search or search == '' then
+        return fn({ offset })
+    end
+
+    return fn({ search, offset }, true)
+end
+
 return utils

@@ -2,6 +2,7 @@ local db = {}
 local config = require 'config'
 local framework = require(('server.framework.%s'):format(config.framework))
 local profileCards = require 'server.profileCards'
+local utils = require 'server.utils'
 
 function createRecentActivity(citizenid, category, type, activityid)
     local insertRecentActivityQuery = [[
@@ -68,6 +69,11 @@ end
 -- Profiles
 function db.selectAllProfiles()
     return framework.getAllProfiles()
+end
+
+function db.selectProfiles(page, search)
+    local offset = (page - 1) * 10
+    return utils.dbSearch(framework.getProfiles, search, offset)
 end
 
 function db.selectCharacterProfile(citizenid)

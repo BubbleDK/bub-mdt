@@ -365,6 +365,7 @@ serverNuiCallback('getWarrants')
 -- Profiles
 serverNuiCallback('getAllProfiles')
 serverNuiCallback('getProfile')
+serverNuiCallback('getProfiles')
 serverNuiCallback('saveProfileNotes')
 serverNuiCallback('isProfileWanted')
 serverNuiCallback('updateProfileImage')

@@ -2,6 +2,8 @@ import { create } from "zustand";
 import { isEnvBrowser } from "../utils/misc";
 import { fetchNui } from "../utils/fetchNui";
 import { CustomProfileData, PartialProfileData, Profile } from "../typings";
+import { useDebouncedValue } from "../utils/useDebouncedValue";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 export type Playerdata = {
 	citizenid: string;
@@ -81,11 +83,46 @@ const DEBUG_PROFILECARDS: CustomProfileData[] = [
 	{ id: "vehicles", title: "Vehicles", icon: "car" },
 ];
 
+const getProfiles = async (
+	page: number,
+	search?: string
+): Promise<{ hasMore: boolean; profiles: PartialProfileData[] }> => {
+	if (isEnvBrowser()) {
+		return {
+			hasMore: true,
+			profiles: DEBUG_PROFILES.slice((page - 1) * 10, page * 10),
+		};
+	}
+	return await fetchNui<{ hasMore: boolean; profiles: PartialProfileData[] }>(
+		"getProfiles",
+		{ page, search },
+		{ data: { hasMore: false, profiles: [] } }
+	);
+};
+
+export function useProfilesQuery(value: string) {
+	const { debouncedValue, isDebouncing } = useDebouncedValue(value);
+
+	const queryInfo = useInfiniteQuery({
+		queryKey: ["profiles", debouncedValue],
+		queryFn: async ({ queryKey, pageParam = 1 }) => {
+			return await getProfiles(pageParam, queryKey[1]);
+		},
+		initialPageParam: 1,
+		getNextPageParam: (lastPage, pages) => {
+			if (!lastPage.hasMore) return;
+			return pages.length + 1;
+		},
+	});
+
+	return { ...queryInfo, isDebouncing };
+}
+
 type ProfilesStore = {
 	selectedProfile: Profile | null;
 	profileCards: CustomProfileData[];
 	isProfileWanted: boolean;
-	getPlayers: () => Promise<{ profiles: PartialProfileData[] }>;
+	getProfiles: () => Promise<{ profiles: PartialProfileData[] }>;
 	setSelectedProfile: (profile: Profile | null) => void;
 	setProfileCards: (cards: CustomProfileData[]) => void;
 	setIsProfileWanted: (isWanted: boolean) => void;
@@ -95,7 +132,7 @@ const useProfilesStore = create<ProfilesStore>((set) => ({
 	profileCards: [],
 	selectedProfile: null,
 	isProfileWanted: false,
-	getPlayers: async (): Promise<{ profiles: PartialProfileData[] }> => {
+	getProfiles: async (): Promise<{ profiles: PartialProfileData[] }> => {
 		if (isEnvBrowser()) {
 			return { profiles: DEBUG_PROFILES };
 		}

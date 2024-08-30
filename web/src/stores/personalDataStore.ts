@@ -7,6 +7,7 @@ const DEBUG_CHARACTER: Character = {
 	firstname: "Bubble",
 	lastname: "Test",
 	role: "Chief",
+	grade: 4,
 	image: "https://i.imgur.com/P4uYdfu.jpeg",
 	callSign: 103,
 	unit: 1,
@@ -27,6 +28,7 @@ const usePersonalDataStore = create<PersonalDataState>((set) => ({
 				role: "",
 				image: "",
 				callSign: 0,
+				grade: 0,
 		  },
 
 	// Actions
