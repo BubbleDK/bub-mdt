@@ -53,7 +53,7 @@ end
 local function openMdt()
     local isAuthorised, callSign = lib.callback.await('mdt:openMdt', 500)
 
-    if not isAuthorised then return framework.notify('You do not have access to the MDT', 'error') end
+    if not isAuthorised then return end
 
     isMdtOpen = true
 
