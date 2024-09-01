@@ -1,78 +1,30 @@
 import { Center, Input, Loader, ScrollArea, Stack, Text } from "@mantine/core";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { modals } from "@mantine/modals";
 import { IconSearch, IconUserX } from "@tabler/icons-react";
-import { useProfilesStore } from "../../../../../../stores";
 import { PartialProfileData } from "../../../../../../typings";
 import { fetchNui } from "../../../../../../utils/fetchNui";
 import useReportStore from "../../../../../../stores/reports/report";
 import locales from "../../../../../../locales";
+import { removePages } from "../../../../../../helpers/removePages";
+import { useProfilesQuery } from "../../../../../../stores/profilesStore";
+import { useInfiniteScroll } from "../../../../../../hooks/useInfiniteScroll";
 
 const AddCitizenModal: React.FC = () => {
 	const { report, setCitizensInvolved } = useReportStore();
 	const [searchQuery, setSearchQuery] = useState("");
-	const [profiles, setProfiles] = useState<PartialProfileData[]>([]);
-	const { getProfiles } = useProfilesStore();
-	const [filteredProfiles, setFilteredProfiles] = useState(profiles);
-	const DEBOUNCE_DELAY = 500;
-	const [debouncedSearchQuery, setDebouncedSearchQuery] = useState(searchQuery);
-	const [isLoading, setIsLoading] = useState(false);
-	const [timer, setTimer] = useState<number | null>(null);
+	const { data, fetchNextPage, isFetching, isDebouncing } =
+		useProfilesQuery(searchQuery);
+	const { ref } = useInfiniteScroll(() => fetchNextPage());
 
 	useEffect(() => {
-		if (timer !== null) {
-			clearTimeout(timer);
-		}
-
-		setIsLoading(true);
-
-		const newTimer = setTimeout(() => {
-			setDebouncedSearchQuery(searchQuery);
-			setIsLoading(false);
-		}, DEBOUNCE_DELAY);
-
-		setTimer(newTimer);
-
-		return () => {
-			clearTimeout(newTimer);
-		};
-	}, [searchQuery]);
-
-	useEffect(() => {
-		if (debouncedSearchQuery.trim() === "") {
-			setFilteredProfiles(profiles);
-		} else {
-			const results = profiles.filter(
-				(profile) =>
-					(profile.citizenid || "")
-						.toLowerCase()
-						.includes(searchQuery.toLowerCase()) ||
-					(profile.firstname || "")
-						.toLowerCase()
-						.includes(searchQuery.toLowerCase()) ||
-					(profile.lastname || "")
-						.toLowerCase()
-						.includes(searchQuery.toLowerCase()) ||
-					(profile.firstname + " " + profile.lastname || "")
-						.toLowerCase()
-						.includes(searchQuery.toLowerCase())
-			);
-			setFilteredProfiles(results);
-		}
-	}, [debouncedSearchQuery, profiles]);
-
-	useEffect(() => {
-		setIsLoading(true);
-		const fetchData = async () => {
-			return await getProfiles();
-		};
-
-		fetchData().then((data) => {
-			setProfiles(data.profiles);
-			setFilteredProfiles(data.profiles);
-			setIsLoading(false);
-		});
+		return () => removePages(["profiles"]);
 	}, []);
+
+	const pages = useMemo(() => {
+		if (!data) return [];
+		return data.pages.flatMap((page) => page.profiles);
+	}, [data]);
 
 	const handleSubmit = async (citizen: PartialProfileData) => {
 		if (report.citizensInvolved.some((o) => o.citizenid === citizen.citizenid))
@@ -109,15 +61,16 @@ const AddCitizenModal: React.FC = () => {
 				onChange={(e) => setSearchQuery(e.target.value)}
 			/>
 
-			{isLoading ? (
+			{isDebouncing || isFetching ? (
 				<Center>
 					<Loader />
 				</Center>
-			) : filteredProfiles.length > 0 ? (
+			) : pages.length > 0 ? (
 				<ScrollArea h={280}>
 					<div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-						{filteredProfiles.map((profile) => (
+						{pages.map((profile, i) => (
 							<div
+								ref={i === pages.length - 2 ? ref : null}
 								className='add-officer-card'
 								onClick={() => handleSubmit(profile)}
 								key={profile.citizenid}
