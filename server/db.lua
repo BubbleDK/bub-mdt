@@ -271,8 +271,8 @@ function db.getOfficers()
     return framework.getOfficers()
 end
 
-function db.searchCharacters()
-    return framework.getCharacters()
+function db.searchCharacters(search)
+    return utils.dbSearch(framework.getCharacters, search)
 end
 
 -- Reports

@@ -575,8 +575,22 @@ local selectCharacters = [[
         players
 ]]
 
-function qb.getCharacters()
-    local queryResult = MySQL.rawExecute.await(selectCharacters)
+local selectCharactersFilter = [[
+    WHERE 
+        players.citizenid LIKE ?
+        OR CONCAT(
+            JSON_UNQUOTE(JSON_EXTRACT(players.charinfo, '$.firstname')),
+            ' ',
+            JSON_UNQUOTE(JSON_EXTRACT(players.charinfo, '$.lastname'))
+        ) LIKE ?
+]]
+
+function qb.getCharacters(parameters, filter)
+    local searchInput = parameters[1]
+    local params = { "%" .. searchInput .. "%", "%" .. searchInput .. "%" }
+    local query = filter and selectCharactersFilter or selectCharacters
+
+    local queryResult = MySQL.rawExecute.await(query, params)
     local characters = {}
 
     for _, v in pairs(queryResult) do

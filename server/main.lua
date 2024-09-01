@@ -132,8 +132,8 @@ utils.registerCallback('mdt:removeCriminal', function(source, data)
     return db.removeCriminal(data.id, data.criminalId)
 end)
 
-utils.registerCallback('mdt:getCriminalProfiles', function(source)
-    return db.searchCharacters()
+utils.registerCallback('mdt:getCriminalProfiles', function(source, search)
+    return db.searchCharacters(search)
 end)
 
 utils.registerCallback('mdt:saveCriminal', function(source, data)
