@@ -639,7 +639,10 @@ local selectVehicle = [[
 
 function qb.getVehicle(plate)
     local response = MySQL.rawExecute.await(selectVehicle, {plate})?[1]
-    local player = QBCore.Functions.GetPlayerByCitizenId(response.citizenid)
+    local player = QBCore.Functions.GetPlayerByCitizenId(response.citizenid) or QBCore.Player.GetOfflinePlayer(response.citizenid)
+
+    if not player then return end
+
     local data = {
         plate = response.plate,
         vehicle = response.vehicle,
@@ -654,13 +657,10 @@ function qb.getVehicle(plate)
 end
 
 function qb.hireOfficer(data)
-    local player
-    
-    if QBCore.Functions.GetPlayerByCitizenId(data.citizenid) then
-        player = QBCore.Functions.GetPlayerByCitizenId(data.citizenid)
-    else
-        player = QBCore.Player.GetOfflinePlayer(data.citizenid)
-    end
+    local player = QBCore.Functions.GetPlayerByCitizenId(data.citizenid) or QBCore.Player.GetOfflinePlayer(data.citizenid)
+
+    if not player then return end
+
     player.Functions.SetJob('police', 1)
 
     local success = MySQL.prepare.await('INSERT INTO `mdt_profiles` (`citizenid`, `callsign`, `lastActive`) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE `callsign` = ?, `lastActive` = ?', { data.citizenid, data.callsign, os.date("%Y-%m-%d %H:%M:%S"), data.callsign, os.date("%Y-%m-%d %H:%M:%S") })
@@ -669,13 +669,9 @@ function qb.hireOfficer(data)
 end
 
 function qb.fireOfficer(citizenId)
-    local player
+    local player = QBCore.Functions.GetPlayerByCitizenId(citizenId) or QBCore.Player.GetOfflinePlayer(citizenId)
 
-    if QBCore.Functions.GetPlayerByCitizenId(citizenId) then
-        player = QBCore.Functions.GetPlayerByCitizenId(citizenId)
-    else
-        player = QBCore.Player.GetOfflinePlayer(citizenId)
-    end
+    if not player then return false end
 
     player.Functions.SetJob('unemployed', 0)
     MySQL.prepare.await('UPDATE `mdt_profiles` SET `callsign` = ? WHERE `citizenid` = ?', { nil, citizenId })
@@ -684,13 +680,9 @@ function qb.fireOfficer(citizenId)
 end
 
 function qb.setOfficerRank(data)
-    local player
-    
-    if QBCore.Functions.GetPlayerByCitizenId(data.citizenId) then
-        player = QBCore.Functions.GetPlayerByCitizenId(data.citizenId)
-    else
-        player = QBCore.Player.GetOfflinePlayer(data.citizenId)
-    end
+    local player = QBCore.Functions.GetPlayerByCitizenId(data.citizenId) or QBCore.Player.GetOfflinePlayer(data.citizenId)
+
+    if not player then return false end
 
     player.Functions.SetJob('police', data.grade)
 

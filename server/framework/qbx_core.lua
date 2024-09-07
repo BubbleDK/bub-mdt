@@ -650,7 +650,10 @@ local selectVehicle = [[
 
 function qbx.getVehicle(plate)
     local response = MySQL.rawExecute.await(selectVehicle, {plate})?[1]
-    local player = exports.qbx_core:GetPlayerByCitizenId(response.citizenid)
+    local player = exports.qbx_core:GetPlayerByCitizenId(response.citizenid) or exports.qbx_core:GetOfflinePlayer(response.citizenid)
+
+    if not player then return end
+
     local data = {
         plate = response.plate,
         vehicle = response.vehicle,
