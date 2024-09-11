@@ -575,7 +575,7 @@ local selectCharacters = [[
         players
 ]]
 
-local selectCharactersFilter = [[
+local selectCharactersFilter = selectCharacters .. [[
     WHERE 
         players.citizenid LIKE ?
         OR CONCAT(
@@ -583,6 +583,8 @@ local selectCharactersFilter = [[
             ' ',
             JSON_UNQUOTE(JSON_EXTRACT(players.charinfo, '$.lastname'))
         ) LIKE ?
+    GROUP BY
+        players.citizenid
 ]]
 
 function qb.getCharacters(parameters, filter)
