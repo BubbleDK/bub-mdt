@@ -225,27 +225,29 @@ RegisterNetEvent('mdt:updateOfficerPositions', function(data)
         local officer = data[i]
 
         if officer.citizenid ~= player.citizenid then
-        local blip = officerBlips[officer.citizenid]
-
-        if not blip then
-            local name = ('police:%s'):format(officer.citizenid)
-            
-            blip = AddBlipForCoord(officer.position[2], officer.position[1], officer.position[3])
-            officerBlips[officer.citizenid] = blip
-
-            SetBlipSprite(blip, 1)
-            SetBlipDisplay(blip, 3)
-            SetBlipColour(blip, 42)
-            ShowFriendIndicatorOnBlip(blip, true)
-            AddTextEntry(name, ('%s %s (%s)'):format(officer.firstname, officer.lastname, officer.callsign))
-            BeginTextCommandSetBlipName(name)
-            EndTextCommandSetBlipName(blip)
-            SetBlipCategory(blip, 7)
-        else
-            SetBlipCoords(blip, officer.position[2], officer.position[1], officer.position[3])
-        end
+            local blip = officerBlips[officer.citizenid]
+    
+            if not blip then
+                local name = ('police:%s'):format(officer.citizenid)
+                
+                blip = AddBlipForCoord(officer.position[2], officer.position[1], officer.position[3])
+                officerBlips[officer.citizenid] = blip
+    
+                SetBlipSprite(blip, 1)
+                SetBlipDisplay(blip, 3)
+                SetBlipColour(blip, 42)
+                ShowFriendIndicatorOnBlip(blip, true)
+                AddTextEntry(name, ('%s %s (%s)'):format(officer.firstname, officer.lastname, officer.callsign))
+                BeginTextCommandSetBlipName(name)
+                EndTextCommandSetBlipName(blip)
+                SetBlipCategory(blip, 7)
+            else
+                SetBlipCoords(blip, officer.position[2], officer.position[1], officer.position[3])
+            end
         end
     end
+
+    if not hasLoadedUi then return end
 
     SendNUIMessage({
         action = 'updateOfficerPositions',
