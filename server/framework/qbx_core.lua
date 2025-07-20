@@ -1,4 +1,5 @@
 local officers = require 'server.officers'
+local leoJobSet = {}
 
 local function addOfficer(playerId)
     if officers.get(playerId) then return end
@@ -7,6 +8,7 @@ local function addOfficer(playerId)
     if player and player.PlayerData.job.type == 'leo' then
         officers.add(playerId, player.PlayerData.charinfo.firstname, player.PlayerData.charinfo.lastname, player.PlayerData.citizenid)
         MySQL.prepare.await('INSERT INTO `mdt_profiles` (`citizenid`, `image`, `notes`, `lastActive`) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE `lastActive` = NOW()', { player.PlayerData.citizenid, nil, nil })
+        leoJobSet[player.PlayerData.job.name] = true
     end
 end
 
@@ -478,7 +480,7 @@ function qbx.getCriminalCharges(parameters)
   ]], parameters)
 end
 
-local selectOfficers = [[
+local selectOfficers = ([[
     SELECT
         mdt_profiles.id,
         players.charinfo,
@@ -498,12 +500,12 @@ local selectOfficers = [[
     ON
         players.citizenid = mdt_profiles.citizenid
     WHERE
-        player_groups.group IN ("police")
-]]
+        player_groups.group IN (%s)
+]]):format(inClause)
 
 function qbx.getOfficers()
     local query = selectOfficers
-    local queryResult = MySQL.rawExecute.await(query)
+    local queryResult = MySQL.prepare.await(selectOfficers, jobNames)    
     local officers = {}
 
     for _, v in pairs(queryResult) do
@@ -519,7 +521,14 @@ function qbx.getOfficers()
     return officers
 end
 
-local selectOfficersForRoster = [[
+local jobNames = {}
+for jobName in pairs(leoJobSet) do
+    table.insert(jobNames, "'" .. jobName .. "'")
+end
+
+local inClause = table.concat(jobNames, ",")
+
+local selectOfficersForRoster = ([[
     SELECT
         mdt_profiles.id,
         players.charinfo,
@@ -533,24 +542,17 @@ local selectOfficersForRoster = [[
         mdt_profiles.mc,
         mdt_profiles.k9,
         mdt_profiles.fto,
-        DATE_FORMAT(mdt_profiles.lastActive, "%Y-%m-%d %T") AS formatted_lastActive
+        DATE_FORMAT(mdt_profiles.lastActive, "%%Y-%%m-%%d %%T") AS formatted_lastActive
     FROM
         player_groups
-    LEFT JOIN
-        players
-    ON
-        player_groups.citizenid = players.citizenid
-    LEFT JOIN
-        mdt_profiles
-    ON
-        players.citizenid = mdt_profiles.citizenid
-    WHERE
-        player_groups.group IN ("police")
-]]
+    LEFT JOIN players ON player_groups.citizenid = players.citizenid
+    LEFT JOIN mdt_profiles ON players.citizenid = mdt_profiles.citizenid
+    WHERE player_groups.group IN (%s)
+]]):format(inClause)
 
 function qbx.fetchRoster()
     local query = selectOfficersForRoster
-    local queryResult = MySQL.rawExecute.await(query)
+    local queryResult = MySQL.prepare.await(selectOfficersForRoster, jobNames)    
     local rosterOfficers = {}
 
     local job = exports.qbx_core:GetJob('police')
