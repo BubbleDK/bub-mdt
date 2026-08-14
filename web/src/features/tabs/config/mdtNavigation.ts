@@ -32,7 +32,14 @@ const navigationByPath = new Map(
 );
 
 export function getMdtNavigationItem(path: string): MdtNavigationItem {
-    return navigationByPath.get(path) ?? {
+    const exactMatch = navigationByPath.get(path);
+    if (exactMatch) return exactMatch;
+
+    const parentRoute = MDT_NAVIGATION.find(
+        (item) => item.path !== "/" && path.startsWith(`${item.path}/`)
+    );
+
+    return parentRoute ?? {
         label: "MDT",
         path,
         icon: House,

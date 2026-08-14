@@ -9,7 +9,7 @@ import Dashboard from "../../dashboard/ui/Dashboard";
 import Charges from "../../mdt/pages/Charges";
 import Dispatch from "../../mdt/pages/Dispatch";
 import Incidents from "../../mdt/pages/Incidents";
-import Profiles from "../../mdt/pages/Profiles";
+import Profiles from "../../profiles/ui/Profiles";
 import Reports from "../../mdt/pages/Reports";
 import Vehicles from "../../mdt/pages/Vehicles";
 import Roster from "../../mdt/pages/Roster";
@@ -49,7 +49,7 @@ const InnerRouter = ({ tabId }: { tabId: string }) => {
             <div className="flex-1 p-2 text-white relative h-full w-full">
                 <Routes>
                     <Route path="/" element={<Dashboard />} />
-                    <Route path="/profiles" element={<Profiles />} />
+                    <Route path="/profiles/*" element={<Profiles />} />
                     <Route path="/incidents" element={<Incidents />} />
                     <Route path="/reports" element={<Reports />} />
                     <Route path="/vehicles" element={<Vehicles />} />
