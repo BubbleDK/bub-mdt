@@ -1,12 +1,12 @@
-import LspdLogo from "../assets/lspd.png";
-import Avatar from "../assets/default-avatar-profile.png";
-import { usePersonalDataStore } from "../stores";
+import LspdLogo from "../../../assets/lspd.png";
+import Avatar from "../../../assets/default-avatar-profile.png";
+import { usePersonalDataStore } from "../../../stores";
 
 interface HeaderProps {
     setOpen: (open: boolean) => void;
 }
 
-export const Header = (props: HeaderProps) => {
+export const MdtHeader = (props: HeaderProps) => {
     const personalData = usePersonalDataStore((state) => state.personalData);
 
     return (

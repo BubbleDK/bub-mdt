@@ -1,18 +1,19 @@
 import { useEffect, useState } from "react";
-import { Tabs } from "../../components/Tabs";
-import { useTabStore } from "../../stores/tabStore.tsx";
-import { Header } from "../../components/Header.tsx";
-import CommandPalette from "../../components/CommandPalette.tsx";
+import { TabBar } from "../../tabs/ui/TabBar";
+import { createTabWindow } from "../../tabs/lib/createTabWindow";
+import { useTabStore } from "../../tabs/model/useTabStore";
+import { MdtHeader } from "./MdtHeader";
+import { CommandPalette } from "./CommandPalette";
 
-function MDT() {
+export default function MdtShell() {
     const tabs = useTabStore((state) => state.tabs);
     const activeTabId = useTabStore((state) => state.activeTabId);
     const ensureDefaultTab = useTabStore((state) => state.ensureDefaultTab);
     const [isPaletteOpen, setPaletteOpen] = useState(false);
 
     useEffect(() => {
-        ensureDefaultTab();
-    }, []);
+        ensureDefaultTab(createTabWindow);
+    }, [ensureDefaultTab]);
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -34,8 +35,8 @@ function MDT() {
         <div className="w-[1770px] h-[980px] rounded-lg bg-brand-dark shadow-lg flex flex-col relative">
             <CommandPalette open={isPaletteOpen} setOpen={setPaletteOpen} />
 
-            <Header setOpen={setPaletteOpen} />
-            <Tabs />
+            <MdtHeader setOpen={setPaletteOpen} />
+            <TabBar />
 
             <div className="flex-1 relative">
                 {tabs.map((tab) => (
@@ -54,5 +55,3 @@ function MDT() {
         </div>
     );
 }
-
-export default MDT;

@@ -1,9 +1,6 @@
 import { useDraggable } from "@dnd-kit/core";
 import { Rnd } from "react-rnd";
-import {
-    GRID_CELL_WIDTH,
-    GRID_CELL_HEIGHT,
-} from "../layout/mdt/pages/dashboard/Dashboard";
+import { GRID_CELL_HEIGHT, GRID_CELL_WIDTH } from "../model/dashboardGrid";
 import { memo } from "react";
 
 interface Props {
@@ -16,7 +13,7 @@ interface Props {
     containerSize: { width: number; height: number };
 }
 
-export const DraggableResizableWidget = memo(
+export const DashboardWidget = memo(
     ({ id, x, y, w, h, onResize }: Props) => {
         const { attributes, listeners, setNodeRef, transform } = useDraggable({
             id,

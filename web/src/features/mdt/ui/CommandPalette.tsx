@@ -8,7 +8,7 @@ interface CommandPaletteProps {
     setOpen: (open: boolean) => void;
 }
 
-export default function CommandPalette({ open, setOpen }: CommandPaletteProps) {
+export function CommandPalette({ open, setOpen }: CommandPaletteProps) {
     const panelRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
 

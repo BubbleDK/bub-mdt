@@ -1,8 +1,8 @@
-import { v4 as uuidv4 } from "uuid";
-import { useTabStore, type Tab } from "../stores/tabStore.tsx";
-import { BaseComponent } from "./BaseComponent";
+import { useTabStore } from "../model/useTabStore";
+import type { TabWindow } from "../model/tabTypes";
+import { createTabWindow } from "../lib/createTabWindow";
 import { IconPlus, IconX } from "@tabler/icons-react";
-import { House, type LucideProps } from "lucide-react";
+import type { LucideProps } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
     DndContext,
@@ -143,12 +143,12 @@ const DraggedTabPreview: React.FC<SortableTabProps> = ({
     );
 };
 
-export const Tabs = () => {
+export const TabBar = () => {
     const tabs = useTabStore((s) => s.tabs);
     const activeTabId = useTabStore((s) => s.activeTabId);
     const addTab = useTabStore((s) => s.addTab);
     const moveTab = useTabStore((s) => s.moveTab);
-    const [activeTab, setActiveTab] = useState<Tab | null>(null);
+    const [activeTab, setActiveTab] = useState<TabWindow | null>(null);
     const tabIds = useMemo(() => tabs.map((tab) => tab.id), [tabs]);
 
     const sensors = useSensors(
@@ -162,13 +162,7 @@ export const Tabs = () => {
     );
 
     const handleAdd = useCallback(() => {
-        const id = uuidv4();
-        addTab({
-            id,
-            label: "Home",
-            icon: House,
-            component: <BaseComponent tabId={id} />,
-        });
+        addTab(createTabWindow());
     }, [addTab]);
 
     const handleDragEnd = useCallback((event: DragEndEvent) => {

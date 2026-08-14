@@ -1,5 +1,5 @@
 import { useNuiEvent } from "./hooks/useNuiEvent";
-import MDT from "./layout/mdt/MDT";
+import MdtShell from "./features/mdt/ui/MdtShell";
 import useConfigStore from "./stores/configStore";
 import type { Config } from "./typings";
 
@@ -12,7 +12,7 @@ function App() {
 
     return (
         <div className="flex h-full w-full items-center justify-center">
-            <MDT />
+            <MdtShell />
         </div>
     );
 }
