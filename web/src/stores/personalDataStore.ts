@@ -4,9 +4,9 @@ import type { Character } from "../typings";
 
 const DEBUG_CHARACTER: Character = {
     citizenid: "1993201",
-    firstname: "Bubble",
-    lastname: "Test",
-    role: "Chief",
+    firstname: "John",
+    lastname: "Doe",
+    role: "Chief of Police",
     grade: 4,
     image: "https://i.imgur.com/P4uYdfu.jpeg",
     callSign: 103,

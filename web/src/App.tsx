@@ -4,7 +4,7 @@ import useConfigStore from "./stores/configStore";
 import type { Config } from "./typings";
 
 function App() {
-    const { setConfig } = useConfigStore();
+    const setConfig = useConfigStore((state) => state.setConfig);
 
     useNuiEvent("setConfig", (data: { config: Config }) => {
         setConfig(data.config);

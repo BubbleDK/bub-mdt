@@ -16,9 +16,20 @@ import Vehicles from "../layout/mdt/pages/vehicles/Vehicles";
 import Roster from "../layout/mdt/pages/roster/Roster";
 import { useTabStore } from "../stores/tabStore.tsx";
 import { useEffect } from "react";
+import {
+    House,
+    User,
+    ScrollText,
+    FolderClosed,
+    CarFront,
+    Radio,
+    Users,
+    Scale,
+    type LucideProps,
+} from "lucide-react";
 
 const routeLabelMap: Record<string, string> = {
-    "/": "Dashboard",
+    "/": "Home",
     "/profiles": "Profiles",
     "/incidents": "Incidents",
     "/reports": "Reports",
@@ -26,6 +37,22 @@ const routeLabelMap: Record<string, string> = {
     "/dispatch": "Dispatch",
     "/roster": "Roster",
     "/charges": "Charges",
+};
+
+const routeIconMap: Record<
+    string,
+    React.ForwardRefExoticComponent<
+        Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>
+    >
+> = {
+    "/": House,
+    "/profiles": User,
+    "/incidents": ScrollText,
+    "/reports": FolderClosed,
+    "/vehicles": CarFront,
+    "/dispatch": Radio,
+    "/roster": Users,
+    "/charges": Scale,
 };
 
 type BaseComponentProps = {
@@ -46,18 +73,20 @@ export const BaseComponent = ({
 
 const InnerRouter = ({ tabId }: { tabId: string }) => {
     const location = useLocation();
-    const { updateTabLabel } = useTabStore();
+    const updateTabMeta = useTabStore((state) => state.updateTabMeta);
 
     useEffect(() => {
         const path = location.pathname;
+
         const label = routeLabelMap[path] ?? "MDT";
-        updateTabLabel(tabId, label);
-    }, [location.pathname]);
+        const icon = routeIconMap[path] ?? House;
+        updateTabMeta(tabId, label, icon);
+    }, [location.pathname, tabId, updateTabMeta]);
 
     return (
-        <div className="flex w-full h-full overflow-hidden">
+        <div className="flex w-full h-full rounded-b-lg relative">
             <Sidebar />
-            <div className="flex-1 p-4 overflow-auto bg-gray-900 text-white">
+            <div className="flex-1 p-2 text-white relative h-full w-full">
                 <Routes>
                     <Route path="/" element={<Dashboard />} />
                     <Route path="/profiles" element={<Profiles />} />
