@@ -1,10 +1,8 @@
 import { motion } from "framer-motion";
 import { ArrowLeft, LoaderCircle, UserRound } from "lucide-react";
-import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import useProfilesStore from "../../../stores/profilesStore";
 import type { PartialProfileData } from "../../../typings";
-import { plainTextNotes } from "../lib/profileFormatters";
 import { useProfile } from "../model/useProfiles";
 import { ProfileHero } from "./detail/ProfileHero";
 import {
@@ -28,12 +26,7 @@ export function ProfileDetailPage() {
         citizenId,
         summary
     );
-    const [notes, setNotes] = useState("");
     const profile = profileQuery.data;
-
-    useEffect(() => {
-        if (profile) setNotes(plainTextNotes(profile.notes));
-    }, [profile]);
 
     if (profileQuery.isLoading) return <ProfileLoadingState />;
     if (!profile) {
@@ -43,13 +36,6 @@ export function ProfileDetailPage() {
     const profileCards = configuredCards.length
         ? configuredCards
         : DEFAULT_PROFILE_CARDS;
-
-    const updateNotes = (value: string) => {
-        if (notesMutation.isSuccess || notesMutation.isError) {
-            notesMutation.reset();
-        }
-        setNotes(value);
-    };
 
     return (
         <motion.main
@@ -72,12 +58,8 @@ export function ProfileDetailPage() {
 
                 <div className="mt-5 grid grid-cols-[minmax(0,1.2fr)_minmax(300px,0.8fr)] items-stretch gap-5">
                     <ProfileNotesPanel
-                        notes={notes}
-                        onChange={updateNotes}
-                        onSave={() => notesMutation.mutate(notes)}
-                        isSaving={notesMutation.isPending}
-                        isSaved={notesMutation.isSuccess}
-                        hasError={notesMutation.isError}
+                        notes={profile.notes ?? "<p></p>"}
+                        onSave={(value) => notesMutation.mutateAsync(value)}
                     />
                     <ProfileInformation profile={profile} cards={profileCards} />
                 </div>

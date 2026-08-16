@@ -33,3 +33,27 @@ body {
     background-color: #6b6b6b;
     border-radius: 5px;
 }
+
+.incident-rich-editor__content {
+    min-height: 100%;
+    box-sizing: border-box;
+    padding: 1rem;
+    color: #d4d4d4;
+    font-size: 0.875rem;
+    line-height: 1.75;
+    outline: none;
+}
+
+.incident-rich-editor__content p.is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    color: #525252;
+    pointer-events: none;
+}
+
+.incident-rich-editor__content ul { list-style: disc; padding-left: 1.5rem; }
+.incident-rich-editor__content ol { list-style: decimal; padding-left: 1.5rem; }
+.incident-rich-editor__content a { color: #60a5fa; text-decoration: underline; }
+.incident-rich-editor__content hr { margin: 1rem 0; border-color: rgba(255, 255, 255, 0.1); }
+.incident-rich-editor__content blockquote { border-left: 3px solid #3b82f6; padding-left: 1rem; color: #a3a3a3; }

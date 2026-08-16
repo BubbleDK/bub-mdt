@@ -50,7 +50,7 @@ const InnerRouter = ({ tabId }: { tabId: string }) => {
                 <Routes>
                     <Route path="/" element={<Dashboard />} />
                     <Route path="/profiles/*" element={<Profiles />} />
-                    <Route path="/incidents" element={<Incidents />} />
+                    <Route path="/incidents/*" element={<Incidents />} />
                     <Route path="/reports" element={<Reports />} />
                     <Route path="/vehicles" element={<Vehicles />} />
                     <Route path="/dispatch" element={<Dispatch />} />

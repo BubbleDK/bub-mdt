@@ -1,14 +1,13 @@
-import { DateValue } from "@mantine/dates";
-import { SelectedCharge } from "./charges";
-import { PartialProfileData } from "./profile";
-import { Officer } from "./officer";
+import type { SelectedCharge } from "./charges";
+import type { PartialProfileData } from "./profile";
+import type { Officer } from "./officer";
 
 export interface Criminal extends CriminalProfile {
 	charges: SelectedCharge[];
 	issueWarrant: boolean;
 	pleadedGuilty: boolean;
 	processed: boolean;
-	warrantExpiry?: DateValue;
+	warrantExpiry?: Date | string | null;
 	penalty: {
 		time: number;
 		fine: number;
