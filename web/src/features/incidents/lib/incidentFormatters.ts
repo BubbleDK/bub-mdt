@@ -30,7 +30,8 @@ export function createEvidence(
     }
 
     try {
-        new URL(evidence.image);
+        const url = new URL(evidence.image);
+        if (!["http:", "https:"].includes(url.protocol)) throw new Error("Unsupported protocol");
     } catch {
         return { error: "Enter a valid image URL." };
     }

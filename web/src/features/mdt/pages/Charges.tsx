@@ -1,5 +1,1 @@
-const Charges = () => {
-    return <div>Welcome to the Charges</div>;
-};
-
-export default Charges;
+export { default } from "../../charges/ui/ChargesPage";

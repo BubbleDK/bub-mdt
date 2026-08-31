@@ -14,13 +14,6 @@ import type { CustomProfileData, Profile } from "../../../../typings";
 import { formatDate } from "../../lib/profileFormatters";
 import { EmptyProfileData, ProfilePanel } from "./ProfilePanel";
 
-export const DEFAULT_PROFILE_CARDS: CustomProfileData[] = [
-    { id: "licenses", title: "Licenses", icon: "certificate" },
-    { id: "vehicles", title: "Vehicles", icon: "car" },
-    { id: "jobs", title: "Jobs", icon: "briefcase" },
-    { id: "properties", title: "Properties", icon: "building-skyscraper" },
-];
-
 export function ProfileInformation({
     profile,
     cards,
@@ -30,16 +23,30 @@ export function ProfileInformation({
 }) {
     return (
         <div className="flex h-full flex-col gap-5">
-            <ProfilePanel
-                title="Personal information"
-                icon={<IdCard />}
-                delay={0.14}
-            >
+            <ProfilePanel title="Personal information" icon={<IdCard />} delay={0.14}>
                 <div className="grid grid-cols-2 gap-3">
-                    <InformationField icon={<IdCard />} label="Citizen ID" value={profile.citizenid} mono />
-                    <InformationField icon={<CalendarDays />} label="Date of birth" value={formatDate(profile.dob)} />
-                    <InformationField icon={<Phone />} label="Phone number" value={profile.phoneNumber || "Not registered"} />
-                    <InformationField icon={<Fingerprint />} label="Fingerprint" value={profile.fingerprint || "Not registered"} mono />
+                    <InformationField
+                        icon={<IdCard />}
+                        label="Citizen ID"
+                        value={profile.citizenid}
+                        mono
+                    />
+                    <InformationField
+                        icon={<CalendarDays />}
+                        label="Date of birth"
+                        value={formatDate(profile.dob)}
+                    />
+                    <InformationField
+                        icon={<Phone />}
+                        label="Phone number"
+                        value={profile.phoneNumber || "Not registered"}
+                    />
+                    <InformationField
+                        icon={<Fingerprint />}
+                        label="Fingerprint"
+                        value={profile.fingerprint || "Not registered"}
+                        mono
+                    />
                 </div>
             </ProfilePanel>
 
@@ -79,20 +86,17 @@ function InformationField({
             <div className="mb-0.5 flex items-center gap-2 text-[11px] font-medium uppercase tracking-wider text-neutral-600 [&_svg]:h-3.5 [&_svg]:w-3.5">
                 {icon} {label}
             </div>
-            <p className={`truncate text-sm text-neutral-200 ${mono ? "font-mono" : ""}`} title={value}>
+            <p
+                className={`truncate text-sm text-neutral-200 ${mono ? "font-mono" : ""}`}
+                title={value}
+            >
                 {value}
             </p>
         </div>
     );
 }
 
-function ProfileDataGroup({
-    card,
-    values,
-}: {
-    card: CustomProfileData;
-    values: string[];
-}) {
+function ProfileDataGroup({ card, values }: { card: CustomProfileData; values: string[] }) {
     return (
         <div className="flex h-[122px] min-w-0 flex-col">
             <div className="mb-2 flex items-center justify-between">
@@ -117,9 +121,7 @@ function ProfileDataGroup({
                 </div>
             ) : (
                 <div className="flex min-h-0 flex-1 items-center [&>p]:w-full">
-                    <EmptyProfileData>
-                        No {card.title.toLowerCase()} registered
-                    </EmptyProfileData>
+                    <EmptyProfileData>No {card.title.toLowerCase()} registered</EmptyProfileData>
                 </div>
             )}
         </div>
@@ -133,10 +135,15 @@ function getCardValues(profile: Profile, cardId: string): string[] {
 
 function getProfileCardIcon(id: string): ReactNode {
     switch (id) {
-        case "licenses": return <BadgeCheck />;
-        case "vehicles": return <CarFront />;
-        case "jobs": return <BriefcaseBusiness />;
-        case "properties": return <Building2 />;
-        default: return <ClipboardList />;
+        case "licenses":
+            return <BadgeCheck />;
+        case "vehicles":
+            return <CarFront />;
+        case "jobs":
+            return <BriefcaseBusiness />;
+        case "properties":
+            return <Building2 />;
+        default:
+            return <ClipboardList />;
     }
 }

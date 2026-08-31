@@ -40,7 +40,7 @@ export function ProfileSearchPage() {
             className="flex h-full flex-col overflow-hidden bg-transparent"
         >
             <header className="border-b border-white/[0.07] px-7 pb-6 pt-7">
-                <div className="mb-6 flex items-end justify-between">
+                <div className="mb-6 flex flex-wrap gap-3 items-end justify-between">
                     <div>
                         <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-blue-400">
                             <Users className="h-4 w-4" />
@@ -118,7 +118,7 @@ export function ProfileSearchPage() {
                         variants={listAnimation}
                         initial="hidden"
                         animate="visible"
-                        className="grid grid-cols-2 gap-3"
+                        className="profile-search-grid grid grid-cols-2 gap-3"
                     >
                         {profiles.map((profile) => (
                             <ProfileSearchCard

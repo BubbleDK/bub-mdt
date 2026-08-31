@@ -2,6 +2,10 @@ import { Command } from "cmdk";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef } from "react";
 import { FocusTrap } from "focus-trap-react";
+import { MDT_NAVIGATION } from "../../tabs/config/mdtNavigation";
+import { useTabStore } from "../../tabs/model/useTabStore";
+import { createTabWindow } from "../../tabs/lib/createTabWindow";
+import useConfigStore from "../../../stores/configStore";
 
 interface CommandPaletteProps {
     open: boolean;
@@ -11,6 +15,8 @@ interface CommandPaletteProps {
 export function CommandPalette({ open, setOpen }: CommandPaletteProps) {
     const panelRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
+    const addTab = useTabStore((state) => state.addTab);
+    const dispatchEnabled = useConfigStore((state) => state.config.isDispatchEnabled);
 
     useEffect(() => {
         if (open && inputRef.current) {
@@ -33,12 +39,14 @@ export function CommandPalette({ open, setOpen }: CommandPaletteProps) {
                         focusTrapOptions={{
                             clickOutsideDeactivates: true,
                             escapeDeactivates: false,
-                            fallbackFocus: () =>
-                                inputRef.current || document.body,
+                            fallbackFocus: () => inputRef.current || document.body,
                         }}
                     >
                         <motion.div
                             ref={panelRef}
+                            role="dialog"
+                            aria-modal="true"
+                            aria-label="Navigate MDT"
                             className="w-full max-w-[42rem] bg-[rgba(22,22,22,0.7)] rounded-xl p-2 border border-neutral-700 shadow-xl outline-none h-[30rem]"
                             initial={{ y: 20, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
@@ -53,28 +61,28 @@ export function CommandPalette({ open, setOpen }: CommandPaletteProps) {
                                     className="w-full border-0 border-b border-neutral-700 text-[17px] px-2 pb-4 pt-2 mb-4 bg-transparent text-gray-100 placeholder:text-gray-400 outline-none"
                                 />
                                 <Command.List className="max-h-[400px] overflow-auto">
-                                    <Command.Item
-                                        onSelect={() =>
-                                            alert("Profile clicked")
-                                        }
-                                        className="flex items-center p-3 rounded-md text-sm text-gray-200 cursor-pointer hover:bg-neutral-800 focus:bg-neutral-700 focus:outline-none"
-                                    >
-                                        Profile
-                                    </Command.Item>
-                                    <Command.Item
-                                        onSelect={() =>
-                                            alert("Settings clicked")
-                                        }
-                                        className="flex items-center p-3 rounded-md text-sm text-gray-200 cursor-pointer hover:bg-neutral-800 focus:bg-neutral-700 focus:outline-none"
-                                    >
-                                        Settings
-                                    </Command.Item>
-                                    <Command.Item
-                                        onSelect={() => alert("Logout clicked")}
-                                        className="flex items-center p-3 rounded-md text-sm text-gray-200 cursor-pointer hover:bg-neutral-800 focus:bg-neutral-700 focus:outline-none"
-                                    >
-                                        Logout
-                                    </Command.Item>
+                                    <Command.Empty className="p-4 text-sm text-neutral-400">
+                                        No matching sections.
+                                    </Command.Empty>
+                                    {MDT_NAVIGATION.filter(
+                                        (item) => dispatchEnabled || item.path !== "/dispatch"
+                                    ).map(({ path, label, icon: Icon }) => (
+                                        <Command.Item
+                                            key={path}
+                                            value={label}
+                                            onSelect={() => {
+                                                addTab(createTabWindow(path));
+                                                setOpen(false);
+                                            }}
+                                            className="flex items-center gap-3 p-3 rounded-md text-sm text-gray-200 cursor-pointer data-[selected=true]:bg-neutral-700"
+                                        >
+                                            <Icon size={18} />
+                                            {label}
+                                            <span className="ml-auto text-xs text-neutral-500">
+                                                Open in new tab
+                                            </span>
+                                        </Command.Item>
+                                    ))}
                                 </Command.List>
                             </Command>
                         </motion.div>

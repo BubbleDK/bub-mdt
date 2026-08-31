@@ -5,12 +5,15 @@ import useProfilesStore from "../../../stores/profilesStore";
 import type { PartialProfileData } from "../../../typings";
 import { useProfile } from "../model/useProfiles";
 import { ProfileHero } from "./detail/ProfileHero";
-import {
-    DEFAULT_PROFILE_CARDS,
-    ProfileInformation,
-} from "./detail/ProfileInformation";
+import { ProfileInformation } from "./detail/ProfileInformation";
+import { DEFAULT_PROFILE_CARDS } from "../model/profileCards";
 import { ProfileNotesPanel } from "./detail/ProfileNotesPanel";
 import { RelatedRecordsPanel } from "./detail/RelatedRecordsPanel";
+import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { saveProfileImage } from "../api/profilesApi";
+import { Dialog, Field, Status } from "../../mdt/ui/Workspace";
+import { useAction } from "../../mdt/model/useAction";
 
 interface ProfileLocationState {
     profile?: PartialProfileData;
@@ -20,12 +23,11 @@ export function ProfileDetailPage() {
     const { citizenId = "" } = useParams();
     const location = useLocation();
     const navigate = useNavigate();
+    const cache = useQueryClient();
+    const [editImage, setEditImage] = useState(false);
     const configuredCards = useProfilesStore((state) => state.profileCards);
     const summary = (location.state as ProfileLocationState | null)?.profile;
-    const { profileQuery, wantedQuery, notesMutation } = useProfile(
-        citizenId,
-        summary
-    );
+    const { profileQuery, wantedQuery, notesMutation } = useProfile(citizenId, summary);
     const profile = profileQuery.data;
 
     if (profileQuery.isLoading) return <ProfileLoadingState />;
@@ -33,9 +35,7 @@ export function ProfileDetailPage() {
         return <ProfileErrorState onBack={() => navigate("/profiles")} />;
     }
 
-    const profileCards = configuredCards.length
-        ? configuredCards
-        : DEFAULT_PROFILE_CARDS;
+    const profileCards = configuredCards.length ? configuredCards : DEFAULT_PROFILE_CARDS;
 
     return (
         <motion.main
@@ -45,21 +45,25 @@ export function ProfileDetailPage() {
             transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
             className="h-full overflow-y-auto bg-transparent"
         >
-            <ProfileToolbar
-                citizenId={profile.citizenid}
-                onBack={() => navigate(-1)}
-            />
+            <ProfileToolbar citizenId={profile.citizenid} onBack={() => navigate(-1)} />
 
             <div className="p-6">
                 <ProfileHero
                     profile={profile}
                     isWanted={wantedQuery.data === true}
+                    onEditImage={() => setEditImage(true)}
                 />
 
-                <div className="mt-5 grid grid-cols-[minmax(0,1.2fr)_minmax(300px,0.8fr)] items-stretch gap-5">
+                <div className="profile-detail-grid mt-5 grid grid-cols-[minmax(0,1.2fr)_minmax(300px,0.8fr)] items-stretch gap-5">
                     <ProfileNotesPanel
                         notes={profile.notes ?? "<p></p>"}
-                        onSave={(value) => notesMutation.mutateAsync(value)}
+                        onSave={async (value) => {
+                            await notesMutation.mutateAsync(value);
+                            cache.setQueryData(["profile", citizenId], {
+                                ...profile,
+                                notes: value,
+                            });
+                        }}
                     />
                     <ProfileInformation profile={profile} cards={profileCards} />
                 </div>
@@ -67,23 +71,65 @@ export function ProfileDetailPage() {
                 <RelatedRecordsPanel
                     reports={profile.relatedReports ?? []}
                     incidents={profile.relatedIncidents ?? []}
-                    onOpenReports={() => navigate("/reports")}
-                    onOpenIncidents={() => navigate("/incidents")}
+                    onOpenReports={(id) => navigate(`/reports?id=${id}`)}
+                    onOpenIncidents={(id) => navigate(`/incidents/${id}`)}
                 />
             </div>
+            {editImage && (
+                <ProfileImageForm
+                    image={profile.image ?? ""}
+                    onClose={() => setEditImage(false)}
+                    onSave={async (image) => {
+                        await saveProfileImage(citizenId, image);
+                        cache.setQueryData(["profile", citizenId], { ...profile, image });
+                        setEditImage(false);
+                    }}
+                />
+            )}
         </motion.main>
     );
 }
 
-function ProfileToolbar({
-    citizenId,
-    onBack,
+function ProfileImageForm({
+    image,
+    onClose,
+    onSave,
 }: {
-    citizenId: string;
-    onBack: () => void;
+    image: string;
+    onClose: () => void;
+    onSave: (image: string) => Promise<void>;
 }) {
+    const [value, setValue] = useState(image);
+    const action = useAction();
     return (
-        <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-white/[0.07] bg-brand-dark/90 px-6 backdrop-blur-xl">
+        <Dialog title="Update profile image" onClose={onClose}>
+            <form
+                onSubmit={(event) => {
+                    event.preventDefault();
+                    void action.run(() => onSave(value));
+                }}
+            >
+                <Field label="Image URL">
+                    <input
+                        type="url"
+                        pattern="https?://.*"
+                        value={value}
+                        onChange={(event) => setValue(event.target.value)}
+                        placeholder="Leave empty to clear the image"
+                    />
+                </Field>
+                <Status error={action.error} />
+                <button className="primary" disabled={action.pending}>
+                    Save image
+                </button>
+            </form>
+        </Dialog>
+    );
+}
+
+function ProfileToolbar({ citizenId, onBack }: { citizenId: string; onBack: () => void }) {
+    return (
+        <header className="sticky top-0 z-20 flex min-h-16 flex-wrap items-center justify-between gap-2 border-b border-white/[0.07] bg-brand-dark/90 px-6 py-3 backdrop-blur-xl">
             <button
                 type="button"
                 onClick={onBack}

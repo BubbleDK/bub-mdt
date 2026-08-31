@@ -1,5 +1,1 @@
-const Reports = () => {
-    return <div>Welcome to the Reports</div>;
-};
-
-export default Reports;
+export { default } from "../../reports/ui/ReportsPage";

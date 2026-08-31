@@ -1,5 +1,1 @@
-const Roster = () => {
-    return <div>Welcome to the Roster</div>;
-};
-
-export default Roster;
+export { default } from "../../roster/ui/RosterPage";

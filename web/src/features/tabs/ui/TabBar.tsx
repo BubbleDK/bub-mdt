@@ -14,11 +14,7 @@ import {
     DragOverlay,
     type DragStartEvent,
 } from "@dnd-kit/core";
-import {
-    SortableContext,
-    useSortable,
-    horizontalListSortingStrategy,
-} from "@dnd-kit/sortable";
+import { SortableContext, useSortable, horizontalListSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import {
     memo,
@@ -33,26 +29,14 @@ import clsx from "clsx";
 interface SortableTabProps {
     id: string;
     label: string;
-    icon: ForwardRefExoticComponent<
-        Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
-    >;
+    icon: ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>;
     isActive: boolean;
 }
 
-const SortableTab: React.FC<SortableTabProps> = memo(({
-    id,
-    label,
-    icon: Icon,
-    isActive,
-}) => {
-    const {
-        attributes,
-        listeners,
-        setNodeRef,
-        transform,
-        transition,
-        isDragging,
-    } = useSortable({ id });
+const SortableTab: React.FC<SortableTabProps> = memo(({ id, label, icon: Icon, isActive }) => {
+    const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+        id,
+    });
 
     const removeTab = useTabStore((s) => s.removeTab);
     const setActiveTab = useTabStore((s) => s.setActiveTab);
@@ -74,6 +58,9 @@ const SortableTab: React.FC<SortableTabProps> = memo(({
             layoutId={id}
             style={style}
             {...attributes}
+            role="group"
+            tabIndex={-1}
+            aria-label={`${label} tab`}
             {...listeners}
             transition={{
                 layout: {
@@ -86,12 +73,11 @@ const SortableTab: React.FC<SortableTabProps> = memo(({
             className={clsx(
                 "flex flex-row gap-2 px-2 border border-gray-700 rounded-lg",
                 draggingClasses,
-                isActive
-                    ? "bg-white/20 text-white"
-                    : "text-gray-400 hover:text-white"
+                isActive ? "bg-white/20 text-white" : "text-gray-400 hover:text-white"
             )}
         >
             <button
+                aria-pressed={isActive}
                 onClick={() => setActiveTab(id)}
                 className="flex items-center text-sm font-medium transition rounded-t-md"
             >
@@ -108,25 +94,21 @@ const SortableTab: React.FC<SortableTabProps> = memo(({
                 {label}
             </button>
             <div className="flex items-center">
-                <motion.div
+                <motion.button
+                    aria-label={`Close ${label} tab`}
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
                     className="cursor-pointer hover:bg-white/10 hover:rounded-md"
                     onClick={() => removeTab(id)}
                 >
                     <IconX color="white" size={18} />
-                </motion.div>
+                </motion.button>
             </div>
         </motion.div>
     );
 });
 
-const DraggedTabPreview: React.FC<SortableTabProps> = ({
-    id,
-    label,
-    icon: Icon,
-    isActive,
-}) => {
+const DraggedTabPreview: React.FC<SortableTabProps> = ({ id, label, icon: Icon, isActive }) => {
     return (
         <motion.div
             layoutId={id}
@@ -165,27 +147,33 @@ export const TabBar = () => {
         addTab(createTabWindow());
     }, [addTab]);
 
-    const handleDragEnd = useCallback((event: DragEndEvent) => {
-        const { active, over } = event;
+    const handleDragEnd = useCallback(
+        (event: DragEndEvent) => {
+            const { active, over } = event;
 
-        if (over && active.id !== over.id) {
-            const oldIndex = tabs.findIndex((tab) => tab.id === active.id);
-            const newIndex = tabs.findIndex((tab) => tab.id === over.id);
+            if (over && active.id !== over.id) {
+                const oldIndex = tabs.findIndex((tab) => tab.id === active.id);
+                const newIndex = tabs.findIndex((tab) => tab.id === over.id);
 
-            if (oldIndex !== -1 && newIndex !== -1) {
-                moveTab(oldIndex, newIndex);
+                if (oldIndex !== -1 && newIndex !== -1) {
+                    moveTab(oldIndex, newIndex);
+                }
             }
-        }
 
-        setActiveTab(null);
-    }, [moveTab, tabs]);
+            setActiveTab(null);
+        },
+        [moveTab, tabs]
+    );
 
-    const handleDragStart = useCallback((event: DragStartEvent) => {
-        const dragged = tabs.find((t) => t.id === event.active.id);
-        if (dragged) {
-            setActiveTab(dragged);
-        }
-    }, [tabs]);
+    const handleDragStart = useCallback(
+        (event: DragStartEvent) => {
+            const dragged = tabs.find((t) => t.id === event.active.id);
+            if (dragged) {
+                setActiveTab(dragged);
+            }
+        },
+        [tabs]
+    );
 
     return (
         <div className="flex gap-2 py-1 px-4 border-b border-gray-700 w-full overflow-x-auto">
@@ -195,10 +183,7 @@ export const TabBar = () => {
                 onDragEnd={handleDragEnd}
                 onDragStart={handleDragStart}
             >
-                <SortableContext
-                    items={tabIds}
-                    strategy={horizontalListSortingStrategy}
-                >
+                <SortableContext items={tabIds} strategy={horizontalListSortingStrategy}>
                     <AnimatePresence initial={false}>
                         {tabs.map(({ id, label, icon }) => (
                             <SortableTab
@@ -226,6 +211,7 @@ export const TabBar = () => {
 
             <motion.button
                 onClick={handleAdd}
+                aria-label="Open new tab"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
                 className="p-2 text-sm border border-gray-700 rounded-lg"

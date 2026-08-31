@@ -18,7 +18,7 @@ export async function fetchNui<T = any>(
     mock?: { data: T; delay?: number }
 ): Promise<T> {
     if (isEnvBrowser()) {
-        if (!mock) return await new Promise((resolve) => resolve);
+        if (!mock) throw new Error(`No browser preview is configured for ${eventName}.`);
         await new Promise((resolve) => setTimeout(resolve, mock.delay));
         return mock.data;
     }
@@ -35,9 +35,16 @@ export async function fetchNui<T = any>(
         ? (window as any).GetParentResourceName()
         : "nui-frame-app";
 
-    const resp = await fetch(`https://${resourceName}/${eventName}`, options);
-
-    const respFormatted = await resp.json();
-
-    return respFormatted;
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 20000);
+    try {
+        const resp = await fetch(`https://${resourceName}/${eventName}`, {
+            ...options,
+            signal: controller.signal,
+        });
+        if (!resp.ok) throw new Error(`Request ${eventName} failed (${resp.status}).`);
+        return await resp.json();
+    } finally {
+        window.clearTimeout(timeout);
+    }
 }

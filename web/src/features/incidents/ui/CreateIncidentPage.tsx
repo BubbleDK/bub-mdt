@@ -1,25 +1,12 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import {
-    ArrowLeft,
-    Camera,
-    FilePlus2,
-    ImagePlus,
-    LoaderCircle,
-    Plus,
-    Trash2,
-    X,
-} from "lucide-react";
-import { useState, type FormEvent, type ReactNode } from "react";
+import { Camera, FilePlus2, ImagePlus, LoaderCircle, Plus, Trash2, X } from "lucide-react";
+import { useRef, useState, type FormEvent, type ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import type { Evidence, PartialIncidentData } from "../../../typings";
 import { RichTextEditor } from "../../../components/RichTextEditor";
 import { createIncident } from "../api/incidentsApi";
-import {
-    createEvidence,
-    EMPTY_EVIDENCE,
-    getEvidenceKey,
-} from "../lib/incidentFormatters";
+import { createEvidence, EMPTY_EVIDENCE, getEvidenceKey } from "../lib/incidentFormatters";
 
 export function CreateIncidentPage() {
     const navigate = useNavigate();
@@ -30,6 +17,7 @@ export function CreateIncidentPage() {
     const [draft, setDraft] = useState<Evidence>(EMPTY_EVIDENCE);
     const [error, setError] = useState("");
     const [isSaving, setIsSaving] = useState(false);
+    const creationProgress = useRef<{ id?: number }>({});
 
     const addEvidence = () => {
         const result = createEvidence(draft, evidence);
@@ -44,6 +32,7 @@ export function CreateIncidentPage() {
 
     const submit = async (event: FormEvent) => {
         event.preventDefault();
+        if (isSaving) return;
         if (!title.trim()) {
             setError("An incident title is required.");
             return;
@@ -51,7 +40,12 @@ export function CreateIncidentPage() {
         setIsSaving(true);
         setError("");
         try {
-            const id = await createIncident(title.trim(), narrative, evidence);
+            const id = await createIncident(
+                title.trim(),
+                narrative,
+                evidence,
+                creationProgress.current
+            );
             await queryClient.invalidateQueries({ queryKey: ["incidents"] });
             const summary = {
                 id,
@@ -62,7 +56,9 @@ export function CreateIncidentPage() {
             navigate(`/incidents/${id}`, { replace: true, state: { summary } });
         } catch {
             setError(
-                "The incident could not be created. Check the connection and try again.",
+                creationProgress.current.id
+                    ? `Incident #${creationProgress.current.id} exists, but some details were not saved. Retry to finish saving this same case.`
+                    : "The incident could not be created. Check the connection and try again."
             );
             setIsSaving(false);
         }
@@ -89,13 +85,12 @@ export function CreateIncidentPage() {
                                 Create incident
                             </h1>
                             <p className="mt-1 text-sm text-neutral-500">
-                                Start with the core case information. People and
-                                officers can be linked from the incident
-                                afterward.
+                                Start with the core case information. People and officers can be
+                                linked from the incident afterward.
                             </p>
                         </div>
                     </div>
-                    <div className="grid grid-cols-[minmax(0,1.25fr)_minmax(310px,0.75fr)] items-start gap-5">
+                    <div className="incident-create-grid grid grid-cols-[minmax(0,1.25fr)_minmax(310px,0.75fr)] items-start gap-5">
                         <div className="space-y-5">
                             <Section
                                 number="01"
@@ -104,12 +99,12 @@ export function CreateIncidentPage() {
                             >
                                 <label className="block">
                                     <span className="mb-2 block text-xs font-medium text-neutral-300">
-                                        Incident title{" "}
-                                        <span className="text-red-400">*</span>
+                                        Incident title <span className="text-red-400">*</span>
                                     </span>
                                     <input
                                         autoFocus
                                         value={title}
+                                        disabled={isSaving || !!creationProgress.current.id}
                                         maxLength={120}
                                         onChange={(event) => {
                                             setTitle(event.target.value);
@@ -198,13 +193,9 @@ export function CreateIncidentPage() {
                                                 setEvidence((current) =>
                                                     current.filter(
                                                         (entry) =>
-                                                            getEvidenceKey(
-                                                                entry,
-                                                            ) !==
-                                                            getEvidenceKey(
-                                                                item,
-                                                            ),
-                                                    ),
+                                                            getEvidenceKey(entry) !==
+                                                            getEvidenceKey(item)
+                                                    )
                                                 )
                                             }
                                             className="rounded-md p-2 text-neutral-600 hover:bg-red-400/10 hover:text-red-300"
@@ -225,12 +216,11 @@ export function CreateIncidentPage() {
                         </Section>
                     </div>
                 </div>
-                <footer className="sticky bottom-0 flex h-20 items-center justify-between border-t border-white/[0.07] bg-brand-dark/95 px-7 backdrop-blur-xl">
+                <footer className="sticky bottom-0 flex min-h-20 flex-wrap items-center justify-between gap-3 border-t border-white/[0.07] bg-brand-dark/95 px-4 py-3 backdrop-blur-xl">
                     <p
                         className={`max-w-lg text-xs ${error ? "text-red-300" : "text-neutral-500"}`}
                     >
-                        {error ||
-                            "The incident can be expanded after creation."}
+                        {error || "The incident can be expanded after creation."}
                     </p>
                     <div className="flex gap-2">
                         <button
@@ -251,7 +241,11 @@ export function CreateIncidentPage() {
                             ) : (
                                 <Plus className="h-4 w-4" />
                             )}
-                            {isSaving ? "Creating..." : "Create incident"}
+                            {isSaving
+                                ? "Saving..."
+                                : creationProgress.current.id
+                                  ? "Retry saving details"
+                                  : "Create incident"}
                         </button>
                     </div>
                 </footer>
@@ -274,16 +268,10 @@ function Section({
     return (
         <section className="rounded-xl border border-white/[0.07] bg-white/[0.025] p-5">
             <div className="mb-5 flex gap-3">
-                <span className="font-mono text-[10px] font-semibold text-blue-400">
-                    {number}
-                </span>
+                <span className="font-mono text-[10px] font-semibold text-blue-400">{number}</span>
                 <div>
-                    <h2 className="text-sm font-semibold text-white">
-                        {title}
-                    </h2>
-                    <p className="mt-1 text-xs leading-5 text-neutral-500">
-                        {description}
-                    </p>
+                    <h2 className="text-sm font-semibold text-white">{title}</h2>
+                    <p className="mt-1 text-xs leading-5 text-neutral-500">{description}</p>
                 </div>
             </div>
             {children}

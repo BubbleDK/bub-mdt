@@ -10,22 +10,19 @@ export const MdtHeader = (props: HeaderProps) => {
     const personalData = usePersonalDataStore((state) => state.personalData);
 
     return (
-        <div className="flex justify-between items-center w-full py-2 px-4">
+        <div className="mdt-header flex justify-between items-center w-full py-2 px-4 gap-3">
             <div className="flex items-center gap-2">
-                <img src={LspdLogo} className="w-16" />
+                <img src={LspdLogo} alt="LSPD" className="w-12" />
 
                 <div className="flex flex-col">
-                    <span className="text-white font-medium">
-                        Los Santos Police Department
-                    </span>
-                    <span className="text-[#6f6f6f] font-medium">
-                        Mobile Databse Terminal
-                    </span>
+                    <span className="text-white font-medium">Los Santos Police Department</span>
+                    <span className="text-[#6f6f6f] font-medium">Mobile Database Terminal</span>
                 </div>
             </div>
 
-            <div
-                className="flex flex-row items-center justify-between rounded-lg cursor-pointer bg-[#313131] border border-[#575757] py-1.5 px-3 gap-2 w-[28rem]"
+            <button
+                aria-label="Search MDT"
+                className="mdt-command flex flex-row items-center justify-between rounded-lg cursor-pointer bg-[#313131] border border-[#575757] py-1.5 px-3 gap-2 w-[28rem] max-w-[30%]"
                 onClick={() => {
                     props.setOpen(true);
                 }}
@@ -52,7 +49,7 @@ export const MdtHeader = (props: HeaderProps) => {
                 <kbd className="px-2 py-0.5 text-xs font-semibold text-white bg-brand-dark border border-brand-gray rounded-md shadow-outer">
                     Ctrl + K
                 </kbd>
-            </div>
+            </button>
 
             <div className="flex flex-row items-center gap-3">
                 <div className="flex flex-col items-end gap-0">
@@ -67,12 +64,17 @@ export const MdtHeader = (props: HeaderProps) => {
                             {personalData.callSign}
                         </span>
                     </div>
-                    <span className="text-[#6f6f6f] font-medium text-sm">
-                        {personalData.role}
-                    </span>
+                    <span className="text-[#6f6f6f] font-medium text-sm">{personalData.role}</span>
                 </div>
 
-                <img src={Avatar} className="w-12 h-12 rounded-full" />
+                <img
+                    src={personalData.image || Avatar}
+                    alt="Officer portrait"
+                    className="w-12 h-12 rounded-full"
+                    onError={(event) => {
+                        event.currentTarget.src = Avatar;
+                    }}
+                />
             </div>
         </div>
     );

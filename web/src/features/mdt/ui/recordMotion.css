@@ -1,0 +1,207 @@
+/* Shared rhythm for the two record workspaces; no delays on input or save actions. */
+@keyframes record-reveal {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+@keyframes record-fade {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+@media (prefers-reduced-motion: no-preference) {
+    .workspace-dialog-backdrop {
+        animation: record-fade 160ms ease both;
+    }
+    .workspace-dialog {
+        animation: record-reveal 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+}
+:is(.reports-workspace, .vehicles-workspace) {
+    --record-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    scrollbar-gutter: stable;
+}
+:is(.reports-workspace, .vehicles-workspace) .workspace-heading {
+    align-items: flex-start;
+    gap: 16px 24px;
+    animation: record-reveal 240ms var(--record-ease) both;
+}
+:is(.reports-workspace, .vehicles-workspace) .workspace-heading > div:first-child {
+    flex: 1 1 320px;
+    min-width: 0;
+}
+:is(.reports-workspace, .vehicles-workspace) .workspace-actions {
+    flex-shrink: 0;
+    padding-top: 8px;
+    gap: 8px;
+}
+:is(.reports-workspace, .vehicles-workspace) .workspace-actions button {
+    min-height: 38px;
+    white-space: nowrap;
+}
+:is(.reports-workspace, .vehicles-workspace) button {
+    transition:
+        background-color 160ms ease,
+        border-color 160ms ease,
+        color 160ms ease,
+        box-shadow 160ms ease;
+}
+:is(.reports-workspace, .vehicles-workspace) button:focus-visible {
+    outline: 2px solid #8eb7ed;
+    outline-offset: 3px;
+}
+:is(.reports-workspace, .vehicles-workspace) .workspace-search {
+    min-width: 0;
+    transition:
+        border-color 160ms ease,
+        box-shadow 160ms ease,
+        background-color 160ms ease;
+}
+:is(.reports-workspace, .vehicles-workspace) .workspace-search:focus-within {
+    border-color: #78a8e866;
+    box-shadow: 0 0 0 3px #3b82f60c;
+    background-color: #171d2580;
+}
+:is(.reports-workspace, .vehicles-workspace) .workspace-search input {
+    min-width: 0;
+}
+:is(.reports-workspace, .vehicles-workspace) .workspace-search > svg {
+    flex-shrink: 0;
+}
+.report-library-intro,
+.vehicle-lookup {
+    animation: record-reveal 280ms var(--record-ease) both;
+}
+.report-archive,
+.vehicle-registry-grid {
+    position: relative;
+    animation: record-reveal 320ms var(--record-ease) both;
+}
+.report-document,
+.vehicle-alert {
+    animation: record-reveal 260ms var(--record-ease) both;
+}
+.report-context-column,
+.vehicle-identity {
+    animation: record-reveal 320ms var(--record-ease) both;
+}
+.report-evidence-register,
+.vehicle-casework {
+    animation: record-reveal 360ms var(--record-ease) both;
+}
+.report-person,
+.report-evidence-register article,
+.vehicle-observations li {
+    animation: record-reveal 220ms var(--record-ease) both;
+}
+.report-no-results,
+.vehicle-photo > img {
+    animation: record-fade 220ms ease both;
+}
+.report-file-arrow,
+.vehicle-registry-card-top > svg:last-child {
+    transition:
+        transform 180ms var(--record-ease),
+        color 180ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+    .report-file:hover .report-file-arrow,
+    .vehicle-registry-card:hover .vehicle-registry-card-top > svg:last-child {
+        transform: translate(2px, -2px);
+        color: #b3d1f8;
+    }
+    .vehicles-workspace .vehicle-registry-card:hover {
+        box-shadow: 0 8px 20px #00000012;
+    }
+}
+.report-context-column .workspace-empty {
+    padding: 24px 8px;
+    font-size: 11px;
+}
+.report-document-heading {
+    flex-wrap: wrap;
+    gap: 12px;
+}
+.report-document-heading > span {
+    overflow-wrap: anywhere;
+}
+.report-evidence-register h2 {
+    margin-top: 5px;
+}
+.report-person:last-child {
+    border-bottom: 0;
+}
+.report-index-tools {
+    align-items: center;
+    margin-bottom: 16px;
+}
+.report-index-tools .workspace-search {
+    margin-bottom: 0;
+}
+.report-index-tools > label {
+    flex-shrink: 0;
+    padding: 0;
+}
+.report-index-tools select {
+    min-height: 36px;
+}
+.vehicle-casework .workspace-panel > header {
+    gap: 12px;
+}
+.vehicle-casework .workspace-panel > header button {
+    min-height: 34px;
+}
+.vehicle-alert {
+    gap: 16px;
+}
+.vehicle-alert > div {
+    min-width: 0;
+}
+.vehicle-photo > button {
+    min-height: 38px;
+}
+@container (max-width:600px) {
+    :is(.reports-workspace, .vehicles-workspace) .workspace-heading > div:first-child {
+        flex-basis: 100%;
+    }
+    :is(.reports-workspace, .vehicles-workspace) .workspace-actions {
+        padding-top: 0;
+    }
+    :is(.reports-workspace, .vehicles-workspace) .workspace-actions button {
+        min-height: 42px;
+    }
+    .report-index-tools {
+        align-items: stretch;
+        gap: 12px;
+    }
+    .report-index-tools > label {
+        justify-content: flex-end;
+    }
+    .report-document-heading {
+        padding-bottom: 16px;
+        margin-bottom: 16px;
+    }
+    .report-person-unlink {
+        min-width: 36px;
+        min-height: 36px;
+    }
+    .vehicle-alert > div {
+        min-width: 140px;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    :is(.reports-workspace, .vehicles-workspace) *,
+    :is(.reports-workspace, .vehicles-workspace) *::before,
+    :is(.reports-workspace, .vehicles-workspace) *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}

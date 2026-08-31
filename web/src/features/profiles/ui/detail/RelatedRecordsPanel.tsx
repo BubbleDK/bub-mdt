@@ -13,8 +13,8 @@ export function RelatedRecordsPanel({
 }: {
     reports: RelatedRecord[];
     incidents: RelatedRecord[];
-    onOpenReports: () => void;
-    onOpenIncidents: () => void;
+    onOpenReports: (id: number) => void;
+    onOpenIncidents: (id: number) => void;
 }) {
     return (
         <ProfilePanel
@@ -23,9 +23,9 @@ export function RelatedRecordsPanel({
             delay={0.22}
             className="mt-5"
         >
-            <div className="grid grid-cols-2 gap-6">
+            <div className="related-records-grid grid grid-cols-2 gap-6">
                 <RecordList label="Reports" records={reports} onSelect={onOpenReports} />
-                <div className="border-l border-white/[0.07] pl-6">
+                <div className="min-w-0 border-l border-white/[0.07] pl-6">
                     <RecordList label="Incidents" records={incidents} onSelect={onOpenIncidents} />
                 </div>
             </div>
@@ -40,10 +40,10 @@ function RecordList({
 }: {
     label: string;
     records: RelatedRecord[];
-    onSelect: () => void;
+    onSelect: (id: number) => void;
 }) {
     return (
-        <div>
+        <div className="min-w-0">
             <div className="mb-2 flex items-center justify-between text-xs text-neutral-500">
                 <span>{label}</span>
                 <span>{records.length}</span>
@@ -54,11 +54,13 @@ function RecordList({
                         <button
                             type="button"
                             key={record.id}
-                            onClick={onSelect}
+                            onClick={() => onSelect(record.id)}
                             className="group flex w-full items-center gap-3 rounded-lg border border-transparent p-2.5 text-left transition hover:border-white/[0.08] hover:bg-white/[0.045] focus:outline-none focus:ring-2 focus:ring-blue-500/40"
                         >
                             <div className="min-w-0 flex-1">
-                                <p className="truncate text-xs font-medium text-neutral-300">{record.title}</p>
+                                <p className="truncate text-xs font-medium text-neutral-300">
+                                    {record.title}
+                                </p>
                                 <p className="mt-0.5 text-[11px] text-neutral-600">
                                     {record.author} / {formatDate(record.date)}
                                 </p>

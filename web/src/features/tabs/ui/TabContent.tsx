@@ -1,10 +1,5 @@
-import {
-    MemoryRouter,
-    Routes,
-    Route,
-    Navigate,
-    useLocation,
-} from "react-router-dom";
+import { MemoryRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { PageBoundary } from "../../mdt/ui/PageBoundary";
 import Dashboard from "../../dashboard/ui/Dashboard";
 import Charges from "../../mdt/pages/Charges";
 import Dispatch from "../../mdt/pages/Dispatch";
@@ -21,12 +16,9 @@ import { TabSidebar } from "./TabSidebar";
 interface TabContentProps {
     tabId: string;
     initialPath?: string;
-};
+}
 
-export function TabContent({
-    tabId,
-    initialPath = "/",
-}: TabContentProps) {
+export function TabContent({ tabId, initialPath = "/" }: TabContentProps) {
     return (
         <MemoryRouter initialEntries={[initialPath]}>
             <InnerRouter tabId={tabId} />
@@ -46,18 +38,20 @@ const InnerRouter = ({ tabId }: { tabId: string }) => {
     return (
         <div className="flex w-full h-full rounded-b-lg relative">
             <TabSidebar />
-            <div className="flex-1 p-2 text-white relative h-full w-full">
-                <Routes>
-                    <Route path="/" element={<Dashboard />} />
-                    <Route path="/profiles/*" element={<Profiles />} />
-                    <Route path="/incidents/*" element={<Incidents />} />
-                    <Route path="/reports" element={<Reports />} />
-                    <Route path="/vehicles" element={<Vehicles />} />
-                    <Route path="/dispatch" element={<Dispatch />} />
-                    <Route path="/roster" element={<Roster />} />
-                    <Route path="/charges" element={<Charges />} />
-                    <Route path="*" element={<Navigate to="/" />} />
-                </Routes>
+            <div className="mdt-page flex-1 min-w-0 p-2 text-white relative h-full overflow-hidden">
+                <PageBoundary key={location.pathname}>
+                    <Routes>
+                        <Route path="/" element={<Dashboard />} />
+                        <Route path="/profiles/*" element={<Profiles />} />
+                        <Route path="/incidents/*" element={<Incidents />} />
+                        <Route path="/reports" element={<Reports />} />
+                        <Route path="/vehicles" element={<Vehicles />} />
+                        <Route path="/dispatch" element={<Dispatch />} />
+                        <Route path="/roster" element={<Roster />} />
+                        <Route path="/charges" element={<Charges />} />
+                        <Route path="*" element={<Navigate to="/" />} />
+                    </Routes>
+                </PageBoundary>
             </div>
         </div>
     );

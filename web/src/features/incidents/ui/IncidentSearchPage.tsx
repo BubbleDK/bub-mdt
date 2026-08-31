@@ -57,38 +57,31 @@ export function IncidentSearchPage() {
     const [dateFilter, setDateFilter] = useState<DateFilter>("all");
     const [authorFilter, setAuthorFilter] = useState("all");
     const [sortOrder, setSortOrder] = useState<SortOrder>("newest");
-    const { debouncedValue, isDebouncing } = useDebouncedValue(search, 250);
+    const { debouncedValue } = useDebouncedValue(search, 250);
     const navigate = useNavigate();
     const query = useIncidentSearch();
     const authors = useMemo(
-        () =>
-            Array.from(
-                new Set((query.data ?? []).map((incident) => incident.author)),
-            ).sort(),
-        [query.data],
+        () => Array.from(new Set((query.data ?? []).map((incident) => incident.author))).sort(),
+        [query.data]
     );
     const authorOptions = useMemo<SelectOption[]>(
         () => [
             { label: "All reporting officers", value: "all" },
             ...authors.map((author) => ({ label: author, value: author })),
         ],
-        [authors],
+        [authors]
     );
     const incidents = useMemo(() => {
         const needle = debouncedValue.trim().toLowerCase();
-        const cutoff =
-            dateFilter === "all"
-                ? 0
-                : Date.now() - Number(dateFilter) * 86_400_000;
+        const cutoff = dateFilter === "all" ? 0 : Date.now() - Number(dateFilter) * 86_400_000;
         return (query.data ?? [])
             .filter(
                 (incident) =>
                     `${incident.title} ${incident.author} ${incident.id}`
                         .toLowerCase()
                         .includes(needle) &&
-                    (authorFilter === "all" ||
-                        incident.author === authorFilter) &&
-                    incident.date >= cutoff,
+                    (authorFilter === "all" || incident.author === authorFilter) &&
+                    incident.date >= cutoff
             )
             .sort((a, b) => {
                 if (sortOrder === "oldest") return a.date - b.date;
@@ -97,8 +90,7 @@ export function IncidentSearchPage() {
             });
     }, [authorFilter, dateFilter, debouncedValue, query.data, sortOrder]);
 
-    const activeFilterCount =
-        Number(dateFilter !== "all") + Number(authorFilter !== "all");
+    const activeFilterCount = Number(dateFilter !== "all") + Number(authorFilter !== "all");
     const hasRefinements = activeFilterCount > 0 || sortOrder !== "newest";
     const resetFilters = () => {
         setDateFilter("all");
@@ -128,8 +120,7 @@ export function IncidentSearchPage() {
                             Incidents
                         </h1>
                         <p className="mt-1 text-sm text-neutral-400">
-                            Find case files, involved parties, evidence and
-                            outcomes.
+                            Find case files, involved parties, evidence and outcomes.
                         </p>
                     </div>
                     <div className="flex items-center gap-2">
@@ -268,7 +259,7 @@ export function IncidentSearchPage() {
                                     visible: { opacity: 1, y: 0 },
                                 }}
                                 onClick={() => openIncident(incident)}
-                                className="group grid w-full grid-cols-[52px_minmax(0,1fr)_190px_40px] items-center gap-4 rounded-xl border border-white/[0.065] bg-white/[0.025] p-3 text-left transition hover:-translate-y-px hover:border-blue-400/25 hover:bg-blue-400/[0.045] focus:outline-none focus:ring-2 focus:ring-blue-500/40"
+                                className="incident-search-record group grid w-full grid-cols-[52px_minmax(0,1fr)_190px_40px] items-center gap-4 rounded-xl border border-white/[0.065] bg-white/[0.025] p-3 text-left transition hover:-translate-y-px hover:border-blue-400/25 hover:bg-blue-400/[0.045] focus:outline-none focus:ring-2 focus:ring-blue-500/40"
                             >
                                 <div className="flex h-12 w-12 items-center justify-center rounded-lg border border-white/[0.07] bg-[#292b2b] font-mono text-[11px] font-semibold text-neutral-400 group-hover:text-blue-300">
                                     #{incident.id}
@@ -279,9 +270,7 @@ export function IncidentSearchPage() {
                                     </h2>
                                     <p className="mt-1 text-xs text-neutral-500">
                                         Filed by{" "}
-                                        <span className="text-neutral-400">
-                                            {incident.author}
-                                        </span>
+                                        <span className="text-neutral-400">{incident.author}</span>
                                     </p>
                                 </div>
                                 <div className="flex items-center gap-2 text-xs text-neutral-500">

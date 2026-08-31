@@ -1,6 +1,7 @@
 import type { PartialProfileData, Profile } from "../../../typings";
 import { fetchNui } from "../../../utils/fetchNui";
 import { isEnvBrowser } from "../../../utils/misc";
+import { mutate } from "../../mdt/api/request";
 import {
     browserProfiles,
     createBrowserProfile,
@@ -8,16 +9,14 @@ import {
 } from "../mocks/profileFixtures";
 
 const PAGE_SIZE = 10;
+const previewEdits = new Map<string, Partial<Profile>>();
 
 export interface ProfilesPageData {
     hasMore: boolean;
     profiles: PartialProfileData[];
 }
 
-export async function fetchProfiles(
-    page: number,
-    search: string
-): Promise<ProfilesPageData> {
+export async function fetchProfiles(page: number, search: string): Promise<ProfilesPageData> {
     if (!isEnvBrowser()) {
         return fetchNui<ProfilesPageData>("getProfiles", { page, search });
     }
@@ -40,7 +39,8 @@ export async function fetchProfile(
     citizenid: string,
     summary?: PartialProfileData
 ): Promise<Profile> {
-    if (isEnvBrowser()) return createBrowserProfile(citizenid, summary);
+    if (isEnvBrowser())
+        return { ...createBrowserProfile(citizenid, summary), ...previewEdits.get(citizenid) };
     return fetchNui<Profile>("getProfile", citizenid);
 }
 
@@ -51,9 +51,12 @@ export async function fetchWantedStatus(citizenid: string): Promise<boolean> {
     });
 }
 
-export async function saveProfileNotes(
-    citizenid: string,
-    notes: string
-): Promise<void> {
-    await fetchNui("saveProfileNotes", { citizenid, notes }, { data: undefined });
+export async function saveProfileNotes(citizenid: string, notes: string): Promise<void> {
+    await mutate("saveProfileNotes", { citizenid, notes });
+    if (isEnvBrowser()) previewEdits.set(citizenid, { ...previewEdits.get(citizenid), notes });
+}
+
+export async function saveProfileImage(citizenId: string, image: string) {
+    await mutate("updateProfileImage", { citizenId, image });
+    if (isEnvBrowser()) previewEdits.set(citizenId, { ...previewEdits.get(citizenId), image });
 }
